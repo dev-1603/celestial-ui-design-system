@@ -67,14 +67,30 @@
     "heroicons": ">=2.0.0"
   },
   "peerDependenciesMeta": {
-    "lucide-static": { "optional": true },
-    "@fortawesome/fontawesome-svg-core": { "optional": true },
-    "@fortawesome/free-solid-svg-icons": { "optional": true },
-    "@fortawesome/free-regular-svg-icons": { "optional": true },
-    "@phosphor-icons/core": { "optional": true },
-    "@iconify/utils": { "optional": true },
-    "@iconify-json/ph": { "optional": true },
-    "heroicons": { "optional": true }
+    "lucide-static": {
+      "optional": true
+    },
+    "@fortawesome/fontawesome-svg-core": {
+      "optional": true
+    },
+    "@fortawesome/free-solid-svg-icons": {
+      "optional": true
+    },
+    "@fortawesome/free-regular-svg-icons": {
+      "optional": true
+    },
+    "@phosphor-icons/core": {
+      "optional": true
+    },
+    "@iconify/utils": {
+      "optional": true
+    },
+    "@iconify-json/ph": {
+      "optional": true
+    },
+    "heroicons": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.3.1",
@@ -88,5 +104,9 @@
     "lucide-static": "^1.40.0",
     "typescript": "^5.4.0",
     "vitest": "^1.4.0"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "bun": ">=1.1.0"
   }
 }

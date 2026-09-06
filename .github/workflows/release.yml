@@ -1,0 +1,51 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/heads/release/')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build package-validate tooling
+        run: pnpm --filter @celestial-ui/package-validate build
+
+      - name: Validate
+        run: pnpm validate
+
+      - name: Pack packages
+        run: pnpm -r exec npm pack
+
+      - name: Changeset Status
+        run: pnpm changeset status
+
+      - name: Changeset Version
+        run: pnpm changeset version
+
+      - name: Publish (Dry Run)
+        run: pnpm -r publish --dry-run
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # (Required for real publish)
+
+      # NOTE:
+      # Real publishing requires removing the --dry-run flag and properly configuring OIDC/Trusted Publishing.
+      # Package-scoped tags and GitHub Releases will also be generated after successful real publish.

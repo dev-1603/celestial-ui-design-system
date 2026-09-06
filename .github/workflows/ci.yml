@@ -2,8 +2,9 @@ name: CI
 
 on:
   push:
-    branches: ['main']
+    branches: ['develop', 'master', 'release/**']
   pull_request:
+    branches: ['develop', 'master', 'release/**']
 
 jobs:
   validate:
@@ -42,6 +43,9 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+      - name: Changeset Validation
+        run: pnpm changeset status
 
       - name: Validate packages and documentation
         run: node tooling/package-validate/dist/cli.js
