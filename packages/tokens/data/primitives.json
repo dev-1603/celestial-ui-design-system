@@ -1,0 +1,1157 @@
+{
+  "color": {
+    "gray": {
+      "50": {
+        "$type": "color",
+        "$value": "#F9FAFB",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#F3F4F6",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#E5E7EB",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#D1D5DB",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#9CA3AF",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#6B7280",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#4B5563",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#374151",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#1F2937",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#111827",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "950": {
+        "$type": "color",
+        "$value": "#030712",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      }
+    },
+    "blue": {
+      "50": {
+        "$type": "color",
+        "$value": "#EFF6FF",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#DBEAFE",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#BFDBFE",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#93C5FD",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#60A5FA",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#3B82F6",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#2563EB",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#1D4ED8",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#1E40AF",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#1E3A8A",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "950": {
+        "$type": "color",
+        "$value": "#172554",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      }
+    },
+    "green": {
+      "50": {
+        "$type": "color",
+        "$value": "#F0FDF4",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#DCFCE7",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#BBF7D0",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#86EFAC",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#4ADE80",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#22C55E",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#16A34A",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#15803D",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#166534",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#14532D",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "950": {
+        "$type": "color",
+        "$value": "#052E16",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      }
+    },
+    "red": {
+      "50": {
+        "$type": "color",
+        "$value": "#FEF2F2",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#FEE2E2",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#FECACA",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#FCA5A5",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#F87171",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#EF4444",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#DC2626",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#B91C1C",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#991B1B",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#7F1D1D",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "950": {
+        "$type": "color",
+        "$value": "#450A0A",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      }
+    },
+    "amber": {
+      "50": {
+        "$type": "color",
+        "$value": "#FFFBEB",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#FEF3C7",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#FDE68A",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#FCD34D",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#FBBF24",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#F59E0B",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#D97706",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#B45309",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#92400E",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#78350F",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "950": {
+        "$type": "color",
+        "$value": "#451A03",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      }
+    },
+    "purple": {
+      "50": {
+        "$type": "color",
+        "$value": "#FAF5FF",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#F3E8FF",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#E9D5FF",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#D8B4FE",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#C084FC",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#A855F7",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#9333EA",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#7E22CE",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#6B21A8",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#581C87",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      },
+      "950": {
+        "$type": "color",
+        "$value": "#3B0764",
+        "$extensions": {
+          "celestial": {
+            "layer": "primitive"
+          }
+        }
+      }
+    },
+    "white": {
+      "$type": "color",
+      "$value": "#FFFFFF",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "black": {
+      "$type": "color",
+      "$value": "#000000",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "transparent": {
+      "$type": "color",
+      "$value": "rgba(0,0,0,0)",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    }
+  },
+  "space": {
+    "0": {
+      "$type": "dimension",
+      "$value": "0px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "0_5": {
+      "$type": "dimension",
+      "$value": "2px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "1": {
+      "$type": "dimension",
+      "$value": "4px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "1_5": {
+      "$type": "dimension",
+      "$value": "6px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "2": {
+      "$type": "dimension",
+      "$value": "8px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "3": {
+      "$type": "dimension",
+      "$value": "12px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "4": {
+      "$type": "dimension",
+      "$value": "16px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "5": {
+      "$type": "dimension",
+      "$value": "20px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "6": {
+      "$type": "dimension",
+      "$value": "24px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "8": {
+      "$type": "dimension",
+      "$value": "32px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "10": {
+      "$type": "dimension",
+      "$value": "40px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "12": {
+      "$type": "dimension",
+      "$value": "48px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "16": {
+      "$type": "dimension",
+      "$value": "64px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "20": {
+      "$type": "dimension",
+      "$value": "80px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "24": {
+      "$type": "dimension",
+      "$value": "96px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "32": {
+      "$type": "dimension",
+      "$value": "128px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    }
+  },
+  "size": {
+    "xs": {
+      "$type": "dimension",
+      "$value": "320px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "384px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "448px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "512px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "576px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "2xl": {
+      "$type": "dimension",
+      "$value": "672px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "full": {
+      "$type": "dimension",
+      "$value": "100%",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    }
+  },
+  "breakpoint": {
+    "sm": {
+      "$type": "dimension",
+      "$value": "640px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "768px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "1024px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "1280px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "2xl": {
+      "$type": "dimension",
+      "$value": "1536px",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    }
+  },
+  "fontFamily": {
+    "sans": {
+      "$type": "fontFamily",
+      "$value": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "serif": {
+      "$type": "fontFamily",
+      "$value": "ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "mono": {
+      "$type": "fontFamily",
+      "$value": "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    }
+  },
+  "fontSize": {
+    "xs": {
+      "$type": "dimension",
+      "$value": "0.75rem",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "0.875rem",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "base": {
+      "$type": "dimension",
+      "$value": "1rem",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "1.125rem",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "1.25rem",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "2xl": {
+      "$type": "dimension",
+      "$value": "1.5rem",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "3xl": {
+      "$type": "dimension",
+      "$value": "1.875rem",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "4xl": {
+      "$type": "dimension",
+      "$value": "2.25rem",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "5xl": {
+      "$type": "dimension",
+      "$value": "3rem",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    }
+  },
+  "fontWeight": {
+    "normal": {
+      "$type": "fontWeight",
+      "$value": 400,
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "medium": {
+      "$type": "fontWeight",
+      "$value": 500,
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "semibold": {
+      "$type": "fontWeight",
+      "$value": 600,
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "bold": {
+      "$type": "fontWeight",
+      "$value": 700,
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    }
+  },
+  "lineHeight": {
+    "none": {
+      "$type": "number",
+      "$value": 1,
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "tight": {
+      "$type": "number",
+      "$value": 1.25,
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "snug": {
+      "$type": "number",
+      "$value": 1.375,
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "normal": {
+      "$type": "number",
+      "$value": 1.5,
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "relaxed": {
+      "$type": "number",
+      "$value": 1.625,
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "loose": {
+      "$type": "number",
+      "$value": 2,
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    }
+  },
+  "letterSpacing": {
+    "tighter": {
+      "$type": "dimension",
+      "$value": "-0.05em",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "tight": {
+      "$type": "dimension",
+      "$value": "-0.025em",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "normal": {
+      "$type": "dimension",
+      "$value": "0em",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "wide": {
+      "$type": "dimension",
+      "$value": "0.025em",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "wider": {
+      "$type": "dimension",
+      "$value": "0.05em",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    },
+    "widest": {
+      "$type": "dimension",
+      "$value": "0.1em",
+      "$extensions": {
+        "celestial": {
+          "layer": "primitive"
+        }
+      }
+    }
+  }
+}

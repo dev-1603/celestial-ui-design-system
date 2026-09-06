@@ -1,0 +1,355 @@
+{
+  "surface": {
+    "canvas": {
+      "$type": "color",
+      "$value": "{color.gray.950}",
+      "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+    },
+    "elevated": {
+      "$type": "color",
+      "$value": "{color.gray.900}",
+      "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+    },
+    "subtle": {
+      "$type": "color",
+      "$value": "{color.gray.800}",
+      "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+    },
+    "inverse": {
+      "$type": "color",
+      "$value": "{color.white}",
+      "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+    }
+  },
+  "text": {
+    "primary": {
+      "$type": "color",
+      "$value": "{color.gray.50}",
+      "$extensions": {
+        "celestial": {
+          "layer": "semantic",
+          "themeable": true,
+          "a11ySensitive": true,
+          "contrastPairs": ["surface.canvas", "surface.elevated"]
+        }
+      }
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "{color.gray.300}",
+      "$extensions": {
+        "celestial": {
+          "layer": "semantic",
+          "themeable": true,
+          "a11ySensitive": true,
+          "contrastPairs": ["surface.canvas", "surface.elevated"]
+        }
+      }
+    },
+    "muted": {
+      "$type": "color",
+      "$value": "{color.gray.400}",
+      "$extensions": {
+        "celestial": {
+          "layer": "semantic",
+          "themeable": true,
+          "a11ySensitive": true,
+          "contrastPairs": ["surface.canvas", "surface.elevated"]
+        }
+      }
+    },
+    "inverse": {
+      "$type": "color",
+      "$value": "{color.gray.900}",
+      "$extensions": {
+        "celestial": {
+          "layer": "semantic",
+          "themeable": true,
+          "a11ySensitive": true,
+          "contrastPairs": ["surface.inverse"]
+        }
+      }
+    },
+    "error": {
+      "$type": "color",
+      "$value": "{color.red.400}",
+      "$extensions": {
+        "celestial": {
+          "layer": "semantic",
+          "themeable": true,
+          "a11ySensitive": true,
+          "contrastPairs": ["surface.canvas"]
+        }
+      }
+    }
+  },
+  "border": {
+    "default": {
+      "$type": "color",
+      "$value": "{color.gray.800}",
+      "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+    },
+    "strong": {
+      "$type": "color",
+      "$value": "{color.gray.600}",
+      "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+    },
+    "focus": {
+      "$type": "color",
+      "$value": "{color.blue.400}",
+      "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+    },
+    "error": {
+      "$type": "color",
+      "$value": "{color.red.500}",
+      "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+    }
+  },
+  "action": {
+    "primary": {
+      "background": {
+        "$type": "color",
+        "$value": "{color.blue.600}",
+        "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+      },
+      "hover": {
+        "$type": "color",
+        "$value": "{color.blue.500}",
+        "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+      },
+      "active": {
+        "$type": "color",
+        "$value": "{color.blue.400}",
+        "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.white}",
+        "$extensions": {
+          "celestial": {
+            "layer": "semantic",
+            "themeable": true,
+            "a11ySensitive": true,
+            "contrastPairs": ["action.primary.background"]
+          }
+        }
+      }
+    },
+    "secondary": {
+      "background": {
+        "$type": "color",
+        "$value": "{color.gray.800}",
+        "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+      },
+      "hover": {
+        "$type": "color",
+        "$value": "{color.gray.700}",
+        "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+      },
+      "active": {
+        "$type": "color",
+        "$value": "{color.gray.600}",
+        "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.gray.50}",
+        "$extensions": {
+          "celestial": {
+            "layer": "semantic",
+            "themeable": true,
+            "a11ySensitive": true,
+            "contrastPairs": ["action.secondary.background"]
+          }
+        }
+      }
+    },
+    "danger": {
+      "background": {
+        "$type": "color",
+        "$value": "{color.red.600}",
+        "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+      },
+      "hover": {
+        "$type": "color",
+        "$value": "{color.red.500}",
+        "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+      },
+      "active": {
+        "$type": "color",
+        "$value": "{color.red.400}",
+        "$extensions": { "celestial": { "layer": "semantic", "themeable": true } }
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{color.white}",
+        "$extensions": {
+          "celestial": {
+            "layer": "semantic",
+            "themeable": true,
+            "a11ySensitive": true,
+            "contrastPairs": ["action.danger.background"]
+          }
+        }
+      }
+    }
+  },
+  "status": {
+    "info": {
+      "$type": "color",
+      "$value": "{color.blue.400}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    },
+    "success": {
+      "$type": "color",
+      "$value": "{color.green.400}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    },
+    "warning": {
+      "$type": "color",
+      "$value": "{color.amber.400}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    },
+    "error": {
+      "$type": "color",
+      "$value": "{color.red.400}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    }
+  },
+  "icon": {
+    "default": {
+      "$type": "color",
+      "$value": "{color.gray.400}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    },
+    "strong": {
+      "$type": "color",
+      "$value": "{color.gray.50}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    },
+    "inverse": {
+      "$type": "color",
+      "$value": "{color.gray.900}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    }
+  },
+  "focus": {
+    "color": {
+      "$type": "color",
+      "$value": "{color.blue.400}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    },
+    "width": {
+      "$type": "dimension",
+      "$value": "2px",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    },
+    "offset": {
+      "$type": "dimension",
+      "$value": "2px",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    }
+  },
+  "selection": {
+    "background": {
+      "$type": "color",
+      "$value": "{color.blue.900}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    },
+    "foreground": {
+      "$type": "color",
+      "$value": "{color.blue.100}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{color.blue.500}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    }
+  },
+  "overlay": {
+    "scrim": {
+      "$type": "color",
+      "$value": "rgba(0, 0, 0, 0.6)",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    },
+    "background": {
+      "$type": "color",
+      "$value": "{color.gray.900}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{color.gray.800}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    }
+  },
+  "link": {
+    "default": {
+      "$type": "color",
+      "$value": "{color.blue.400}",
+      "$extensions": {
+        "celestial": {
+          "layer": "semantic",
+          "a11ySensitive": true,
+          "contrastPairs": ["surface.canvas"]
+        }
+      }
+    },
+    "hover": {
+      "$type": "color",
+      "$value": "{color.blue.300}",
+      "$extensions": {
+        "celestial": {
+          "layer": "semantic",
+          "a11ySensitive": true,
+          "contrastPairs": ["surface.canvas"]
+        }
+      }
+    },
+    "visited": {
+      "$type": "color",
+      "$value": "{color.purple.400}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    }
+  },
+  "data": {
+    "categorical": {
+      "1": {
+        "$type": "color",
+        "$value": "{color.blue.400}",
+        "$extensions": { "celestial": { "layer": "semantic" } }
+      },
+      "2": {
+        "$type": "color",
+        "$value": "{color.green.400}",
+        "$extensions": { "celestial": { "layer": "semantic" } }
+      },
+      "3": {
+        "$type": "color",
+        "$value": "{color.amber.400}",
+        "$extensions": { "celestial": { "layer": "semantic" } }
+      },
+      "4": {
+        "$type": "color",
+        "$value": "{color.purple.400}",
+        "$extensions": { "celestial": { "layer": "semantic" } }
+      }
+    },
+    "positive": {
+      "$type": "color",
+      "$value": "{color.green.400}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    },
+    "negative": {
+      "$type": "color",
+      "$value": "{color.red.400}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    },
+    "neutral": {
+      "$type": "color",
+      "$value": "{color.gray.400}",
+      "$extensions": { "celestial": { "layer": "semantic" } }
+    }
+  }
+}

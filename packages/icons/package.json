@@ -1,0 +1,92 @@
+{
+  "name": "@celestial-ui/icons",
+  "version": "0.1.0",
+  "description": "Provider-neutral icon system for the Celestial Nexus ecosystem — canonical registry, resolution engine, fallback, and provider adapters.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./providers/lucide": {
+      "types": "./dist/providers/lucide.d.ts",
+      "default": "./dist/providers/lucide.js"
+    },
+    "./providers/font-awesome": {
+      "types": "./dist/providers/font-awesome.d.ts",
+      "default": "./dist/providers/font-awesome.js"
+    },
+    "./providers/material": {
+      "types": "./dist/providers/material.d.ts",
+      "default": "./dist/providers/material.js"
+    },
+    "./providers/heroicons": {
+      "types": "./dist/providers/heroicons.d.ts",
+      "default": "./dist/providers/heroicons.js"
+    },
+    "./providers/phosphor": {
+      "types": "./dist/providers/phosphor.d.ts",
+      "default": "./dist/providers/phosphor.js"
+    },
+    "./providers/iconify": {
+      "types": "./dist/providers/iconify.d.ts",
+      "default": "./dist/providers/iconify.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "design-system",
+    "icons",
+    "celestial",
+    "provider-neutral"
+  ],
+  "author": "Celestial Team",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "lucide-static": ">=1.0.0",
+    "@fortawesome/fontawesome-svg-core": ">=6.0.0",
+    "@fortawesome/free-solid-svg-icons": ">=6.0.0",
+    "@fortawesome/free-regular-svg-icons": ">=6.0.0",
+    "@phosphor-icons/core": ">=2.0.0",
+    "@iconify/utils": ">=2.0.0",
+    "@iconify-json/ph": ">=1.0.0",
+    "heroicons": ">=2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "lucide-static": { "optional": true },
+    "@fortawesome/fontawesome-svg-core": { "optional": true },
+    "@fortawesome/free-solid-svg-icons": { "optional": true },
+    "@fortawesome/free-regular-svg-icons": { "optional": true },
+    "@phosphor-icons/core": { "optional": true },
+    "@iconify/utils": { "optional": true },
+    "@iconify-json/ph": { "optional": true },
+    "heroicons": { "optional": true }
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.3.1",
+    "@fortawesome/free-regular-svg-icons": "^7.3.1",
+    "@fortawesome/free-solid-svg-icons": "^7.3.1",
+    "@iconify-json/ph": "^1.2.2",
+    "@iconify/utils": "^3.1.5",
+    "@phosphor-icons/core": "^2.1.1",
+    "@types/node": "^26.4.0",
+    "heroicons": "^2.2.0",
+    "lucide-static": "^1.40.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.4.0"
+  }
+}

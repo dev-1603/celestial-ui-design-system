@@ -1,0 +1,9 @@
+{
+  "name": "celestial-consumer-ssr",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.4.5"
+  }
+}

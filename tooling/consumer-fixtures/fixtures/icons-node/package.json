@@ -1,0 +1,10 @@
+{
+  "name": "celestial-consumer-icons",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.4.5",
+    "lucide-static": "^1.40.0"
+  }
+}

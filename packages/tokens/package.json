@@ -1,0 +1,43 @@
+{
+  "name": "@celestial-ui/tokens",
+  "version": "0.1.0",
+  "description": "Framework-agnostic, canonical design-token package for the Celestial Nexus ecosystem.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./css": "./dist/css/tokens.css",
+    "./tailwind": "./dist/tailwind.preset.js",
+    "./shadcn": "./dist/css/shadcn-mapping.css"
+  },
+  "scripts": {
+    "build": "tsc && node ./dist/scripts/build.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "files": [
+    "dist",
+    "data"
+  ],
+  "keywords": [
+    "design-tokens",
+    "celestial",
+    "theme"
+  ],
+  "author": "Celestial Team",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.4.0"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "name": "@celestial-ui/styles",
+  "version": "0.1.0",
+  "description": "Framework-neutral CSS delivery layer for resolved Celestial themes — compiler, runtime, SSR, and optional bridges.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./css": "./dist/css/index.css",
+    "./base": "./dist/css/base.css",
+    "./tailwind": "./dist/css/tailwind.css",
+    "./shadcn": "./dist/css/shadcn.css"
+  },
+  "scripts": {
+    "build": "tsc && node ./dist/scripts/build.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "design-system",
+    "css",
+    "theme",
+    "celestial"
+  ],
+  "author": "Celestial Team",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@celestial-ui/theme": "workspace:*",
+    "@celestial-ui/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "happy-dom": "^15.11.7",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.4.0"
+  }
+}

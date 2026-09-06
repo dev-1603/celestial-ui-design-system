@@ -1,0 +1,40 @@
+{
+  "name": "celestial-ui-design-system",
+  "private": true,
+  "version": "0.0.0",
+  "packageManager": "pnpm@10.0.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,json,yaml,yml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,md,json,yaml,yml}\"",
+    "clean": "turbo run clean",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "changeset publish",
+    "validate:graph": "node tooling/package-validate/dist/cli.js --skip-pack --skip-docs",
+    "validate:packages": "node tooling/package-validate/dist/cli.js --skip-docs",
+    "docs:validate": "node tooling/package-validate/dist/cli.js --skip-pack",
+    "validate": "pnpm build && pnpm test && pnpm typecheck && node tooling/package-validate/dist/cli.js",
+    "package:pack": "pnpm build && node tooling/package-validate/dist/cli.js --skip-docs",
+    "consumer:test": "node tooling/consumer-fixtures/run.mjs pnpm",
+    "consumer:test:npm": "node tooling/consumer-fixtures/run.mjs npm",
+    "consumer:test:yarn": "node tooling/consumer-fixtures/run.mjs yarn",
+    "consumer:test:bun": "node tooling/consumer-fixtures/run.mjs bun",
+    "consumer:test:deno": "node tooling/consumer-fixtures/run-deno.mjs",
+    "publish:dry-run": "pnpm build && pnpm -r --filter '@celestial-ui/tokens' --filter '@celestial-ui/theme' --filter '@celestial-ui/styles' --filter '@celestial-ui/icons' --filter '@celestial-ui/core' exec pnpm publish --dry-run --no-git-checks"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "eslint": "^9.0.0",
+    "prettier": "^3.2.5",
+    "turbo": "^2.0.6",
+    "typescript": "^5.4.5",
+    "vitest": "^2.0.0"
+  }
+}

@@ -1,0 +1,526 @@
+{
+  "radius": {
+    "none": {
+      "$type": "dimension",
+      "$value": "0px",
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "xs": {
+      "$type": "dimension",
+      "$value": "0.125rem",
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "0.25rem",
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "0.375rem",
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "0.5rem",
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "0.75rem",
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "2xl": {
+      "$type": "dimension",
+      "$value": "1rem",
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "full": {
+      "$type": "dimension",
+      "$value": "9999px",
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    }
+  },
+  "border": {
+    "width": {
+      "0": {
+        "$type": "dimension",
+        "$value": "0px",
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      },
+      "1": {
+        "$type": "dimension",
+        "$value": "1px",
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      },
+      "2": {
+        "$type": "dimension",
+        "$value": "2px",
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      },
+      "4": {
+        "$type": "dimension",
+        "$value": "4px",
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      }
+    },
+    "style": {
+      "solid": {
+        "$type": "strokeStyle",
+        "$value": "solid",
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      },
+      "dashed": {
+        "$type": "strokeStyle",
+        "$value": "dashed",
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      },
+      "dotted": {
+        "$type": "strokeStyle",
+        "$value": "dotted",
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      }
+    }
+  },
+  "shadow": {
+    "none": {
+      "$type": "shadow",
+      "$value": {
+        "color": "transparent",
+        "offsetX": "0",
+        "offsetY": "0",
+        "blur": "0",
+        "spread": "0"
+      },
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "xs": {
+      "$type": "shadow",
+      "$value": {
+        "color": "rgba(0, 0, 0, 0.05)",
+        "offsetX": "0px",
+        "offsetY": "1px",
+        "blur": "2px",
+        "spread": "0px"
+      },
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "sm": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "color": "rgba(0, 0, 0, 0.1)",
+          "offsetX": "0px",
+          "offsetY": "1px",
+          "blur": "3px",
+          "spread": "0px"
+        },
+        {
+          "color": "rgba(0, 0, 0, 0.1)",
+          "offsetX": "0px",
+          "offsetY": "1px",
+          "blur": "2px",
+          "spread": "-1px"
+        }
+      ],
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "md": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "color": "rgba(0, 0, 0, 0.1)",
+          "offsetX": "0px",
+          "offsetY": "4px",
+          "blur": "6px",
+          "spread": "-1px"
+        },
+        {
+          "color": "rgba(0, 0, 0, 0.1)",
+          "offsetX": "0px",
+          "offsetY": "2px",
+          "blur": "4px",
+          "spread": "-2px"
+        }
+      ],
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "lg": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "color": "rgba(0, 0, 0, 0.1)",
+          "offsetX": "0px",
+          "offsetY": "10px",
+          "blur": "15px",
+          "spread": "-3px"
+        },
+        {
+          "color": "rgba(0, 0, 0, 0.1)",
+          "offsetX": "0px",
+          "offsetY": "4px",
+          "blur": "6px",
+          "spread": "-4px"
+        }
+      ],
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "xl": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "color": "rgba(0, 0, 0, 0.1)",
+          "offsetX": "0px",
+          "offsetY": "20px",
+          "blur": "25px",
+          "spread": "-5px"
+        },
+        {
+          "color": "rgba(0, 0, 0, 0.1)",
+          "offsetX": "0px",
+          "offsetY": "8px",
+          "blur": "10px",
+          "spread": "-6px"
+        }
+      ],
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    }
+  },
+  "opacity": {
+    "0": {
+      "$type": "number",
+      "$value": 0,
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "disabled": {
+      "$type": "number",
+      "$value": 0.5,
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "muted": {
+      "$type": "number",
+      "$value": 0.7,
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "overlay": {
+      "$type": "number",
+      "$value": 0.4,
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "100": {
+      "$type": "number",
+      "$value": 1,
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    }
+  },
+  "motion": {
+    "duration": {
+      "instant": {
+        "$type": "duration",
+        "$value": "0ms",
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      },
+      "fast": {
+        "$type": "duration",
+        "$value": "150ms",
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      },
+      "normal": {
+        "$type": "duration",
+        "$value": "250ms",
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      },
+      "slow": {
+        "$type": "duration",
+        "$value": "400ms",
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      }
+    },
+    "easing": {
+      "linear": {
+        "$type": "cubicBezier",
+        "$value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      },
+      "standard": {
+        "$type": "cubicBezier",
+        "$value": [
+          0.4,
+          0.0,
+          0.2,
+          1
+        ],
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      },
+      "emphasized": {
+        "$type": "cubicBezier",
+        "$value": [
+          0.2,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      },
+      "enter": {
+        "$type": "cubicBezier",
+        "$value": [
+          0.0,
+          0.0,
+          0.2,
+          1
+        ],
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      },
+      "exit": {
+        "$type": "cubicBezier",
+        "$value": [
+          0.4,
+          0.0,
+          1,
+          1
+        ],
+        "$extensions": {
+          "celestial": {
+            "layer": "foundation"
+          }
+        }
+      }
+    }
+  },
+  "z": {
+    "base": {
+      "$type": "number",
+      "$value": 0,
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "dropdown": {
+      "$type": "number",
+      "$value": 1000,
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "sticky": {
+      "$type": "number",
+      "$value": 1100,
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "overlay": {
+      "$type": "number",
+      "$value": 1200,
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "modal": {
+      "$type": "number",
+      "$value": 1300,
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "popover": {
+      "$type": "number",
+      "$value": 1400,
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "toast": {
+      "$type": "number",
+      "$value": 1500,
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    }
+  },
+  "density": {
+    "compact": {
+      "$type": "dimension",
+      "$value": "{space.2}",
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "comfortable": {
+      "$type": "dimension",
+      "$value": "{space.4}",
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    },
+    "spacious": {
+      "$type": "dimension",
+      "$value": "{space.6}",
+      "$extensions": {
+        "celestial": {
+          "layer": "foundation"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "celestial-consumer-foundation",
+  "private": true,
+  "type": "module",
+  "dependencies": {},
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.4.5"
+  }
+}
