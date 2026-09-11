@@ -18,6 +18,21 @@ describe('published artifacts', () => {
     expect(pkg.exports['./shadcn']).toBe('./dist/css/shadcn.css');
   });
 
+  it('exposes additive JS subpaths for runtime, ssr, and compiler', () => {
+    expect(pkg.exports['./runtime']).toEqual({
+      types: './dist/runtime.d.ts',
+      default: './dist/runtime.js',
+    });
+    expect(pkg.exports['./ssr']).toEqual({
+      types: './dist/ssr.d.ts',
+      default: './dist/ssr.js',
+    });
+    expect(pkg.exports['./compiler']).toEqual({
+      types: './dist/compiler.d.ts',
+      default: './dist/compiler.js',
+    });
+  });
+
   it('built CSS contains celestial light, dark, semantic, and compatibility vars', () => {
     const indexPath = path.join(cssDir, 'index.css');
     expect(fs.existsSync(indexPath), 'dist/css/index.css must exist after build').toBe(true);

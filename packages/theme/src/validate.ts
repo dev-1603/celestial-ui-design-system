@@ -1,5 +1,6 @@
 import type { Token, TokenConfig } from '@celestial-ui/tokens';
-import { TOKEN_SYSTEM_VERSION, flattenTokens } from '@celestial-ui/tokens';
+import { flattenTokens } from '@celestial-ui/tokens/resolve';
+import { TOKEN_SYSTEM_VERSION } from '@celestial-ui/tokens/types';
 import type {
   TenantThemeProfile,
   ThemeConfig,
@@ -223,10 +224,14 @@ export function validateThemeConfig(
   for (const mode of theme.modes) {
     if (mode !== 'light' && mode !== 'dark') {
       report.errors.push(
-        themeError('INVALID_MODE', `Invalid mode '${mode}' — only 'light' and 'dark' are supported.`, {
-          field: 'modes',
-          layer: 'mode',
-        }),
+        themeError(
+          'INVALID_MODE',
+          `Invalid mode '${mode}' — only 'light' and 'dark' are supported.`,
+          {
+            field: 'modes',
+            layer: 'mode',
+          },
+        ),
       );
       report.isValid = false;
     }

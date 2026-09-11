@@ -3,28 +3,14 @@ import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import { extract } from 'tar';
+import {
+  collectBarrelIsolationFindings,
+  collectExportMapFindings,
+  collectPackSizeFindings,
+  collectSideEffectsFindings,
+  packedFileIsDenied,
+} from './exports-map.js';
 import type { PackageInfo, ValidationFinding } from './types.js';
-
-const DENY_PATTERNS = [
-  /^src\//,
-  /\.test\.ts$/,
-  /^\.turbo\//,
-  /\.env/,
-  /\.pem$/,
-  /CORE_IMPLEMENTATION_PLAN\.md$/,
-  /CORE_IMPLEMENTATION_REPORT\.md$/,
-];
-
-function resolveExportTarget(pkgRoot: string, exportValue: unknown): string | null {
-  if (typeof exportValue === 'string') {
-    return exportValue;
-  }
-  if (exportValue && typeof exportValue === 'object') {
-    const record = exportValue as Record<string, string>;
-    if (record.default) return record.default;
-  }
-  return null;
-}
 
 function walkFiles(dir: string, prefix = ''): string[] {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -137,16 +123,14 @@ export async function packAndValidatePackage(
   }
 
   for (const file of allFiles) {
-    for (const pattern of DENY_PATTERNS) {
-      if (pattern.test(file)) {
-        findings.push({
-          package: pkg.name,
-          category: 'security',
-          severity: 'BLOCKER',
-          reason: `Packed tarball contains disallowed file: ${file}`,
-          remediation: 'Tighten package files field or .npmignore',
-        });
-      }
+    if (packedFileIsDenied(file)) {
+      findings.push({
+        package: pkg.name,
+        category: 'security',
+        severity: 'BLOCKER',
+        reason: `Packed tarball contains disallowed file: ${file}`,
+        remediation: 'Tighten package files field or .npmignore',
+      });
     }
   }
 
@@ -163,23 +147,15 @@ export async function packAndValidatePackage(
     }
   }
 
-  const exportsMap = packedPkgJson.exports as Record<string, unknown> | undefined;
-  if (exportsMap) {
-    for (const [subpath, value] of Object.entries(exportsMap)) {
-      const target = resolveExportTarget('.', value);
-      if (!target) continue;
-      const packedTarget = path.join(packedRoot, target);
-      if (!fs.existsSync(packedTarget)) {
-        findings.push({
-          package: pkg.name,
-          category: 'exports',
-          severity: 'BLOCKER',
-          reason: `Export ${subpath} points to missing file ${target}`,
-          remediation: 'Build the package and ensure export targets exist in dist',
-        });
-      }
-    }
-  }
+  findings.push(
+    ...collectExportMapFindings(
+      pkg.name,
+      packedPkgJson.exports as Record<string, unknown> | undefined,
+      packedRoot,
+    ),
+  );
+  findings.push(...collectSideEffectsFindings(pkg.name, packedPkgJson));
+  findings.push(...collectBarrelIsolationFindings(pkg.name, pkg.directory));
 
   const publishConfig = packedPkgJson.publishConfig as { access?: string } | undefined;
   if (publishConfig?.access !== 'public') {
@@ -192,17 +168,7 @@ export async function packAndValidatePackage(
     });
   }
 
-  const tarballSize = fs.statSync(tarballPath).size;
-  const maxSize = pkg.name === '@celestial-ui/tokens' ? 2 * 1024 * 1024 : 1024 * 1024;
-  if (tarballSize > maxSize) {
-    findings.push({
-      package: pkg.name,
-      category: 'artifacts',
-      severity: 'OPTIONAL',
-      reason: `Tarball size ${tarballSize} bytes exceeds soft budget ${maxSize} bytes`,
-      remediation: 'Review packed files for accidental inclusions',
-    });
-  }
+  findings.push(...collectPackSizeFindings(pkg.name, fs.statSync(tarballPath).size));
 
   return findings;
 }

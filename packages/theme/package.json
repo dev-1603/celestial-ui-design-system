@@ -8,10 +8,56 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./themes/celestial": {
+      "types": "./dist/themes/celestial.d.ts",
+      "default": "./dist/themes/celestial.js"
+    },
+    "./mode": {
+      "types": "./dist/mode.d.ts",
+      "default": "./dist/mode.js"
+    },
+    "./registry": {
+      "types": "./dist/registry.d.ts",
+      "default": "./dist/registry.js"
+    },
+    "./resolve": {
+      "types": "./dist/resolve.d.ts",
+      "default": "./dist/resolve.js"
+    },
+    "./slots": {
+      "types": "./dist/slots.d.ts",
+      "default": "./dist/slots.js"
+    },
+    "./validate": {
+      "types": "./dist/validate.d.ts",
+      "default": "./dist/validate.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "themes/celestial": [
+        "./dist/themes/celestial.d.ts"
+      ],
+      "mode": [
+        "./dist/mode.d.ts"
+      ],
+      "registry": [
+        "./dist/registry.d.ts"
+      ],
+      "resolve": [
+        "./dist/resolve.d.ts"
+      ],
+      "slots": [
+        "./dist/slots.d.ts"
+      ],
+      "validate": [
+        "./dist/validate.d.ts"
+      ]
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",

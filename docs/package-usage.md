@@ -248,13 +248,37 @@ import { LucideAdapter } from '@celestial-ui/icons/providers/lucide';
 
 ## 32. Package exports
 
-| Package | Subpaths                                                                                                   |
-| ------- | ---------------------------------------------------------------------------------------------------------- |
-| tokens  | `.`, `./css`, `./tailwind`, `./shadcn`                                                                     |
-| theme   | `.`                                                                                                        |
-| styles  | `.`, `./css`, `./base`, `./tailwind`, `./shadcn`                                                           |
-| icons   | `.`, `./providers/*`                                                                                       |
-| core    | `.`, `./contracts`, `./behavior`, `./accessibility`, `./collection`, `./overlay`, `./runtime`, `./testing` |
+Root barrels stay CJS convenience entries. Prefer granular subpaths in application bundles.
+
+| Package | Subpaths                                                                                                                                |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| tokens  | `.`, `./css`, `./tailwind`, `./shadcn`, `./types`, `./resolve`, `./catalog`, `./a11y`, `./validation`, `./generators`                   |
+| theme   | `.`, `./themes/celestial`, `./mode`, `./registry`, `./resolve`, `./slots`, `./validate`                                                 |
+| styles  | `.`, `./css`, `./base`, `./tailwind`, `./shadcn`, `./runtime`, `./ssr`, `./compiler`                                                    |
+| icons   | `.`, `./providers/*`                                                                                                                    |
+| core    | `.`, `./contracts`, `./behavior`, `./accessibility`, `./collection`, `./overlay`, `./runtime`, `./catalog`, `./testing`, `./specs/<id>` |
+
+## 32a. Import strategy and exclusive CSS stacks
+
+v0.1.0 is CommonJS: a root `import { … } from '@celestial-ui/<pkg>'` evaluates the whole barrel. Subpaths are additive; existing root imports keep working.
+
+| Job                                    | Import                                                                                                                |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Token CSS in the browser               | `@celestial-ui/tokens/css` (not the JS root; the root links Node `fs` catalog)                                        |
+| Flatten / resolve aliases in a bundler | `@celestial-ui/tokens/resolve`                                                                                        |
+| Load the JSON catalog                  | `@celestial-ui/tokens/catalog` — Node/`fs` only                                                                       |
+| Theme identity in the client           | `@celestial-ui/theme/themes/celestial`                                                                                |
+| `resolveTheme()`                       | `@celestial-ui/theme` or `./resolve` — Node/build                                                                     |
+| Styles runtime / SSR / compiler        | `@celestial-ui/styles/runtime`, `./ssr`, `./compiler` (not the JS root unless you need all three)                     |
+| Core controllers                       | `@celestial-ui/core/behavior`, `./runtime`, `./overlay`, … — not the root barrel                                      |
+| One icon provider                      | `@celestial-ui/icons` + **one** `./providers/<id>`. Do not bundle `lucide-static` CJS or a full `@iconify-json/*` set |
+
+**Pick one static CSS stack — never both:**
+
+- **Styles stack:** `@celestial-ui/styles/css` plus optional `/base`, `/tailwind` (v4), `/shadcn`
+- **Tokens stack:** `@celestial-ui/tokens/css` plus optional `/shadcn` and `/tailwind` (v3 JS preset)
+
+Do not import `styles/css` together with `tokens/css`. Do not import both shadcn adapters (`styles/shadcn` and `tokens/shadcn`): they share 20 CSS names with different mappings; last stylesheet wins.
 
 ## 33. Versioning
 

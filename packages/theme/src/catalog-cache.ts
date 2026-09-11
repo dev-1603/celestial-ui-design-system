@@ -1,5 +1,5 @@
-import type { CanonicalTokenSources } from '@celestial-ui/tokens';
-import { getCanonicalTokenSources } from '@celestial-ui/tokens';
+import type { CanonicalTokenSources } from '@celestial-ui/tokens/catalog';
+import { getCanonicalTokenSources } from '@celestial-ui/tokens/catalog';
 
 let cachedSources: CanonicalTokenSources | undefined;
 

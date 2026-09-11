@@ -370,7 +370,7 @@ Do not put `resolveTheme()` in a per-component client module if your bundler can
 
 ## Documentation
 
-- [Package usage](../../docs/package-usage.md)
+- [Package usage](../../docs/package-usage.md) — identity subpath vs `resolveTheme`, exclusive CSS stacks
 - [Package selection](../../docs/package-selection-guide.md)
 - [Architecture for consumers](../../docs/architecture-for-consumers.md)
 - [Package combinations](../../docs/package-combination-matrix.md)

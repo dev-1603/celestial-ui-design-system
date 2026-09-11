@@ -376,7 +376,7 @@ These packages are modular. Installing tokens does not install or require the ot
 
 ## Documentation
 
-- [Package usage](../../docs/package-usage.md)
+- [Package usage](../../docs/package-usage.md) — granular imports, exclusive CSS/shadcn stacks, Node vs browser catalog APIs
 - [Developer guide](./docs/developer-guide.md)
 - [Package selection](../../docs/package-selection-guide.md)
 - [Architecture for consumers](../../docs/architecture-for-consumers.md)

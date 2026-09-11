@@ -389,7 +389,7 @@ Do not treat `@celestial-ui/react`, `@celestial-ui/vue`, or `@celestial-ui/svelt
 
 ## Documentation
 
-- [Package usage](../../docs/package-usage.md)
+- [Package usage](../../docs/package-usage.md) — prefer `./behavior` / `./runtime` over the root barrel
 - [Core architecture](../../docs/core-architecture.md)
 - [Component contract](../../docs/core-component-contract.md)
 - [Component specification](../../docs/core-component-specification.md)

@@ -374,7 +374,7 @@ v0.1.0 is **CommonJS**. Bun 1.1.20 consumed that CJS resolver via the same `icon
 
 ## Documentation
 
-- [Package usage](../../docs/package-usage.md)
+- [Package usage](../../docs/package-usage.md) — one provider subpath; do not bundle full glyph packs
 - [Package selection](../../docs/package-selection-guide.md)
 - [Architecture for consumers](../../docs/architecture-for-consumers.md)
 - [Package combinations](../../docs/package-combination-matrix.md)

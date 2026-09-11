@@ -1,10 +1,7 @@
-import {
-  TOKEN_SYSTEM_VERSION,
-  buildTokenConfigForMode,
-  flattenTokens,
-  resolveAliases,
-  validateTokens,
-} from '@celestial-ui/tokens';
+import { buildTokenConfigForMode } from '@celestial-ui/tokens/catalog';
+import { flattenTokens, resolveAliases } from '@celestial-ui/tokens/resolve';
+import { TOKEN_SYSTEM_VERSION } from '@celestial-ui/tokens/types';
+import { validateTokens } from '@celestial-ui/tokens/validation';
 import type {
   AppearanceMode,
   ProvenanceSource,
@@ -112,11 +109,10 @@ export function resolveTheme(registry: ThemeRegistry, options: ResolveThemeOptio
 
   if (!theme.modes.includes(mode)) {
     throw new ThemeResolutionError('Theme resolution failed.', [
-      themeError(
-        'MODE_NOT_SUPPORTED',
-        `Mode '${mode}' is not supported by theme '${theme.id}'.`,
-        { layer: 'mode', field: 'mode' },
-      ),
+      themeError('MODE_NOT_SUPPORTED', `Mode '${mode}' is not supported by theme '${theme.id}'.`, {
+        layer: 'mode',
+        field: 'mode',
+      }),
     ]);
   }
 
@@ -131,11 +127,7 @@ export function resolveTheme(registry: ThemeRegistry, options: ResolveThemeOptio
   }
 
   if (options.tenantProfile) {
-    const tenantReport = validateTenantThemeProfile(
-      registry,
-      options.tenantProfile,
-      catalogFlat,
-    );
+    const tenantReport = validateTenantThemeProfile(registry, options.tenantProfile, catalogFlat);
     if (!tenantReport.isValid) {
       throw new ThemeResolutionError('Tenant profile validation failed.', tenantReport.errors);
     }

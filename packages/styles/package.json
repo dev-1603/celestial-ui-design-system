@@ -12,10 +12,35 @@
     "./css": "./dist/css/index.css",
     "./base": "./dist/css/base.css",
     "./tailwind": "./dist/css/tailwind.css",
-    "./shadcn": "./dist/css/shadcn.css"
+    "./shadcn": "./dist/css/shadcn.css",
+    "./runtime": {
+      "types": "./dist/runtime.d.ts",
+      "default": "./dist/runtime.js"
+    },
+    "./ssr": {
+      "types": "./dist/ssr.d.ts",
+      "default": "./dist/ssr.js"
+    },
+    "./compiler": {
+      "types": "./dist/compiler.d.ts",
+      "default": "./dist/compiler.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "runtime": [
+        "./dist/runtime.d.ts"
+      ],
+      "ssr": [
+        "./dist/ssr.d.ts"
+      ],
+      "compiler": [
+        "./dist/compiler.d.ts"
+      ]
+    }
   },
   "scripts": {
-    "build": "tsc && node ./dist/scripts/build.js",
+    "build": "rm -rf dist && tsc && node ./dist/scripts/build.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
@@ -34,7 +59,11 @@
     "access": "public"
   },
   "files": [
-    "dist"
+    "dist",
+    "!dist/scripts",
+    "!dist/scripts/**",
+    "!dist/test",
+    "!dist/test/**"
   ],
   "dependencies": {
     "@celestial-ui/theme": "workspace:*",
