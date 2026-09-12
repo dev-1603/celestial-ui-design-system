@@ -7,9 +7,7 @@ export const SEMANTIC_CSS_API_VERSION = '1.0.0';
 export const STYLES_PACKAGE_VERSION = '0.1.0';
 
 export type StyleScope =
-  | { kind: 'document' }
-  | { kind: 'application'; id: string }
-  | { kind: 'sandbox'; id: string };
+  { kind: 'document' } | { kind: 'application'; id: string } | { kind: 'sandbox'; id: string };
 
 export type AppearanceMode = 'light' | 'dark';
 export type ModePreference = AppearanceMode | 'system';
@@ -81,11 +79,7 @@ export interface AttributeCleanup {
 }
 
 export interface ThemeStyleManager {
-  attach(
-    scope: StyleScope,
-    compiled: CompiledThemeCss,
-    options?: AttachOptions,
-  ): StyleAttachment;
+  attach(scope: StyleScope, compiled: CompiledThemeCss, options?: AttachOptions): StyleAttachment;
   update(attachment: StyleAttachment, compiled: CompiledThemeCss): void;
   detach(attachment: StyleAttachment): void;
   setState(target: Element, state: ThemeDomState): void;

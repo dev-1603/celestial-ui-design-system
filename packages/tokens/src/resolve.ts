@@ -51,7 +51,9 @@ export function resolveAliases(flatTokens: FlatTokenMap): FlatTokenMap {
       finalValue = finalValue.replace(ALIAS_REGEX, (match, aliasPath) => {
         const referencedToken = flatTokens[aliasPath];
         if (!referencedToken) {
-          throw new Error(`Broken reference: '${path}' references '${aliasPath}' which does not exist.`);
+          throw new Error(
+            `Broken reference: '${path}' references '${aliasPath}' which does not exist.`,
+          );
         }
 
         // Ensure layer constraint (L0 -> L1 -> L2 -> L3)
@@ -61,7 +63,9 @@ export function resolveAliases(flatTokens: FlatTokenMap): FlatTokenMap {
 
         if (myLayer && refLayer) {
           if (layerOrder[refLayer] > layerOrder[myLayer]) {
-            throw new Error(`Layer violation: [${myLayer}] '${path}' cannot reference [${refLayer}] '${aliasPath}'`);
+            throw new Error(
+              `Layer violation: [${myLayer}] '${path}' cannot reference [${refLayer}] '${aliasPath}'`,
+            );
           }
         }
 
@@ -73,7 +77,8 @@ export function resolveAliases(flatTokens: FlatTokenMap): FlatTokenMap {
         if (typeof item === 'string' && item.includes('{')) {
           return item.replace(ALIAS_REGEX, (match: string, aliasPath: string) => {
             const referencedToken = flatTokens[aliasPath];
-            if (!referencedToken) throw new Error(`Broken reference in array: '${path}' -> '${aliasPath}'`);
+            if (!referencedToken)
+              throw new Error(`Broken reference in array: '${path}' -> '${aliasPath}'`);
             return resolveValue(aliasPath, referencedToken);
           });
         }
@@ -84,7 +89,8 @@ export function resolveAliases(flatTokens: FlatTokenMap): FlatTokenMap {
             if (typeof newItem[k] === 'string' && newItem[k].includes('{')) {
               newItem[k] = newItem[k].replace(ALIAS_REGEX, (match: string, aliasPath: string) => {
                 const referencedToken = flatTokens[aliasPath];
-                if (!referencedToken) throw new Error(`Broken reference in composite: '${path}' -> '${aliasPath}'`);
+                if (!referencedToken)
+                  throw new Error(`Broken reference in composite: '${path}' -> '${aliasPath}'`);
                 return resolveValue(aliasPath, referencedToken);
               });
             }
@@ -100,7 +106,8 @@ export function resolveAliases(flatTokens: FlatTokenMap): FlatTokenMap {
         if (typeof v === 'string' && v.includes('{')) {
           resolvedComposite[k] = v.replace(ALIAS_REGEX, (match, aliasPath) => {
             const referencedToken = flatTokens[aliasPath];
-            if (!referencedToken) throw new Error(`Broken reference in composite: '${path}' -> '${aliasPath}'`);
+            if (!referencedToken)
+              throw new Error(`Broken reference in composite: '${path}' -> '${aliasPath}'`);
             return resolveValue(aliasPath, referencedToken);
           });
         } else {
@@ -115,7 +122,7 @@ export function resolveAliases(flatTokens: FlatTokenMap): FlatTokenMap {
     // Store resolved token (deep copy)
     resolved[path] = {
       ...token,
-      $value: finalValue
+      $value: finalValue,
     };
 
     return finalValue;

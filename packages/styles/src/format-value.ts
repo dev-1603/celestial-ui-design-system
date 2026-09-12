@@ -68,7 +68,10 @@ function formatShadowValue(value: unknown, path: string): string {
     assertSafeCssString(result, path);
     return result;
   }
-  throw styleError('INVALID_CSS_VALUE', `Invalid shadow value at ${path}`, { path, tokenType: 'shadow' });
+  throw styleError('INVALID_CSS_VALUE', `Invalid shadow value at ${path}`, {
+    path,
+    tokenType: 'shadow',
+  });
 }
 
 function formatBorderValue(value: Record<string, unknown>, path: string): string {
@@ -123,7 +126,10 @@ function formatTransitionValue(value: unknown, path: string): string {
     assertSafeCssString(result, path);
     return result;
   }
-  throw styleError('INVALID_CSS_VALUE', `Invalid transition at ${path}`, { path, tokenType: 'transition' });
+  throw styleError('INVALID_CSS_VALUE', `Invalid transition at ${path}`, {
+    path,
+    tokenType: 'transition',
+  });
 }
 
 function formatGradientValue(value: unknown, path: string): string {
@@ -144,7 +150,10 @@ function formatGradientValue(value: unknown, path: string): string {
     assertSafeCssString(result, path);
     return result;
   }
-  throw styleError('INVALID_CSS_VALUE', `Invalid gradient at ${path}`, { path, tokenType: 'gradient' });
+  throw styleError('INVALID_CSS_VALUE', `Invalid gradient at ${path}`, {
+    path,
+    tokenType: 'gradient',
+  });
 }
 
 function formatCubicBezier(value: unknown, path: string): string {
@@ -168,18 +177,21 @@ function formatCubicBezier(value: unknown, path: string): string {
 /**
  * Format a resolved token into one or more CSS custom property declarations.
  */
-export function formatTokenDeclarations(
-  path: string,
-  token: Token,
-): FormattedDeclarations {
+export function formatTokenDeclarations(path: string, token: Token): FormattedDeclarations {
   const { $type, $value } = token;
 
   if ($value === null || $value === undefined) {
-    throw styleError('INVALID_CSS_VALUE', `Null token value at ${path}`, { path, tokenType: $type });
+    throw styleError('INVALID_CSS_VALUE', `Null token value at ${path}`, {
+      path,
+      tokenType: $type,
+    });
   }
 
   if (typeof $value === 'string' && ALIAS_PATTERN.test($value)) {
-    throw styleError('UNRESOLVED_ALIAS', `Unresolved alias at ${path}: ${$value}`, { path, tokenType: $type });
+    throw styleError('UNRESOLVED_ALIAS', `Unresolved alias at ${path}: ${$value}`, {
+      path,
+      tokenType: $type,
+    });
   }
 
   if ($type === 'shadow') {

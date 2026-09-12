@@ -51,7 +51,10 @@ export function readPeerPackageVersion(packageName: string): string | undefined 
  * Read a relative SVG (or other text) asset from an installed peer package.
  * Rejects path traversal and non-allowlisted package names.
  */
-export function readOptionalPeerAsset(packageName: string, relativePath: string): string | undefined {
+export function readOptionalPeerAsset(
+  packageName: string,
+  relativePath: string,
+): string | undefined {
   if (!isAllowlistedPeer(packageName)) return undefined;
   if (!RELATIVE_ASSET_PATTERN.test(relativePath)) return undefined;
 

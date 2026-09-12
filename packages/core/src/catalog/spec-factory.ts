@@ -7,11 +7,7 @@ import type { ComponentContract } from '../contracts/types';
 import inventoryData from './data/generic-component-inventory.json';
 import type { SpecProfileKey } from './spec-profiles';
 import { SPEC_PROFILES } from './spec-profiles';
-import type {
-  ComponentMetadataStatus,
-  ComponentTaxonomy,
-  EngineeringFamily,
-} from './types';
+import type { ComponentMetadataStatus, ComponentTaxonomy, EngineeringFamily } from './types';
 
 export interface GenericInventoryEntry {
   readonly id: string;
@@ -34,21 +30,14 @@ export interface GenericComponentInventory {
 
 export const GENERIC_COMPONENT_INVENTORY = inventoryData as GenericComponentInventory;
 
-export const GENERIC_COMPONENT_IDS: readonly ComponentId[] = GENERIC_COMPONENT_INVENTORY.entries.map(
-  (entry) => assertComponentId(entry.id),
-);
+export const GENERIC_COMPONENT_IDS: readonly ComponentId[] =
+  GENERIC_COMPONENT_INVENTORY.entries.map((entry) => assertComponentId(entry.id));
 
 export const REFERENCE_COMPONENT_IDS: readonly ComponentId[] = GENERIC_COMPONENT_INVENTORY.entries
   .filter((entry) => entry.referenceSpec)
   .map((entry) => assertComponentId(entry.id));
 
-export type ReferenceComponentId =
-  | 'button'
-  | 'input'
-  | 'checkbox'
-  | 'select'
-  | 'dialog'
-  | 'table';
+export type ReferenceComponentId = 'button' | 'input' | 'checkbox' | 'select' | 'dialog' | 'table';
 
 export function getInventoryEntry(id: string): GenericInventoryEntry | undefined {
   return GENERIC_COMPONENT_INVENTORY.entries.find((entry) => entry.id === id);

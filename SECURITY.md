@@ -9,7 +9,7 @@ The following table lists the versions of the project that are currently being s
 | 1.0.x   | :white_check_mark: |
 | < 1.0   | :x:                |
 
-*(Note: The project is currently in pre-release. Version 1.0 will be supported once released).*
+_(Note: The project is currently in pre-release. Version 1.0 will be supported once released)._
 
 ## Reporting a Vulnerability
 

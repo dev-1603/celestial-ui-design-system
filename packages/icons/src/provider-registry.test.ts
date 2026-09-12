@@ -1,9 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { IconProviderRegistry, registerIconProvider } from './provider-registry';
 import { defaultIconProviderRegistry } from './provider-registry';
-import {
-  IconProviderRegistrationError,
-} from './errors';
+import { IconProviderRegistrationError } from './errors';
 import type { IconProviderAdapter, IconVariantRequest, NormalizedIconPayload } from './types';
 
 /** Factory for a minimal valid mock adapter */
@@ -22,7 +20,10 @@ function mockAdapter(id: string): IconProviderAdapter {
     },
     resolveNativeName: (name) => (name === 'search' ? 'Search' : undefined),
     canSatisfyVariant: (_v: Readonly<IconVariantRequest>) => true,
-    resolve: (nativeName: string, _v: Readonly<IconVariantRequest> | undefined): NormalizedIconPayload => ({
+    resolve: (
+      nativeName: string,
+      _v: Readonly<IconVariantRequest> | undefined,
+    ): NormalizedIconPayload => ({
       kind: 'svg-string',
       data: `<svg>${nativeName}</svg>`,
       nativeName,
@@ -58,9 +59,7 @@ describe('[Unit] IconProviderRegistry', () => {
 
   it('should throw DUPLICATE_PROVIDER_ID on duplicate registration', () => {
     registry.register(mockAdapter('lucide'));
-    expect(() => registry.register(mockAdapter('lucide'))).toThrow(
-      IconProviderRegistrationError,
-    );
+    expect(() => registry.register(mockAdapter('lucide'))).toThrow(IconProviderRegistrationError);
   });
 
   it('should list all registered provider ids', () => {

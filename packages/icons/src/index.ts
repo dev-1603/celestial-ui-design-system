@@ -49,11 +49,7 @@ export type {
 } from './types';
 
 // ─── Errors ───────────────────────────────────────────────────────────────────
-export {
-  iconError,
-  IconResolutionError,
-  IconProviderRegistrationError,
-} from './errors';
+export { iconError, IconResolutionError, IconProviderRegistrationError } from './errors';
 export type { IconError, IconErrorCode, IconErrorLayer } from './errors';
 
 // ─── Version ──────────────────────────────────────────────────────────────────
@@ -89,7 +85,4 @@ export { resolveIcon } from './resolver';
 export type { ResolveIconOptions } from './resolver';
 
 // ─── Catalogue Validation ─────────────────────────────────────────────────────
-export {
-  validateCanonicalCatalogue,
-  validateProviderCatalogue,
-} from './catalogue/validate';
+export { validateCanonicalCatalogue, validateProviderCatalogue } from './catalogue/validate';

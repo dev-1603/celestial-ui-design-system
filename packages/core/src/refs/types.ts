@@ -15,10 +15,7 @@ export interface RefExposure {
   readonly targets: RefTargets;
 }
 
-export function createRefExposure(
-  contract: RefContract,
-  resolved: RefTargets,
-): RefExposure {
+export function createRefExposure(contract: RefContract, resolved: RefTargets): RefExposure {
   return {
     primary: contract.primary,
     targets: resolved,

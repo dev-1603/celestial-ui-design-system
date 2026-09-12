@@ -15,7 +15,11 @@ export type {
 } from '../spec/spec';
 export type { PropDefinition, PropsContract } from '../props/types';
 export type { SizeContract } from '../sizes/types';
-export type { PointerContract, PointerSemanticAction, PointerInteractionSpec } from '../interaction/pointer-types';
+export type {
+  PointerContract,
+  PointerSemanticAction,
+  PointerInteractionSpec,
+} from '../interaction/pointer-types';
 export type { KeyboardContract, KeyboardBindingSpec } from '../accessibility/keyboard-contract';
 export type { FocusContract } from '../accessibility/focus-contract';
 export type { CollectionContract, SelectionContract } from '../collection/contracts';

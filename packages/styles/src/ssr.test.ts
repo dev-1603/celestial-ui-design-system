@@ -67,9 +67,7 @@ describe('ssr', () => {
   });
 
   it('rejects invalid themeId in bootstrap', () => {
-    expect(() =>
-      createModeBootstrapScript({ themeId: 'bad id!', defaultMode: 'light' }),
-    ).toThrow();
+    expect(() => createModeBootstrapScript({ themeId: 'bad id!', defaultMode: 'light' })).toThrow();
   });
 
   it('renders root attributes string', () => {

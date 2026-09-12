@@ -80,7 +80,10 @@ function loadIconifyCollection(prefix: string): unknown {
   return unwrapIconifyJson(pack);
 }
 
-function loadIconifySvg(nativeName: string, iconSetOverride: unknown | undefined): string | undefined {
+function loadIconifySvg(
+  nativeName: string,
+  iconSetOverride: unknown | undefined,
+): string | undefined {
   const colonIdx = nativeName.indexOf(':');
   if (colonIdx < 0) return undefined;
 

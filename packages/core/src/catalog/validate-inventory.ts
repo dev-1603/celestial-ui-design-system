@@ -132,9 +132,7 @@ export function validateAllComponentSpecs(): InventoryValidationReport {
     const validation = validateComponentSpec(spec);
     if (!validation.isValid) {
       for (const error of validation.errors) {
-        issues.push(
-          issue('INVALID_SPEC', error.reason, spec.contract.id),
-        );
+        issues.push(issue('INVALID_SPEC', error.reason, spec.contract.id));
       }
     }
 
@@ -149,7 +147,11 @@ export function validateAllComponentSpecs(): InventoryValidationReport {
     for (const pattern of FRAMEWORK_LEAK_PATTERNS) {
       if (pattern.test(serialized)) {
         issues.push(
-          issue('FRAMEWORK_LEAK', `Framework-specific reference matched ${pattern}`, spec.contract.id),
+          issue(
+            'FRAMEWORK_LEAK',
+            `Framework-specific reference matched ${pattern}`,
+            spec.contract.id,
+          ),
         );
       }
     }

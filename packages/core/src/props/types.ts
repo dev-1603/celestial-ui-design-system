@@ -1,17 +1,6 @@
-export type PropTypeDescriptor =
-  | 'boolean'
-  | 'string'
-  | 'number'
-  | 'enum'
-  | 'unknown';
+export type PropTypeDescriptor = 'boolean' | 'string' | 'number' | 'enum' | 'unknown';
 
-export type PropMapsTo =
-  | 'state'
-  | 'variant'
-  | 'native'
-  | 'aria'
-  | 'slot'
-  | 'event';
+export type PropMapsTo = 'state' | 'variant' | 'native' | 'aria' | 'slot' | 'event';
 
 export interface PropDefinition {
   readonly name: string;

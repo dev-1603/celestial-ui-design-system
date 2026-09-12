@@ -31,10 +31,7 @@ function getDocument(options?: ThemeStyleManagerOptions): Document {
   throw new StyleRuntimeError('DOM_UNAVAILABLE', 'Document is not available');
 }
 
-function schedule(
-  strategy: ScheduleStrategy,
-  fn: () => void,
-): void {
+function schedule(strategy: ScheduleStrategy, fn: () => void): void {
   switch (strategy) {
     case 'sync':
       fn();
@@ -58,9 +55,7 @@ interface AttachmentRecord {
   generation: number;
 }
 
-export function createThemeStyleManager(
-  options: ThemeStyleManagerOptions = {},
-): ThemeStyleManager {
+export function createThemeStyleManager(options: ThemeStyleManagerOptions = {}): ThemeStyleManager {
   if (options.nonce !== undefined) {
     validateNonce(options.nonce);
   }
@@ -73,7 +68,10 @@ export function createThemeStyleManager(
 
   function assertActive(): void {
     if (destroyed) {
-      throw new StyleRuntimeError('STYLE_ATTACHMENT_FAILED', 'ThemeStyleManager has been destroyed');
+      throw new StyleRuntimeError(
+        'STYLE_ATTACHMENT_FAILED',
+        'ThemeStyleManager has been destroyed',
+      );
     }
   }
 
@@ -106,7 +104,11 @@ export function createThemeStyleManager(
   }
 
   return {
-    attach(scope: StyleScope, compiled: CompiledThemeCss, attachOptions?: AttachOptions): StyleAttachment {
+    attach(
+      scope: StyleScope,
+      compiled: CompiledThemeCss,
+      attachOptions?: AttachOptions,
+    ): StyleAttachment {
       assertActive();
       const scopeKey = getScopeKey(scope);
       const nonce = attachOptions?.nonce ?? defaultNonce;

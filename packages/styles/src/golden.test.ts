@@ -20,12 +20,16 @@ describe('golden output', () => {
   it('celestial dark differs from light in surface canvas', () => {
     const light = compileResolvedTheme(resolveCelestialLight(), { scope: { kind: 'document' } });
     const dark = compileResolvedTheme(resolveCelestialDark(), { scope: { kind: 'document' } });
-    expect(light.variables['--cui-surface-canvas']).not.toBe(dark.variables['--cui-surface-canvas']);
+    expect(light.variables['--cui-surface-canvas']).not.toBe(
+      dark.variables['--cui-surface-canvas'],
+    );
     expect(light.contentHash).not.toBe(dark.contentHash);
   });
 
   it('acme light inherits celestial with primary override', () => {
-    const celestial = compileResolvedTheme(resolveCelestialLight(), { scope: { kind: 'document' } });
+    const celestial = compileResolvedTheme(resolveCelestialLight(), {
+      scope: { kind: 'document' },
+    });
     const acme = compileResolvedTheme(resolveAcmeLight(), { scope: { kind: 'document' } });
     expect(acme.variables['--cui-action-primary-background']).not.toBe(
       celestial.variables['--cui-action-primary-background'],

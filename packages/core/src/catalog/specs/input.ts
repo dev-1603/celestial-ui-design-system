@@ -49,10 +49,7 @@ export const inputSpec = defineComponentSpec({
       name: { from: 'slot:label' },
     },
     pointer: {
-      interactions: [
-        { action: 'click', suppressWhenDisabled: true },
-        { action: 'hover' },
-      ],
+      interactions: [{ action: 'click', suppressWhenDisabled: true }, { action: 'hover' }],
       suppressWhenDisabled: true,
     },
     focus: {

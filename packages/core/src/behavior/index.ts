@@ -6,9 +6,5 @@ export type {
   ControllableState,
 } from './controllable';
 export { createControllableState } from './controllable';
-export type {
-  DisclosureSnapshot,
-  DisclosureOptions,
-  DisclosureController,
-} from './disclosure';
+export type { DisclosureSnapshot, DisclosureOptions, DisclosureController } from './disclosure';
 export { createDisclosure, shouldIgnorePointer } from './disclosure';

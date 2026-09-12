@@ -1,7 +1,4 @@
-export {
-  SEMANTIC_CSS_API_VERSION,
-  STYLES_PACKAGE_VERSION,
-} from './types';
+export { SEMANTIC_CSS_API_VERSION, STYLES_PACKAGE_VERSION } from './types';
 
 export type {
   AppearanceMode,
@@ -26,11 +23,7 @@ export type {
 } from './types';
 
 export type { StyleError, StyleErrorCode } from './errors';
-export {
-  StyleCompilationError,
-  StyleRuntimeError,
-  styleError,
-} from './errors';
+export { StyleCompilationError, StyleRuntimeError, styleError } from './errors';
 
 export {
   SEMANTIC_CSS_REGISTRY,
@@ -79,15 +72,9 @@ export {
   renderThemeRootAttributes,
 } from './ssr';
 
-export {
-  DEFAULT_TAILWIND_BRIDGE,
-  generateTailwindBridge,
-} from './tailwind';
+export { DEFAULT_TAILWIND_BRIDGE, generateTailwindBridge } from './tailwind';
 
-export {
-  DEFAULT_SHADCN_REGISTRY,
-  generateShadcnAdapter,
-} from './shadcn';
+export { DEFAULT_SHADCN_REGISTRY, generateShadcnAdapter } from './shadcn';
 
 export { generateBaseCss } from './base';
 

@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  createThemeRegistry,
-  resolveTheme,
-  CELESTIAL_THEME,
-  THEME_SCHEMA_VERSION,
-} from './index';
+import { createThemeRegistry, resolveTheme, CELESTIAL_THEME, THEME_SCHEMA_VERSION } from './index';
 
 describe('Tenant theme profiles', () => {
   const registry = createThemeRegistry([CELESTIAL_THEME]);

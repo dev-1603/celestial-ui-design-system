@@ -37,6 +37,7 @@ The release process correctly manages dependent bumps. For example, if `@celesti
 We use **package-scoped tags**. Release tags must map exactly to the published packages.
 
 **Format**: `[package-name]@[version]`
+
 - Example: `@celestial-ui/core@1.0.0`
 - Example: `@celestial-ui/icons@1.0.0`
 
@@ -45,6 +46,7 @@ We use **package-scoped tags**. Release tags must map exactly to the published p
 ## 5. Hotfix Handling and Rollback
 
 ### Rollback Strategy
+
 **npm package rollback must NOT depend on unpublishing.**
 Unpublishing breaks the ecosystem. If a release is fundamentally broken:
 
@@ -53,6 +55,7 @@ Unpublishing breaks the ecosystem. If a release is fundamentally broken:
 3. Publish a **new patch version** (e.g., `1.0.1`).
 
 ### Hotfix Workflow
+
 1. Cut a `fix/*` branch from `master` (or the relevant maintenance branch).
 2. Fix the issue.
 3. Validate and apply a changeset.

@@ -1,30 +1,26 @@
 export type TokenLayer = 'primitive' | 'foundation' | 'semantic' | 'component';
 
-export type OverridePolicy =
-  | 'locked'
-  | 'themeable'
-  | 'tenantOverridable'
-  | 'componentOverridable';
+export type OverridePolicy = 'locked' | 'themeable' | 'tenantOverridable' | 'componentOverridable';
 
 /** Version of the canonical token system (package version). */
 export const TOKEN_SYSTEM_VERSION = '0.1.0';
 
-export type TokenType = 
-  | 'color' 
-  | 'dimension' 
-  | 'fontFamily' 
+export type TokenType =
+  | 'color'
+  | 'dimension'
+  | 'fontFamily'
   | 'fontWeight'
   | 'lineHeight'
   | 'letterSpacing'
-  | 'duration' 
-  | 'cubicBezier' 
-  | 'number' 
-  | 'strokeStyle' 
-  | 'border' 
-  | 'stroke' 
-  | 'shadow' 
-  | 'gradient' 
-  | 'transition' 
+  | 'duration'
+  | 'cubicBezier'
+  | 'number'
+  | 'strokeStyle'
+  | 'border'
+  | 'stroke'
+  | 'shadow'
+  | 'gradient'
+  | 'transition'
   | 'typography';
 
 export interface CelestialExtensions {
@@ -67,13 +63,8 @@ export interface ShadowValue {
   inset?: boolean;
 }
 
-export type TokenValue = 
-  | string 
-  | number 
-  | TypographyValue 
-  | BorderValue 
-  | ShadowValue 
-  | ShadowValue[];
+export type TokenValue =
+  string | number | TypographyValue | BorderValue | ShadowValue | ShadowValue[];
 
 export interface Token<TValue = TokenValue> {
   $type: TokenType;

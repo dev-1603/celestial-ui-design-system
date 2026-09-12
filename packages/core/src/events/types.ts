@@ -1,10 +1,4 @@
-export type SemanticEventName =
-  | 'change'
-  | 'openChange'
-  | 'select'
-  | 'dismiss'
-  | 'focus'
-  | 'blur';
+export type SemanticEventName = 'change' | 'openChange' | 'select' | 'dismiss' | 'focus' | 'blur';
 
 export type DismissReason = 'escape' | 'outside' | 'action';
 export type OpenChangeReason = DismissReason | 'trigger' | 'programmatic';

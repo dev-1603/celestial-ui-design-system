@@ -4,108 +4,332 @@
   "catalogueSchemaVersion": "1.0.0",
   "generatedAt": "2026-09-04",
   "entries": [
-    { "canonicalName": "search",          "nativeName": "magnifying-glass",       "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "close",           "nativeName": "xmark",                  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "check",           "nativeName": "check",                  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "plus",            "nativeName": "plus",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "minus",           "nativeName": "minus",                  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "warning",         "nativeName": "triangle-exclamation",   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "error",           "nativeName": "circle-xmark",           "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "info",            "nativeName": "circle-info",            "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "user",            "nativeName": "user",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "users",           "nativeName": "users",                  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "settings",        "nativeName": "gear",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "calendar",        "nativeName": "calendar",               "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "edit",            "nativeName": "pen-to-square",          "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "delete",          "nativeName": "trash",                  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "download",        "nativeName": "download",               "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "upload",          "nativeName": "upload",                 "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "copy",            "nativeName": "copy",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "paste",           "nativeName": "paste",                  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "refresh",         "nativeName": "rotate-right",           "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "home",            "nativeName": "house",                  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "menu",            "nativeName": "bars",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "arrow-left",      "nativeName": "arrow-left",             "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "arrow-right",     "nativeName": "arrow-right",            "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "arrow-up",        "nativeName": "arrow-up",               "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "arrow-down",      "nativeName": "arrow-down",             "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "chevron-left",    "nativeName": "chevron-left",           "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "chevron-right",   "nativeName": "chevron-right",          "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "chevron-up",      "nativeName": "chevron-up",             "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "chevron-down",    "nativeName": "chevron-down",           "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "star",            "nativeName": "star",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "heart",           "nativeName": "heart",                  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "bookmark",        "nativeName": "bookmark",               "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "share",           "nativeName": "share-nodes",            "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "link",            "nativeName": "link",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "external-link",   "nativeName": "arrow-up-right-from-square", "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "mail",            "nativeName": "envelope",               "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "phone",           "nativeName": "phone",                  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "chat",            "nativeName": "message",                "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "notification",    "nativeName": "bell",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "bell",            "nativeName": "bell",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "filter",          "nativeName": "filter",                 "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "sort",            "nativeName": "sort",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "grid",            "nativeName": "grip",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "list",            "nativeName": "list",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "image",           "nativeName": "image",                  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "file",            "nativeName": "file",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "folder",          "nativeName": "folder",                 "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "lock",            "nativeName": "lock",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "unlock",          "nativeName": "lock-open",              "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "eye",             "nativeName": "eye",                    "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "eye-off",         "nativeName": "eye-slash",              "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "cart",            "nativeName": "cart-shopping",          "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "payment",         "nativeName": "credit-card",            "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "globe",           "nativeName": "globe",                  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "location",        "nativeName": "location-dot",           "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "map",             "nativeName": "map",                    "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "time",            "nativeName": "clock",                  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "send",            "nativeName": "paper-plane",            "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "logout",          "nativeName": "right-from-bracket",     "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "login",           "nativeName": "right-to-bracket",       "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "dashboard",       "nativeName": "gauge",                  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "analytics",       "nativeName": "chart-bar",              "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "help",            "nativeName": "circle-question",        "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "code",            "nativeName": "code",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "key",             "nativeName": "key",                    "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "tag",             "nativeName": "tag",                    "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "more-horizontal", "nativeName": "ellipsis",               "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "more-vertical",   "nativeName": "ellipsis-vertical",      "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "zoom-in",         "nativeName": "magnifying-glass-plus",  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "zoom-out",        "nativeName": "magnifying-glass-minus", "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "drag",            "nativeName": "grip-vertical",          "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "check-circle",    "nativeName": "circle-check",           "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "error-circle",    "nativeName": "circle-xmark",           "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "warning-circle",  "nativeName": "circle-exclamation",     "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "info-circle",     "nativeName": "circle-info",            "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "spinner",         "nativeName": "spinner",                "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "sun",             "nativeName": "sun",                    "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "moon",            "nativeName": "moon",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "maximize",        "nativeName": "maximize",               "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "minimize",        "nativeName": "minimize",               "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "save",            "nativeName": "floppy-disk",            "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "print",           "nativeName": "print",                  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "database",        "nativeName": "database",               "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "api",             "nativeName": "plug",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "webhook",         "nativeName": "rss",                    "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "table",           "nativeName": "table",                  "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "columns",         "nativeName": "table-columns",          "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "layers",          "nativeName": "layer-group",            "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "package",         "nativeName": "box",                    "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "plugin",          "nativeName": "puzzle-piece",           "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "terminal",        "nativeName": "terminal",               "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "bug",             "nativeName": "bug",                    "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "flag",            "nativeName": "flag",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "archive",         "nativeName": "box-archive",            "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "check-all",       "nativeName": "check-double",           "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "sliders",         "nativeName": "sliders",                "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "palette",         "nativeName": "palette",                "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "text",            "nativeName": "font",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "bold",            "nativeName": "bold",                   "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "italic",          "nativeName": "italic",                 "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "align-left",      "nativeName": "align-left",             "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "align-center",    "nativeName": "align-center",           "availableStyles": ["solid", "regular"] },
-    { "canonicalName": "align-right",     "nativeName": "align-right",            "availableStyles": ["solid", "regular"] }
+    {
+      "canonicalName": "search",
+      "nativeName": "magnifying-glass",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "close", "nativeName": "xmark", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "check", "nativeName": "check", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "plus", "nativeName": "plus", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "minus", "nativeName": "minus", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "warning",
+      "nativeName": "triangle-exclamation",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "error",
+      "nativeName": "circle-xmark",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "info",
+      "nativeName": "circle-info",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "user", "nativeName": "user", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "users", "nativeName": "users", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "settings", "nativeName": "gear", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "calendar",
+      "nativeName": "calendar",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "edit",
+      "nativeName": "pen-to-square",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "delete", "nativeName": "trash", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "download",
+      "nativeName": "download",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "upload", "nativeName": "upload", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "copy", "nativeName": "copy", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "paste", "nativeName": "paste", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "refresh",
+      "nativeName": "rotate-right",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "home", "nativeName": "house", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "menu", "nativeName": "bars", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "arrow-left",
+      "nativeName": "arrow-left",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "arrow-right",
+      "nativeName": "arrow-right",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "arrow-up",
+      "nativeName": "arrow-up",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "arrow-down",
+      "nativeName": "arrow-down",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "chevron-left",
+      "nativeName": "chevron-left",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "chevron-right",
+      "nativeName": "chevron-right",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "chevron-up",
+      "nativeName": "chevron-up",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "chevron-down",
+      "nativeName": "chevron-down",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "star", "nativeName": "star", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "heart", "nativeName": "heart", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "bookmark",
+      "nativeName": "bookmark",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "share",
+      "nativeName": "share-nodes",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "link", "nativeName": "link", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "external-link",
+      "nativeName": "arrow-up-right-from-square",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "mail", "nativeName": "envelope", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "phone", "nativeName": "phone", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "chat", "nativeName": "message", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "notification",
+      "nativeName": "bell",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "bell", "nativeName": "bell", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "filter", "nativeName": "filter", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "sort", "nativeName": "sort", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "grid", "nativeName": "grip", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "list", "nativeName": "list", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "image", "nativeName": "image", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "file", "nativeName": "file", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "folder", "nativeName": "folder", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "lock", "nativeName": "lock", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "unlock",
+      "nativeName": "lock-open",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "eye", "nativeName": "eye", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "eye-off",
+      "nativeName": "eye-slash",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "cart",
+      "nativeName": "cart-shopping",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "payment",
+      "nativeName": "credit-card",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "globe", "nativeName": "globe", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "location",
+      "nativeName": "location-dot",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "map", "nativeName": "map", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "time", "nativeName": "clock", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "send",
+      "nativeName": "paper-plane",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "logout",
+      "nativeName": "right-from-bracket",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "login",
+      "nativeName": "right-to-bracket",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "dashboard",
+      "nativeName": "gauge",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "analytics",
+      "nativeName": "chart-bar",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "help",
+      "nativeName": "circle-question",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "code", "nativeName": "code", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "key", "nativeName": "key", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "tag", "nativeName": "tag", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "more-horizontal",
+      "nativeName": "ellipsis",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "more-vertical",
+      "nativeName": "ellipsis-vertical",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "zoom-in",
+      "nativeName": "magnifying-glass-plus",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "zoom-out",
+      "nativeName": "magnifying-glass-minus",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "drag",
+      "nativeName": "grip-vertical",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "check-circle",
+      "nativeName": "circle-check",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "error-circle",
+      "nativeName": "circle-xmark",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "warning-circle",
+      "nativeName": "circle-exclamation",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "info-circle",
+      "nativeName": "circle-info",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "spinner",
+      "nativeName": "spinner",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "sun", "nativeName": "sun", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "moon", "nativeName": "moon", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "maximize",
+      "nativeName": "maximize",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "minimize",
+      "nativeName": "minimize",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "save",
+      "nativeName": "floppy-disk",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "print", "nativeName": "print", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "database",
+      "nativeName": "database",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "api", "nativeName": "plug", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "webhook", "nativeName": "rss", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "table", "nativeName": "table", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "columns",
+      "nativeName": "table-columns",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "layers",
+      "nativeName": "layer-group",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "package", "nativeName": "box", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "plugin",
+      "nativeName": "puzzle-piece",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "terminal",
+      "nativeName": "terminal",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "bug", "nativeName": "bug", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "flag", "nativeName": "flag", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "archive",
+      "nativeName": "box-archive",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "check-all",
+      "nativeName": "check-double",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "sliders",
+      "nativeName": "sliders",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "palette",
+      "nativeName": "palette",
+      "availableStyles": ["solid", "regular"]
+    },
+    { "canonicalName": "text", "nativeName": "font", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "bold", "nativeName": "bold", "availableStyles": ["solid", "regular"] },
+    { "canonicalName": "italic", "nativeName": "italic", "availableStyles": ["solid", "regular"] },
+    {
+      "canonicalName": "align-left",
+      "nativeName": "align-left",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "align-center",
+      "nativeName": "align-center",
+      "availableStyles": ["solid", "regular"]
+    },
+    {
+      "canonicalName": "align-right",
+      "nativeName": "align-right",
+      "availableStyles": ["solid", "regular"]
+    }
   ]
 }

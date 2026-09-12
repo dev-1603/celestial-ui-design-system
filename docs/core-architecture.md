@@ -4,11 +4,11 @@
 
 ## Core defines WHAT — not HOW
 
-| Layer | Responsibility |
-|---|---|
-| **Core** | What a component *is*: contracts, specs, behavior semantics, accessibility, interaction |
-| **Framework adapter** | How framework mechanics map to Core contracts |
-| **Component library** | How the framework *renders* the component |
+| Layer                 | Responsibility                                                                          |
+| --------------------- | --------------------------------------------------------------------------------------- |
+| **Core**              | What a component _is_: contracts, specs, behavior semantics, accessibility, interaction |
+| **Framework adapter** | How framework mechanics map to Core contracts                                           |
+| **Component library** | How the framework _renders_ the component                                               |
 
 Core must **never** import React, Vue, Svelte, Angular, CSS engines, token catalogs, icon catalogs, or i18n runtimes.
 

@@ -10,9 +10,7 @@ export function isValidComponentId(id: string): id is ComponentId {
 
 export function assertComponentId(id: string): ComponentId {
   if (!isValidComponentId(id)) {
-    throw new Error(
-      `Invalid component id "${id}": must be kebab-case starting with a letter.`,
-    );
+    throw new Error(`Invalid component id "${id}": must be kebab-case starting with a letter.`);
   }
   return id as ComponentId;
 }

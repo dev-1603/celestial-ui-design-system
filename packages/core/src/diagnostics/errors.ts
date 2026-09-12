@@ -75,19 +75,11 @@ export class CoreRuntimeError extends Error {
   readonly code: CoreErrorCode;
   readonly errors: readonly CoreError[];
 
-  constructor(
-    code: CoreErrorCode,
-    message: string,
-    errors?: CoreError | readonly CoreError[],
-  ) {
+  constructor(code: CoreErrorCode, message: string, errors?: CoreError | readonly CoreError[]) {
     super(message);
     this.name = 'CoreRuntimeError';
     this.code = code;
-    this.errors = errors
-      ? Array.isArray(errors)
-        ? errors
-        : [errors]
-      : [coreError(code, message)];
+    this.errors = errors ? (Array.isArray(errors) ? errors : [errors]) : [coreError(code, message)];
   }
 }
 

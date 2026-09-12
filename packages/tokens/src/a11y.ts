@@ -10,14 +10,17 @@ export function parseColorToRGBA(color: string): [number, number, number, number
   if (color.startsWith('#')) {
     let c = color.replace('#', '');
     if (c.length === 3 || c.length === 4) {
-      c = c.split('').map((char) => char + char).join('');
+      c = c
+        .split('')
+        .map((char) => char + char)
+        .join('');
     }
     if (c.length === 6) {
       return [
         parseInt(c.slice(0, 2), 16),
         parseInt(c.slice(2, 4), 16),
         parseInt(c.slice(4, 6), 16),
-        1 // Default alpha
+        1, // Default alpha
       ];
     }
     if (c.length === 8) {
@@ -25,7 +28,7 @@ export function parseColorToRGBA(color: string): [number, number, number, number
         parseInt(c.slice(0, 2), 16),
         parseInt(c.slice(2, 4), 16),
         parseInt(c.slice(4, 6), 16),
-        parseInt(c.slice(6, 8), 16) / 255
+        parseInt(c.slice(6, 8), 16) / 255,
       ];
     }
     throw new Error(`Invalid hex color: ${color}`);
@@ -39,7 +42,7 @@ export function parseColorToRGBA(color: string): [number, number, number, number
       parseInt(match[1], 10),
       parseInt(match[2], 10),
       parseInt(match[3], 10),
-      match[4] ? parseFloat(match[4]) : 1
+      match[4] ? parseFloat(match[4]) : 1,
     ];
   }
 
@@ -55,7 +58,10 @@ export function parseColorToRGBA(color: string): [number, number, number, number
 /**
  * Composite a foreground color with alpha over an opaque background color.
  */
-export function compositeColors(fgRGBA: [number, number, number, number], bgRGBA: [number, number, number, number]): [number, number, number] {
+export function compositeColors(
+  fgRGBA: [number, number, number, number],
+  bgRGBA: [number, number, number, number],
+): [number, number, number] {
   const [fR, fG, fB, fA] = fgRGBA;
   const [bR, bG, bB] = bgRGBA; // Assume background is opaque for this calculation
 
@@ -70,7 +76,7 @@ export function compositeColors(fgRGBA: [number, number, number, number], bgRGBA
 }
 
 export function getLuminance(r: number, g: number, b: number): number {
-  const [R, G, B] = [r, g, b].map(c => {
+  const [R, G, B] = [r, g, b].map((c) => {
     c = c / 255;
     return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
   });
@@ -81,13 +87,19 @@ export function getContrastRatio(color1: string, color2: string): number {
   const rgba1 = parseColorToRGBA(color1);
   const rgba2 = parseColorToRGBA(color2);
 
-  // If either has alpha, we assume they are composited over white for worst-case, 
-  // or we composite them if one is explicitly the background. 
+  // If either has alpha, we assume they are composited over white for worst-case,
+  // or we composite them if one is explicitly the background.
   // For basic AA validation, we composite the foreground (color1) over the background (color2).
   // If background has alpha, we composite it over white.
 
-  const bg = rgba2[3] < 1 ? compositeColors(rgba2, [255, 255, 255, 1]) : [rgba2[0], rgba2[1], rgba2[2]] as [number, number, number];
-  const fg = rgba1[3] < 1 ? compositeColors(rgba1, [bg[0], bg[1], bg[2], 1]) : [rgba1[0], rgba1[1], rgba1[2]] as [number, number, number];
+  const bg =
+    rgba2[3] < 1
+      ? compositeColors(rgba2, [255, 255, 255, 1])
+      : ([rgba2[0], rgba2[1], rgba2[2]] as [number, number, number]);
+  const fg =
+    rgba1[3] < 1
+      ? compositeColors(rgba1, [bg[0], bg[1], bg[2], 1])
+      : ([rgba1[0], rgba1[1], rgba1[2]] as [number, number, number]);
 
   const l1 = getLuminance(fg[0], fg[1], fg[2]);
   const l2 = getLuminance(bg[0], bg[1], bg[2]);

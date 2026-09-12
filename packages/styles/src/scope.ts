@@ -78,10 +78,7 @@ export function getThemeAttributes(state: ThemeDomState): Record<string, string>
   return attrs;
 }
 
-export function applyThemeAttributes(
-  target: Element,
-  state: ThemeDomState,
-): { remove(): void } {
+export function applyThemeAttributes(target: Element, state: ThemeDomState): { remove(): void } {
   const attrs = getThemeAttributes(state);
   const previous: Record<string, string | null> = {};
 

@@ -3,10 +3,7 @@ import { resolvePolymorphicTag, filterPropsForTag } from '../polymorphism/polymo
 
 describe('polymorphism', () => {
   it('resolves as prop to allowed tag', () => {
-    const tag = resolvePolymorphicTag(
-      { nativeTag: 'button', allowedAs: ['button', 'a'] },
-      'a',
-    );
+    const tag = resolvePolymorphicTag({ nativeTag: 'button', allowedAs: ['button', 'a'] }, 'a');
     expect(tag).toBe('a');
   });
 

@@ -1,8 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  validateCanonicalCatalogue,
-  validateProviderCatalogue,
-} from './validate';
+import { validateCanonicalCatalogue, validateProviderCatalogue } from './validate';
 
 describe('[Unit] validateCanonicalCatalogue', () => {
   it('should pass for a valid catalogue', () => {
@@ -44,7 +41,7 @@ describe('[Unit] validateCanonicalCatalogue', () => {
       entries: [{ name: 'search' }, { name: 'search' }],
     });
     expect(result.isValid).toBe(false);
-    expect(result.errors.some((e) => e.includes("search"))).toBe(true);
+    expect(result.errors.some((e) => e.includes('search'))).toBe(true);
   });
 
   it('should warn on non-matching schemaVersion', () => {
@@ -84,9 +81,7 @@ describe('[Unit] validateProviderCatalogue', () => {
       providerVersion: '0.460.0',
       catalogueSchemaVersion: '1.0.0',
       generatedAt: '2026-01-01',
-      entries: [
-        { canonicalName: 'search', nativeName: 'Search' },
-      ],
+      entries: [{ canonicalName: 'search', nativeName: 'Search' }],
     });
     expect(result.isValid).toBe(true);
     expect(result.errors.length).toBe(0);

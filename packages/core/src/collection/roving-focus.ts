@@ -11,9 +11,7 @@ export interface RovingFocusController {
   destroy(): void;
 }
 
-export function createRovingFocus(
-  collection: CollectionController,
-): RovingFocusController {
+export function createRovingFocus(collection: CollectionController): RovingFocusController {
   return {
     getSnapshot() {
       return { activeId: collection.getSnapshot().activeId };

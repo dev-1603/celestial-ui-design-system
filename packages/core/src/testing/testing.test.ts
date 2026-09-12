@@ -1,9 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  assertSpecValid,
-  createContractHarness,
-  assertKeyboardIntent,
-} from '../testing/index';
+import { assertSpecValid, createContractHarness, assertKeyboardIntent } from '../testing/index';
 import { defineComponentSpec } from '../spec/spec';
 import { CONTRACT_SCHEMA_VERSION } from '../version';
 

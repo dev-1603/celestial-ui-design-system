@@ -359,12 +359,7 @@
     "easing": {
       "linear": {
         "$type": "cubicBezier",
-        "$value": [
-          0,
-          0,
-          1,
-          1
-        ],
+        "$value": [0, 0, 1, 1],
         "$extensions": {
           "celestial": {
             "layer": "foundation"
@@ -373,12 +368,7 @@
       },
       "standard": {
         "$type": "cubicBezier",
-        "$value": [
-          0.4,
-          0.0,
-          0.2,
-          1
-        ],
+        "$value": [0.4, 0.0, 0.2, 1],
         "$extensions": {
           "celestial": {
             "layer": "foundation"
@@ -387,12 +377,7 @@
       },
       "emphasized": {
         "$type": "cubicBezier",
-        "$value": [
-          0.2,
-          0.0,
-          0.0,
-          1.0
-        ],
+        "$value": [0.2, 0.0, 0.0, 1.0],
         "$extensions": {
           "celestial": {
             "layer": "foundation"
@@ -401,12 +386,7 @@
       },
       "enter": {
         "$type": "cubicBezier",
-        "$value": [
-          0.0,
-          0.0,
-          0.2,
-          1
-        ],
+        "$value": [0.0, 0.0, 0.2, 1],
         "$extensions": {
           "celestial": {
             "layer": "foundation"
@@ -415,12 +395,7 @@
       },
       "exit": {
         "$type": "cubicBezier",
-        "$value": [
-          0.4,
-          0.0,
-          1,
-          1
-        ],
+        "$value": [0.4, 0.0, 1, 1],
         "$extensions": {
           "celestial": {
             "layer": "foundation"

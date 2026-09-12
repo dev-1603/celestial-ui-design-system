@@ -1,13 +1,6 @@
 import { coreWarn, coreError } from '../diagnostics/errors';
 
-const FORBIDDEN_FORWARD = new Set([
-  'as',
-  'children',
-  'spec',
-  'contract',
-  'controller',
-  'runtime',
-]);
+const FORBIDDEN_FORWARD = new Set(['as', 'children', 'spec', 'contract', 'controller', 'runtime']);
 
 export interface ForwardedPropsInput {
   readonly componentProps?: Record<string, unknown>;
@@ -16,9 +9,7 @@ export interface ForwardedPropsInput {
   readonly generatedState?: Record<string, unknown>;
 }
 
-export function mergeForwardedProps(
-  input: ForwardedPropsInput,
-): Record<string, unknown> {
+export function mergeForwardedProps(input: ForwardedPropsInput): Record<string, unknown> {
   const result: Record<string, unknown> = {};
 
   function merge(source: Record<string, unknown> | undefined, priority: number): void {

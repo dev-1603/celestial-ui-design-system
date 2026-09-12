@@ -1,10 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import {
-  createThemeRegistry,
-  resolveTheme,
-  CELESTIAL_THEME,
-} from '@celestial-ui/theme';
+import { createThemeRegistry, resolveTheme, CELESTIAL_THEME } from '@celestial-ui/theme';
 import { compileThemeSet } from '../compiler';
 import { generateBaseCss } from '../base';
 import { generateTailwindBridge } from '../tailwind';

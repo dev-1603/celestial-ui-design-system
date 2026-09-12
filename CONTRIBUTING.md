@@ -12,6 +12,7 @@ We follow a structured branching model to maintain stability:
 - **`feat/*`, `fix/*`, `refactor/*`, `docs/*`, `chore/*`**: Short-lived topic branches for all ongoing work.
 
 ### Branch Rules
+
 - `feat/*` → `develop`
 - `fix/*` → `develop`
 - `refactor/*` → `develop`
@@ -33,6 +34,7 @@ We follow a structured branching model to maintain stability:
 ## 3. Required Validation
 
 Our CI enforces a rigorous validation matrix. Before merging, your branch must pass:
+
 - Installation, Formatting, Linting, Typecheck
 - Unit Tests
 - Package Build
@@ -46,7 +48,9 @@ Public package changes require an appropriate Changeset to trigger the release p
 Run `pnpm changeset` and commit the generated Markdown file along with your PR.
 
 ### Exceptions
+
 Changesets are **not** required for:
+
 - Documentation-only changes
 - CI-only changes
 - Repository tooling-only changes
@@ -62,6 +66,7 @@ Changesets are **not** required for:
 ## 6. Hotfix Workflow
 
 If a critical fix is needed for a published release:
+
 1. Create a `fix/*` branch.
 2. Fix the issue.
 3. Follow the rollback/patch policy (do not unpublish broken versions; release a new patch).

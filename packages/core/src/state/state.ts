@@ -76,10 +76,7 @@ export function addState(
   };
 }
 
-export function removeState(
-  snapshot: StateSetSnapshot,
-  state: ComponentState,
-): StateSetSnapshot {
+export function removeState(snapshot: StateSetSnapshot, state: ComponentState): StateSetSnapshot {
   const states = new Set(snapshot.states);
   states.delete(state);
   return { states, payloads: snapshot.payloads };
@@ -102,9 +99,7 @@ export interface DomStateAttributes {
   disabled?: boolean;
 }
 
-export function statesToDomAttributes(
-  snapshot: StateSetSnapshot,
-): DomStateAttributes {
+export function statesToDomAttributes(snapshot: StateSetSnapshot): DomStateAttributes {
   const attrs: DomStateAttributes = {};
   const serialized = serializeStates(snapshot.states);
   if (serialized) {

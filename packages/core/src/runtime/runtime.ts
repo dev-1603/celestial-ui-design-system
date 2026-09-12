@@ -12,9 +12,7 @@ import type {
 
 let defaultRuntime: CelestialRuntime | null = null;
 
-export function createCelestialRuntime(
-  options: CreateRuntimeOptions = {},
-): CelestialRuntime {
+export function createCelestialRuntime(options: CreateRuntimeOptions = {}): CelestialRuntime {
   const services = new Map<string, unknown>();
   const installedPlugins: string[] = [];
   const disposers: Array<() => void> = [];
@@ -73,11 +71,9 @@ export function createCelestialRuntime(
       throw new CoreRuntimeError(
         'PLUGIN_INSTALL_FAILED',
         `Plugin "${plugin.id}" failed to install.`,
-        coreError(
-          'PLUGIN_INSTALL_FAILED',
-          err instanceof Error ? err.message : String(err),
-          { layer: 'plugin' },
-        ),
+        coreError('PLUGIN_INSTALL_FAILED', err instanceof Error ? err.message : String(err), {
+          layer: 'plugin',
+        }),
       );
     }
   }

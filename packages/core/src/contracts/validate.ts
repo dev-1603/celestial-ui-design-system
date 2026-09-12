@@ -102,9 +102,7 @@ export interface ContractValidationReport {
   readonly errors: readonly CoreError[];
 }
 
-export function validateComponentContract(
-  contract: unknown,
-): ContractValidationReport {
+export function validateComponentContract(contract: unknown): ContractValidationReport {
   const errors: CoreError[] = [];
 
   if (!isPlainObject(contract)) {
@@ -152,10 +150,14 @@ export function validateComponentContract(
     );
   } else if (!isSchemaCompatible(schemaVersion, CONTRACT_SCHEMA_VERSION)) {
     errors.push(
-      coreError('SCHEMA_INCOMPATIBLE', `Schema ${schemaVersion} is incompatible with ${CONTRACT_SCHEMA_VERSION}.`, {
-        layer: 'contract',
-        componentId: typeof id === 'string' ? id : undefined,
-      }),
+      coreError(
+        'SCHEMA_INCOMPATIBLE',
+        `Schema ${schemaVersion} is incompatible with ${CONTRACT_SCHEMA_VERSION}.`,
+        {
+          layer: 'contract',
+          componentId: typeof id === 'string' ? id : undefined,
+        },
+      ),
     );
   }
 
@@ -205,18 +207,26 @@ export function validateComponentContract(
       const hasProp = Object.values(props).some((p) => p?.name === propName) || propName in props;
       if (!hasProp) {
         errors.push(
-          coreError('INVALID_CONTRACT', `Controlled prop "${propName}" not found in props contract.`, {
-            layer: 'contract',
-            componentId: typeof id === 'string' ? id : undefined,
-          }),
+          coreError(
+            'INVALID_CONTRACT',
+            `Controlled prop "${propName}" not found in props contract.`,
+            {
+              layer: 'contract',
+              componentId: typeof id === 'string' ? id : undefined,
+            },
+          ),
         );
       }
       if (!(field.event in events)) {
         errors.push(
-          coreError('INVALID_CONTRACT', `Controlled event "${field.event}" not found in events contract.`, {
-            layer: 'contract',
-            componentId: typeof id === 'string' ? id : undefined,
-          }),
+          coreError(
+            'INVALID_CONTRACT',
+            `Controlled event "${field.event}" not found in events contract.`,
+            {
+              layer: 'contract',
+              componentId: typeof id === 'string' ? id : undefined,
+            },
+          ),
         );
       }
     }

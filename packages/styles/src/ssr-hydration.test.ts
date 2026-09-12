@@ -10,19 +10,18 @@ import { adoptHydratedStyle } from './runtime';
 import { resolveCelestialLight, resolveCelestialDark } from './test/fixtures';
 
 function stubMatchMedia(matchesDark: boolean): void {
-  window.matchMedia = ((query: string) =>
-    ({
-      matches: query.includes('prefers-color-scheme: dark') ? matchesDark : false,
-      media: query,
-      onchange: null,
-      addListener() {},
-      removeListener() {},
-      addEventListener() {},
-      removeEventListener() {},
-      dispatchEvent() {
-        return false;
-      },
-    })) as typeof window.matchMedia;
+  window.matchMedia = ((query: string) => ({
+    matches: query.includes('prefers-color-scheme: dark') ? matchesDark : false,
+    media: query,
+    onchange: null,
+    addListener() {},
+    removeListener() {},
+    addEventListener() {},
+    removeEventListener() {},
+    dispatchEvent() {
+      return false;
+    },
+  })) as typeof window.matchMedia;
 }
 
 describe('ssr hydration matrix', () => {

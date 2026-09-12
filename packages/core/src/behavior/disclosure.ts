@@ -10,11 +10,7 @@ export interface DisclosureSnapshot {
 export interface DisclosureOptions {
   open?: boolean;
   defaultOpen?: boolean;
-  onOpenChange?: (
-    open: boolean,
-    previousOpen: boolean,
-    reason: OpenChangeReason,
-  ) => void;
+  onOpenChange?: (open: boolean, previousOpen: boolean, reason: OpenChangeReason) => void;
 }
 
 export interface DisclosureController {
@@ -36,10 +32,7 @@ export function createDisclosure(options: DisclosureOptions = {}): DisclosureCon
     },
   });
 
-  function attemptChange(
-    next: boolean,
-    reason: OpenChangeReason,
-  ): boolean {
+  function attemptChange(next: boolean, reason: OpenChangeReason): boolean {
     const snapshot = controllable.getSnapshot();
     if (snapshot.value === next) return true;
     const event = createCancellableEvent();

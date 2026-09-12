@@ -16,10 +16,7 @@ export function isValidSizeValue(contract: SizeContract, value: string): boolean
   return contract.sizes.includes(value);
 }
 
-export function resolveSizeValue(
-  contract: SizeContract,
-  value: string | undefined,
-): string {
+export function resolveSizeValue(contract: SizeContract, value: string | undefined): string {
   if (value !== undefined && isValidSizeValue(contract, value)) {
     return value;
   }

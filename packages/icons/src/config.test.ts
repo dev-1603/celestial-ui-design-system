@@ -44,9 +44,9 @@ describe('[Unit] configureCelestialIcons', () => {
   });
 
   it('should throw on invalid fallback provider id', () => {
-    expect(() =>
-      configureCelestialIcons({ provider: 'lucide', fallback: ['bad!id'] }),
-    ).toThrow(IconResolutionError);
+    expect(() => configureCelestialIcons({ provider: 'lucide', fallback: ['bad!id'] })).toThrow(
+      IconResolutionError,
+    );
   });
 
   it('should throw on invalid explicitProviderPolicy', () => {

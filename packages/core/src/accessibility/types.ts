@@ -1,9 +1,7 @@
-export type AccessibleNameSource =
-  | 'prop:ariaLabel'
-  | 'slot:label'
-  | 'contents';
+export type AccessibleNameSource = 'prop:ariaLabel' | 'slot:label' | 'contents';
 
-export type AriaRelationship = 'controls' | 'owns' | 'activedescendant' | 'labelledby' | 'describedby';
+export type AriaRelationship =
+  'controls' | 'owns' | 'activedescendant' | 'labelledby' | 'describedby';
 
 export interface KeyboardSpec {
   readonly keys: readonly string[];

@@ -70,9 +70,7 @@ export function createCollection(): CollectionController {
     getNextActiveId(direction, wrap = false) {
       const enabled = getEnabledItems();
       if (enabled.length === 0) return null;
-      const currentIdx = activeId
-        ? enabled.findIndex((i) => i.id === activeId)
-        : -1;
+      const currentIdx = activeId ? enabled.findIndex((i) => i.id === activeId) : -1;
       let nextIdx: number;
       if (currentIdx === -1) {
         nextIdx = direction === 'next' ? 0 : enabled.length - 1;

@@ -37,18 +37,18 @@ The following Core surfaces are **architecturally finalized**:
 
 ### Public exports
 
-| Subpath | Purpose |
-|---|---|
-| `.` | Convenience barrel (prefer subpaths for tree-shaking) |
-| `./contracts` | Contract/spec types and validators |
-| `./behavior` | Behavior controllers |
-| `./accessibility` | ARIA helpers, focus manager |
-| `./collection` | Collection/selection controllers |
-| `./overlay` | Overlay controller |
-| `./runtime` | Celestial runtime |
-| `./catalog` | Catalog metadata API (103 components) |
-| `./specs/*` | Individual component specs (103 granular subpaths) |
-| `./testing` | Conformance harness |
+| Subpath           | Purpose                                               |
+| ----------------- | ----------------------------------------------------- |
+| `.`               | Convenience barrel (prefer subpaths for tree-shaking) |
+| `./contracts`     | Contract/spec types and validators                    |
+| `./behavior`      | Behavior controllers                                  |
+| `./accessibility` | ARIA helpers, focus manager                           |
+| `./collection`    | Collection/selection controllers                      |
+| `./overlay`       | Overlay controller                                    |
+| `./runtime`       | Celestial runtime                                     |
+| `./catalog`       | Catalog metadata API (103 components)                 |
+| `./specs/*`       | Individual component specs (103 granular subpaths)    |
+| `./testing`       | Conformance harness                                   |
 
 ## Allowed changes without architecture review
 
@@ -85,11 +85,11 @@ Before starting `@celestial-ui/react`, `@celestial-ui/vue`, or `@celestial-ui/sv
 
 ## Documented future work (not blockers)
 
-| Item | Severity | Notes |
-|---|---|---|
-| ESM dual-publish | P2 | Improves tree-shaking; CJS retained in 0.1.x |
-| Framework-specific conformance runners | P2 | Live in framework packages |
-| Root barrel minimization | P3 | Prefer subpath imports |
+| Item                                   | Severity | Notes                                        |
+| -------------------------------------- | -------- | -------------------------------------------- |
+| ESM dual-publish                       | P2       | Improves tree-shaking; CJS retained in 0.1.x |
+| Framework-specific conformance runners | P2       | Live in framework packages                   |
+| Root barrel minimization               | P3       | Prefer subpath imports                       |
 
 ## Lock checklist
 

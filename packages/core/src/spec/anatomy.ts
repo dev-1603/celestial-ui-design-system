@@ -8,11 +8,7 @@ export interface AnatomyValidationReport {
   readonly errors: readonly CoreError[];
 }
 
-function validateUniqueNames(
-  names: readonly string[],
-  label: string,
-  errors: CoreError[],
-): void {
+function validateUniqueNames(names: readonly string[], label: string, errors: CoreError[]): void {
   const seen = new Set<string>();
   for (const name of names) {
     if (seen.has(name)) {
@@ -44,11 +40,9 @@ export function validateAnatomy(input: {
     for (const [key, part] of Object.entries(input.parts.parts)) {
       if (key !== part.name) {
         errors.push(
-          coreError(
-            'INVALID_CONTRACT',
-            `Part key "${key}" must match part.name "${part.name}".`,
-            { layer: 'contract' },
-          ),
+          coreError('INVALID_CONTRACT', `Part key "${key}" must match part.name "${part.name}".`, {
+            layer: 'contract',
+          }),
         );
       }
     }
@@ -64,11 +58,9 @@ export function validateAnatomy(input: {
     for (const [key, slot] of Object.entries(input.slots.slots)) {
       if (key !== slot.name) {
         errors.push(
-          coreError(
-            'INVALID_CONTRACT',
-            `Slot key "${key}" must match slot.name "${slot.name}".`,
-            { layer: 'contract' },
-          ),
+          coreError('INVALID_CONTRACT', `Slot key "${key}" must match slot.name "${slot.name}".`, {
+            layer: 'contract',
+          }),
         );
       }
     }

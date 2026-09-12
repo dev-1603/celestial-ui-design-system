@@ -1,8 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  buildTokenConfigForMode,
-  getCanonicalTokenSources,
-} from './catalog';
+import { buildTokenConfigForMode, getCanonicalTokenSources } from './catalog';
 import { validateTokens } from './validation';
 
 describe('Canonical token catalog', () => {

@@ -46,10 +46,7 @@ export const dialogSpec = defineComponentSpec({
       bindings: [{ keys: ['Escape'], intent: 'dismiss' }],
     },
     pointer: {
-      interactions: [
-        { action: 'click' },
-        { action: 'press', suppressWhenDisabled: true },
-      ],
+      interactions: [{ action: 'click' }, { action: 'press', suppressWhenDisabled: true }],
     },
     focus: {
       trap: true,

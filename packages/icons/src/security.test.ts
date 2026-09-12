@@ -32,7 +32,10 @@ function makeSafeAdapter(id: string): IconProviderAdapter {
     },
     resolveNativeName: () => 'SafeSearch',
     canSatisfyVariant: (_v: Readonly<IconVariantRequest>) => true,
-    resolve: (_name: string, _v: Readonly<IconVariantRequest> | undefined): NormalizedIconPayload => ({
+    resolve: (
+      _name: string,
+      _v: Readonly<IconVariantRequest> | undefined,
+    ): NormalizedIconPayload => ({
       kind: 'svg-string',
       data: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/></svg>',
       nativeName: 'SafeSearch',
@@ -64,9 +67,7 @@ describe('[Security] resolveIcon', () => {
     registry.register(makeSafeAdapter('test'));
     const canonical = new CanonicalRegistry(TEST_CANONICAL);
 
-    expect(() =>
-      resolveIcon({ name: 'search icon' }, config, registry, canonical),
-    ).toThrow();
+    expect(() => resolveIcon({ name: 'search icon' }, config, registry, canonical)).toThrow();
   });
 
   it('should reject icon names with angle brackets', () => {
@@ -74,9 +75,7 @@ describe('[Security] resolveIcon', () => {
     registry.register(makeSafeAdapter('test'));
     const canonical = new CanonicalRegistry(TEST_CANONICAL);
 
-    expect(() =>
-      resolveIcon({ name: '<bad>' }, config, registry, canonical),
-    ).toThrow();
+    expect(() => resolveIcon({ name: '<bad>' }, config, registry, canonical)).toThrow();
   });
 
   it('should reject provider ids with special characters', () => {
@@ -95,7 +94,10 @@ describe('[Security] resolveIcon', () => {
     const maliciousAdapter: IconProviderAdapter = {
       ...makeSafeAdapter('malicious'),
       id: 'malicious',
-      resolve: (_name: string, _v: Readonly<IconVariantRequest> | undefined): NormalizedIconPayload => {
+      resolve: (
+        _name: string,
+        _v: Readonly<IconVariantRequest> | undefined,
+      ): NormalizedIconPayload => {
         executed = false; // adapter resolve is called, but data is opaque to core
         return {
           kind: 'svg-string',
@@ -128,9 +130,7 @@ describe('[Security] resolveIcon', () => {
     const registry = new IconProviderRegistry();
     const canonical = new CanonicalRegistry(TEST_CANONICAL);
 
-    expect(() =>
-      registry.register({ ...makeSafeAdapter(''), id: '' }),
-    ).toThrow(); // empty id rejected at registration
+    expect(() => registry.register({ ...makeSafeAdapter(''), id: '' })).toThrow(); // empty id rejected at registration
 
     expect(() =>
       registry.register({ ...makeSafeAdapter('../../etc/passwd'), id: '../../etc/passwd' }),

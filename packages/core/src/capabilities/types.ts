@@ -64,9 +64,7 @@ export const ALL_COMPONENT_CAPABILITIES: readonly ComponentCapability[] = [
 ] as const;
 
 /** Maps capability flags to expected contract keys on ComponentContract. */
-export const CAPABILITY_CONTRACT_KEYS: Readonly<
-  Record<ComponentCapability, readonly string[]>
-> = {
+export const CAPABILITY_CONTRACT_KEYS: Readonly<Record<ComponentCapability, readonly string[]>> = {
   identity: ['id', 'version', 'schemaVersion'],
   props: ['props'],
   defaults: [],

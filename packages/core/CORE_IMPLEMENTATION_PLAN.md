@@ -3,43 +3,43 @@ name: Core V1 Implementation
 overview: A production-grade, framework-agnostic plan for `@celestial-ui/core` that reuses frozen Celestial conventions (errors, versioning, `data-cui-*`, instance-based SSR, capability exports) without depending on tokens/theme/styles/icons at runtime, and without React/Vue rendering.
 todos:
   - id: phase-0-scaffold
-    content: "Phase 0: packages/core scaffold (package.json, tsc CJS, vitest, versions, framework-agnostic gate, plan markdown) — after plan approval"
+    content: 'Phase 0: packages/core scaffold (package.json, tsc CJS, vitest, versions, framework-agnostic gate, plan markdown) — after plan approval'
     status: pending
   - id: phase-1-env
-    content: "Phase 1: diagnostics, ids, environment, directionality, data-cui naming"
+    content: 'Phase 1: diagnostics, ids, environment, directionality, data-cui naming'
     status: pending
   - id: phase-2-spec
-    content: "Phase 2: ComponentContract + ComponentSpec define/validate/freeze/serialize"
+    content: 'Phase 2: ComponentContract + ComponentSpec define/validate/freeze/serialize'
     status: pending
   - id: phase-3-state
-    content: "Phase 3: state model, events, props, slots/parts"
+    content: 'Phase 3: state model, events, props, slots/parts'
     status: pending
   - id: phase-4-behavior
-    content: "Phase 4: controllable state, disclosure, activation/dismissal"
+    content: 'Phase 4: controllable state, disclosure, activation/dismissal'
     status: pending
   - id: phase-5-collection
-    content: "Phase 5: collection, selection, roving focus, typeahead, keyboard maps"
+    content: 'Phase 5: collection, selection, roving focus, typeahead, keyboard maps'
     status: pending
   - id: phase-6-a11y
-    content: "Phase 6: accessibility maps and focus manager algorithms"
+    content: 'Phase 6: accessibility maps and focus manager algorithms'
     status: pending
   - id: phase-7-forms
-    content: "Phase 7: form-field contract (no validation engine)"
+    content: 'Phase 7: form-field contract (no validation engine)'
     status: pending
   - id: phase-8-overlay
-    content: "Phase 8: overlay controller and nested stack"
+    content: 'Phase 8: overlay controller and nested stack'
     status: pending
   - id: phase-9-runtime
-    content: "Phase 9: CelestialRuntime and plugin system"
+    content: 'Phase 9: CelestialRuntime and plugin system'
     status: pending
   - id: phase-10-poly
-    content: "Phase 10: as-polymorphism, prop forwarding, ref contract"
+    content: 'Phase 10: as-polymorphism, prop forwarding, ref contract'
     status: pending
   - id: phase-11-l10n
-    content: "Phase 11: localization keys contract"
+    content: 'Phase 11: localization keys contract'
     status: pending
   - id: phase-12-testing-docs
-    content: "Phase 12: @celestial-ui/core/testing, golden export tests, README"
+    content: 'Phase 12: @celestial-ui/core/testing, golden export tests, README'
     status: pending
 isProject: false
 ---
@@ -349,7 +349,7 @@ interface ComponentMetadata {
   displayName: string; // not used as a11y name
   description?: string; // docs only; not runtime a11y
   tags?: string[];
-  status: "stable" | "preview" | "deprecated";
+  status: 'stable' | 'preview' | 'deprecated';
   owner?: string; // 'celestial' | tenant/app id string
 }
 
@@ -383,12 +383,12 @@ interface PropDefinition {
   default?: unknown;
   controlled?: boolean;
   description?: string; // docs
-  mapsTo?: "state" | "variant" | "native" | "aria" | "slot" | "event";
+  mapsTo?: 'state' | 'variant' | 'native' | 'aria' | 'slot' | 'event';
 }
 
 interface PropsContract {
   props: Record<string, PropDefinition>;
-  nativePassthrough?: "none" | "root" | "control";
+  nativePassthrough?: 'none' | 'root' | 'control';
 }
 ```
 
@@ -590,9 +590,7 @@ interface CelestialRuntime {
   destroy(): void;
 }
 
-function createCelestialRuntime(
-  options?: CreateRuntimeOptions,
-): CelestialRuntime;
+function createCelestialRuntime(options?: CreateRuntimeOptions): CelestialRuntime;
 ```
 
 - **No process-wide default for SSR.** Optional `getDefaultRuntime()` for CSR only, documented as unsafe for multi-tenant SSR (icons lesson)

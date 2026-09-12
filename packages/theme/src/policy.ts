@@ -52,9 +52,7 @@ export function getEffectivePolicy(tokenPath: string, token: Token): OverridePol
 export function canThemeOverride(tokenPath: string, token: Token): boolean {
   const policy = getEffectivePolicy(tokenPath, token);
   return (
-    policy === 'themeable' ||
-    policy === 'tenantOverridable' ||
-    policy === 'componentOverridable'
+    policy === 'themeable' || policy === 'tenantOverridable' || policy === 'componentOverridable'
   );
 }
 

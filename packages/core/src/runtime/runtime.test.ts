@@ -13,9 +13,7 @@ describe('plugins', () => {
       version: '1.0.0',
       install() {},
     };
-    expect(() =>
-      createCelestialRuntime({ plugins: [plugin, plugin] }),
-    ).toThrow(CoreRuntimeError);
+    expect(() => createCelestialRuntime({ plugins: [plugin, plugin] })).toThrow(CoreRuntimeError);
   });
 
   it('rolls back on failed install', () => {
@@ -27,8 +25,6 @@ describe('plugins', () => {
         throw new Error('fail');
       },
     };
-    expect(() => createCelestialRuntime({ plugins: [good, bad] })).toThrow(
-      CoreRuntimeError,
-    );
+    expect(() => createCelestialRuntime({ plugins: [good, bad] })).toThrow(CoreRuntimeError);
   });
 });

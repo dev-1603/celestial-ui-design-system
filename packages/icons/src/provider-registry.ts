@@ -10,10 +10,7 @@
  * - The registry itself does not perform resolution — it only stores adapters.
  */
 import type { IconProviderAdapter, ProviderId } from './types';
-import {
-  IconProviderRegistrationError,
-  iconError,
-} from './errors';
+import { IconProviderRegistrationError, iconError } from './errors';
 import { PROVIDER_CONTRACT_VERSION } from './version';
 import { isValidProviderId } from './ids';
 
@@ -61,31 +58,28 @@ function validateAdapter(adapter: IconProviderAdapter): void {
 
   if (typeof adapter.resolveNativeName !== 'function') {
     errors.push(
-      iconError(
-        'INVALID_PROVIDER_ADAPTER',
-        'Adapter resolveNativeName must be a function.',
-        { layer: 'provider', providerId: adapter.id },
-      ),
+      iconError('INVALID_PROVIDER_ADAPTER', 'Adapter resolveNativeName must be a function.', {
+        layer: 'provider',
+        providerId: adapter.id,
+      }),
     );
   }
 
   if (typeof adapter.canSatisfyVariant !== 'function') {
     errors.push(
-      iconError(
-        'INVALID_PROVIDER_ADAPTER',
-        'Adapter canSatisfyVariant must be a function.',
-        { layer: 'provider', providerId: adapter.id },
-      ),
+      iconError('INVALID_PROVIDER_ADAPTER', 'Adapter canSatisfyVariant must be a function.', {
+        layer: 'provider',
+        providerId: adapter.id,
+      }),
     );
   }
 
   if (typeof adapter.resolve !== 'function') {
     errors.push(
-      iconError(
-        'INVALID_PROVIDER_ADAPTER',
-        'Adapter resolve must be a function.',
-        { layer: 'provider', providerId: adapter.id },
-      ),
+      iconError('INVALID_PROVIDER_ADAPTER', 'Adapter resolve must be a function.', {
+        layer: 'provider',
+        providerId: adapter.id,
+      }),
     );
   }
 

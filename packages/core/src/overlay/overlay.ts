@@ -69,10 +69,8 @@ function getStack(): OverlayController[] {
   return stack;
 }
 
-export function createOverlayController(
-  options: OverlayOptions = {},
-): OverlayController {
-  let phase: OverlayPhase = options.open ?? options.defaultOpen ? 'open' : 'closed';
+export function createOverlayController(options: OverlayOptions = {}): OverlayController {
+  let phase: OverlayPhase = (options.open ?? options.defaultOpen) ? 'open' : 'closed';
   let open = phase === 'open';
   const listeners = new Set<() => void>();
   let destroyed = false;
