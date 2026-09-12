@@ -13,15 +13,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@v5
-        with:
-          node-version: 22
-
+      # pnpm must be on PATH before setup-node@v5 (auto packageManager cache)
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -45,7 +47,6 @@ jobs:
         run: pnpm -r publish --dry-run
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # (Required for real publish)
-
 
       # NOTE:
       # Real publishing requires removing the --dry-run flag and properly configuring OIDC/Trusted Publishing.
