@@ -1,3 +1,12 @@
-import { getComponentSpec } from './registry';
+import { getGeneratedComponentSpec } from './spec-lookup';
 
-export const pageLayoutSpec = getComponentSpec('page-layout');
+export const pageLayoutSpec = getGeneratedComponentSpec({
+  id: 'page-layout',
+  displayName: 'Page Layout',
+  purpose: 'Standard page content scaffold.',
+  taxonomy: 'template',
+  engineeringFamily: 'templates',
+  complexity: 'moderate',
+  status: 'stable',
+  profile: 'template',
+});

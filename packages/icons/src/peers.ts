@@ -1,10 +1,19 @@
 /**
- * Optional peer loading for provider adapters.
+ * Node-only helpers for file-based optional peers and dynamic collection
+ * packages.
+ *
+ * JS peers with a **fixed** specifier (`lucide-static`, Font Awesome packs,
+ * `@iconify/utils`) must be loaded with a static `require('…')` **inside the
+ * adapter file**. Bundlers (browser esbuild, webpack) can then resolve or
+ * externalize them. Adapters that only need those JS peers must not import
+ * this module — `createRequire` from `module` is not browser-safe.
+ *
+ * File-based peers (Heroicons SVG, Phosphor SVG under `@phosphor-icons/core`)
+ * and dynamic `@iconify-json/<prefix>` collection loads stay here. They use
+ * Node `fs` / `createRequire` and are not a verified browser contract.
  *
  * Specifiers are allowlisted. Adapters never `require()` caller-controlled
- * paths. Bundlers see a small fixed set of peer package names and can
- * externalize them. File-based peers (Heroicons, Phosphor SVGs) are read
- * from the resolved package root after the relative path is validated.
+ * paths.
  */
 import { createRequire } from 'module';
 import { readFileSync, existsSync } from 'fs';
@@ -26,6 +35,11 @@ export function isPeerInstalled(packageName: string): boolean {
   return resolvePeerPackageRoot(packageName) !== undefined;
 }
 
+/**
+ * Dynamic optional peer load (Node). Use only when the package name cannot be
+ * a static specifier (Iconify `@iconify-json/${prefix}`). Lucide / Font
+ * Awesome must use `require('package')` in the adapter instead.
+ */
 export function loadOptionalPeer<T>(packageName: string): T | undefined {
   if (!isAllowlistedPeer(packageName)) return undefined;
   try {
@@ -50,6 +64,8 @@ export function readPeerPackageVersion(packageName: string): string | undefined 
 /**
  * Read a relative SVG (or other text) asset from an installed peer package.
  * Rejects path traversal and non-allowlisted package names.
+ *
+ * Node-only (`fs`). Heroicons and Phosphor adapters depend on this path.
  */
 export function readOptionalPeerAsset(
   packageName: string,

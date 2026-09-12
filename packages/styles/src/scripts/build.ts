@@ -6,7 +6,7 @@ import { generateBaseCss } from '../base';
 import { generateTailwindBridge } from '../tailwind';
 import { generateShadcnAdapter } from '../shadcn';
 
-const distCssDir = path.join(__dirname, '..', 'css');
+const distCssDir = path.join(__dirname, '..', '..', 'css');
 
 function ensureDir(dir: string): void {
   if (!fs.existsSync(dir)) {

@@ -59,8 +59,6 @@ export {
   getThemeAttributes,
   applyThemeAttributes,
   resolveScopeTarget,
-  /** @internal Test/runtime registry reset — not a product API. */
-  clearScopeRegistry,
 } from './scope';
 
 export { createThemeStyleManager, adoptHydratedStyle } from './runtime';
@@ -77,6 +75,3 @@ export { DEFAULT_TAILWIND_BRIDGE, generateTailwindBridge } from './tailwind';
 export { DEFAULT_SHADCN_REGISTRY, generateShadcnAdapter } from './shadcn';
 
 export { generateBaseCss } from './base';
-
-/** @internal */
-export { computeContentHash } from './hash';

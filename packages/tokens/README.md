@@ -134,7 +134,12 @@ Toggle appearance with `.light` / `.dark` on an ancestor (semantic values are em
 
 ## Public API
 
-Root import: `@celestial-ui/tokens` (CommonJS + `.d.ts`).
+Root import: `@celestial-ui/tokens` (CJS `require` + ESM `import`, plus `.d.ts`). Prefer granular subpaths in application bundles; root imports remain supported in 0.1.x.
+
+**Browser-preferred:** `./css`, `./resolve`, `./types`, `./a11y`, `./validation`  
+**Node-preferred:** `./catalog`, `./generators` (also available from `.`)
+
+Do not import `{ colors, spacing }` — those JS domains are not published.
 
 ### Constants and types
 
@@ -153,7 +158,7 @@ const sources = getCanonicalTokenSources();
 const light = buildTokenConfigForMode(sources, 'light');
 ```
 
-`getCanonicalTokenSources()` reads `data/` with `fs`. It is not a browser API.
+`getCanonicalTokenSources()` reads `data/` with `fs`. It is not a browser API. Prefer `@celestial-ui/tokens/catalog` in Node; the root import above remains valid.
 
 ### Resolve and validate
 
@@ -164,6 +169,8 @@ const flat = flattenTokens(light);
 const resolved = resolveAliases(flat);
 const report = validateTokens(light);
 ```
+
+In bundlers, prefer `@celestial-ui/tokens/resolve` and `@celestial-ui/tokens/validation`.
 
 ### Generators
 
@@ -178,18 +185,26 @@ import {
 const css = generateCSS(resolved);
 ```
 
+Prefer `@celestial-ui/tokens/generators` in Node; these names remain on `.`.
+
 ### Accessibility helpers
 
 `parseColorToRGBA`, `compositeColors`, `getLuminance`, `getContrastRatio`, `meetsContrastAA`.
 
 ## Entry Points
 
-| Import path                     | Purpose                                          | Use when                                |
-| ------------------------------- | ------------------------------------------------ | --------------------------------------- |
-| `@celestial-ui/tokens`          | Catalog, resolve, validate, generate APIs        | Node/build tooling or custom generators |
-| `@celestial-ui/tokens/css`      | Prebuilt `--cui-*` stylesheet                    | Application CSS                         |
-| `@celestial-ui/tokens/tailwind` | Tailwind v3 `presets` module                     | Tailwind config                         |
-| `@celestial-ui/tokens/shadcn`   | Maps `--background`, `--primary`, … to `--cui-*` | shadcn/ui or Radix-style variable names |
+| Import path                       | Purpose                                          | Use when                                                   |
+| --------------------------------- | ------------------------------------------------ | ---------------------------------------------------------- |
+| `@celestial-ui/tokens`            | Catalog, resolve, validate, generate APIs        | Node/build tooling or custom generators (root still works) |
+| `@celestial-ui/tokens/css`        | Prebuilt `--cui-*` stylesheet                    | Application CSS (browser-preferred)                        |
+| `@celestial-ui/tokens/resolve`    | `flattenTokens`, `resolveAliases`                | Bundlers / browser (preferred over root)                   |
+| `@celestial-ui/tokens/types`      | Token types                                      | Bundlers / browser (preferred)                             |
+| `@celestial-ui/tokens/a11y`       | Contrast helpers                                 | Bundlers / browser (preferred)                             |
+| `@celestial-ui/tokens/validation` | `validateTokens`                                 | Bundlers / browser (preferred)                             |
+| `@celestial-ui/tokens/catalog`    | `getCanonicalTokenSources`                       | Node/build (preferred; uses `fs`)                          |
+| `@celestial-ui/tokens/generators` | `generateCSS`, Tailwind/shadcn/TS generators     | Node/build (preferred)                                     |
+| `@celestial-ui/tokens/tailwind`   | Tailwind v3 `presets` module                     | Tailwind config                                            |
+| `@celestial-ui/tokens/shadcn`     | Maps `--background`, `--primary`, … to `--cui-*` | shadcn/ui or Radix-style variable names                    |
 
 Do not import private `/src/` or unpublished `/dist/...` paths. Prefer the export map above.
 
@@ -343,12 +358,14 @@ Future framework packages are expected to consume semantic CSS variables. No off
 | `flattenTokens`, `resolveAliases`, `validateTokens`, generators, a11y helpers | Pure JS; Node and bundlers           |
 | `getCanonicalTokenSources()`, `buildTokenConfigForMode()`                     | Node/build (`fs` + `data/`)          |
 
-Module format in v0.1.0 is **CommonJS**. Bun 1.1.20 consumed that CJS output via ESM named imports and `require()`. Deno support for CSS is partial; the Node `fs` catalog API is not a Deno contract. See [compatibility-matrix.md](../../docs/compatibility-matrix.md).
+Module format is **dual CJS + ESM**. Bundlers resolve `import` (`dist/esm`); Node `require` keeps CJS (`dist/cjs`). Bun 1.1.20 consumed CJS via ESM named imports and `require()`. Deno support for CSS is partial; the Node `fs` catalog API is not a Deno contract. See [compatibility-matrix.md](../../docs/compatibility-matrix.md).
 
 ## Tree-shaking / Bundle Usage
 
 - Prefer `@celestial-ui/tokens/css` when you only need variables in the browser. That path does not load the catalog APIs.
-- Root `@celestial-ui/tokens` is a CJS barrel. Do not describe it as fully tree-shakable.
+- Prefer `@celestial-ui/tokens/resolve`, `/types`, `/a11y`, and `/validation` in bundlers. Prefer `/catalog` and `/generators` in Node.
+- Root `@celestial-ui/tokens` remains supported (`getCanonicalTokenSources` still works from `.`). In CJS it evaluates the barrel; ESM `import` is tree-shakable but Node catalog code can still leak if you import catalog names.
+- `sideEffects` lists CSS globs only (never `false`) so bundlers keep `@celestial-ui/tokens/css`.
 - Use the Node catalog APIs only in build scripts, not in client bundles.
 
 ## Troubleshooting

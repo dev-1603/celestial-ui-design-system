@@ -10,8 +10,19 @@ import {
 } from '../generators';
 import { TokenConfig } from '../types';
 
-const dataDir = path.resolve(__dirname, '../../data');
-const distDir = path.resolve(__dirname, '../../dist');
+function resolvePackageRoot(): string {
+  const candidates = [path.resolve(__dirname, '../..'), path.resolve(__dirname, '../../..')];
+  for (const root of candidates) {
+    if (fs.existsSync(path.join(root, 'data', 'primitives.json'))) {
+      return root;
+    }
+  }
+  return candidates[0];
+}
+
+const packageRoot = resolvePackageRoot();
+const dataDir = path.join(packageRoot, 'data');
+const distDir = path.join(packageRoot, 'dist');
 const cssDir = path.join(distDir, 'css');
 
 // Load base JSON data

@@ -2,66 +2,115 @@
   "name": "@celestial-ui/theme",
   "version": "0.1.0",
   "description": "Theme identity, modes, inheritance, tenant profiles, and resolution for the Celestial UI ecosystem.",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/cjs/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      },
+      "default": "./dist/cjs/index.js"
     },
     "./themes/celestial": {
-      "types": "./dist/themes/celestial.d.ts",
-      "default": "./dist/themes/celestial.js"
+      "import": {
+        "types": "./dist/esm/themes/celestial.d.ts",
+        "default": "./dist/esm/themes/celestial.js"
+      },
+      "require": {
+        "types": "./dist/cjs/themes/celestial.d.ts",
+        "default": "./dist/cjs/themes/celestial.js"
+      },
+      "default": "./dist/cjs/themes/celestial.js"
     },
     "./mode": {
-      "types": "./dist/mode.d.ts",
-      "default": "./dist/mode.js"
+      "import": {
+        "types": "./dist/esm/mode.d.ts",
+        "default": "./dist/esm/mode.js"
+      },
+      "require": {
+        "types": "./dist/cjs/mode.d.ts",
+        "default": "./dist/cjs/mode.js"
+      },
+      "default": "./dist/cjs/mode.js"
     },
     "./registry": {
-      "types": "./dist/registry.d.ts",
-      "default": "./dist/registry.js"
+      "import": {
+        "types": "./dist/esm/registry.d.ts",
+        "default": "./dist/esm/registry.js"
+      },
+      "require": {
+        "types": "./dist/cjs/registry.d.ts",
+        "default": "./dist/cjs/registry.js"
+      },
+      "default": "./dist/cjs/registry.js"
     },
     "./resolve": {
-      "types": "./dist/resolve.d.ts",
-      "default": "./dist/resolve.js"
+      "import": {
+        "types": "./dist/esm/resolve.d.ts",
+        "default": "./dist/esm/resolve.js"
+      },
+      "require": {
+        "types": "./dist/cjs/resolve.d.ts",
+        "default": "./dist/cjs/resolve.js"
+      },
+      "default": "./dist/cjs/resolve.js"
     },
     "./slots": {
-      "types": "./dist/slots.d.ts",
-      "default": "./dist/slots.js"
+      "import": {
+        "types": "./dist/esm/slots.d.ts",
+        "default": "./dist/esm/slots.js"
+      },
+      "require": {
+        "types": "./dist/cjs/slots.d.ts",
+        "default": "./dist/cjs/slots.js"
+      },
+      "default": "./dist/cjs/slots.js"
     },
     "./validate": {
-      "types": "./dist/validate.d.ts",
-      "default": "./dist/validate.js"
+      "import": {
+        "types": "./dist/esm/validate.d.ts",
+        "default": "./dist/esm/validate.js"
+      },
+      "require": {
+        "types": "./dist/cjs/validate.d.ts",
+        "default": "./dist/cjs/validate.js"
+      },
+      "default": "./dist/cjs/validate.js"
     }
   },
   "typesVersions": {
     "*": {
       "themes/celestial": [
-        "./dist/themes/celestial.d.ts"
+        "./dist/cjs/themes/celestial.d.ts"
       ],
       "mode": [
-        "./dist/mode.d.ts"
+        "./dist/cjs/mode.d.ts"
       ],
       "registry": [
-        "./dist/registry.d.ts"
+        "./dist/cjs/registry.d.ts"
       ],
       "resolve": [
-        "./dist/resolve.d.ts"
+        "./dist/cjs/resolve.d.ts"
       ],
       "slots": [
-        "./dist/slots.d.ts"
+        "./dist/cjs/slots.d.ts"
       ],
       "validate": [
-        "./dist/validate.d.ts"
+        "./dist/cjs/validate.d.ts"
       ]
     }
   },
   "scripts": {
-    "build": "rm -rf dist && tsc",
+    "build": "rm -rf dist && tsc && tsc -p tsconfig.esm.json && node ../../tooling/write-dual-package-json.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit",
-    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.esm.json",
+    "lint": "tsc --noEmit && tsc --noEmit -p tsconfig.esm.json",
     "clean": "rm -rf dist"
   },
   "files": [

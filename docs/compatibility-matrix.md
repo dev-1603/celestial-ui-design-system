@@ -16,7 +16,7 @@ Support levels for consuming Celestial UI foundation packages.
 ## Legend
 
 - **✓** — Supported and tested via packed-tarball consumer fixtures
-- **Partial** — May work with `npm:` specifiers; CJS-only packages limit Deno ergonomics
+- **Partial** — May work with `npm:` specifiers; Deno ergonomics are limited for Node `fs` catalog APIs and CJS interop
 - **N/A** — Package does not exist in this monorepo
 
 Package-manager installation and runtime execution are separate. A **✓** under Bun means the same packed-tarball consumer fixtures as npm/pnpm/yarn, installed and executed with Bun (`bun install`, `bun check.ts`, plus a CJS `require` smoke).
@@ -25,7 +25,7 @@ Package-manager installation and runtime execution are separate. A **✓** under
 
 - **Node.js:** >= 22 (all packages)
 - **Bun:** 1.1.20 verified (`pnpm consumer:test:bun`). CI pins this version.
-- **Module format:** CommonJS (`dist/*.js`) in v0.1.0
+- **Module format:** Dual CJS + ESM. Bundlers resolve the `import` condition (`dist/esm`). Node `require` and tools that ignore `exports` keep CJS (`dist/cjs`, `main`/`types`). CSS assets live under `dist/css`.
 - **TypeScript:** 5.4+ recommended; declarations included
 
 ## How combinations are tested

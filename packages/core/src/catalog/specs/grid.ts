@@ -1,3 +1,12 @@
-import { getComponentSpec } from './registry';
+import { getGeneratedComponentSpec } from './spec-lookup';
 
-export const gridSpec = getComponentSpec('grid');
+export const gridSpec = getGeneratedComponentSpec({
+  id: 'grid',
+  displayName: 'Grid',
+  purpose: 'CSS grid layout container.',
+  taxonomy: 'atomic',
+  engineeringFamily: 'layout',
+  complexity: 'simple',
+  status: 'stable',
+  profile: 'layout',
+});

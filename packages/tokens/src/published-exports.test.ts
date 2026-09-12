@@ -6,10 +6,27 @@ describe('published export map', () => {
   const pkgRoot = path.join(__dirname, '..');
   const pkg = JSON.parse(fs.readFileSync(path.join(pkgRoot, 'package.json'), 'utf8')) as {
     files?: string[];
+    sideEffects?: false | string[];
   };
 
   it('includes dist and data in files for published catalog access', () => {
     expect(pkg.files).toContain('dist');
     expect(pkg.files).toContain('data');
+  });
+
+  it('lists CSS globs in sideEffects (never false)', () => {
+    expect(pkg.sideEffects).not.toBe(false);
+    expect(Array.isArray(pkg.sideEffects)).toBe(true);
+    expect(pkg.sideEffects?.every((glob) => glob.includes('.css') || glob.includes('/css'))).toBe(
+      true,
+    );
+  });
+
+  it('re-exports the public API by name (no export *)', () => {
+    const indexSource = fs.readFileSync(path.join(pkgRoot, 'src/index.ts'), 'utf8');
+    expect(indexSource).not.toMatch(/^export \*/m);
+    expect(indexSource).toContain('getCanonicalTokenSources');
+    expect(indexSource).toContain('buildTokenConfigForMode');
+    expect(indexSource).toContain("from './catalog'");
   });
 });

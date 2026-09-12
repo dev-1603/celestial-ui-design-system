@@ -5,6 +5,9 @@
  * array plus SVG files under `assets/{weight}/{stem}.svg` — not `Ph*` classes
  * with `toSvg()`.
  *
+ * Node-only: SVG files are read with `fs` via `../peers`. Not a verified
+ * browser contract; use Lucide (or Material font-class) in the client.
+ *
  * SVG Safety: `kind: 'svg-string'`. Framework adapter must sanitize.
  */
 import type {

@@ -43,6 +43,31 @@ Verified with Bun **1.1.20** packed-tarball consumer fixtures (`pnpm consumer:te
 
 ---
 
+## Tokens import strategy
+
+Prefer subpaths. Root `@celestial-ui/tokens` (including `getCanonicalTokenSources`) remains supported in 0.1.x.
+
+**Browser-preferred**
+
+```ts
+import '@celestial-ui/tokens/css';
+import { flattenTokens } from '@celestial-ui/tokens/resolve';
+import type { TokenConfig } from '@celestial-ui/tokens/types';
+import { meetsContrastAA } from '@celestial-ui/tokens/a11y';
+import { validateTokens } from '@celestial-ui/tokens/validation';
+```
+
+**Node-preferred** (also available from `.`)
+
+```ts
+import { getCanonicalTokenSources } from '@celestial-ui/tokens/catalog';
+import { generateCSS } from '@celestial-ui/tokens/generators';
+```
+
+There is no `import { colors, spacing } from '@celestial-ui/tokens'` JS domain. Use CSS variables or resolved `FlatTokenMap` keys.
+
+---
+
 ## Foundation Subsets
 
 ### Tokens + Theme
