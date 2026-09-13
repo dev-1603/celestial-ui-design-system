@@ -1,31 +1,6 @@
 # Registry Configuration
 
-Celestial UI packages publish to **npm Registry** and **GitHub Packages**.
-
-## npm Registry (default)
-
-No configuration required for public packages:
-
-```bash
-npm install @celestial-ui/core
-```
-
-Scoped packages are published with `publishConfig.access: public`.
-
-## GitHub Packages
-
-### Consumer `.npmrc`
-
-Create or extend `.npmrc` in your project:
-
-```ini
-@celestial-ui:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
-```
-
-Authenticate with a GitHub personal access token that has `read:packages` scope.
-
-### Install from GitHub Packages
+Celestial UI foundation packages publish to the **npm Registry** only.
 
 ```bash
 npm install @celestial-ui/core
@@ -33,30 +8,29 @@ npm install @celestial-ui/core
 pnpm add @celestial-ui/core
 ```
 
-The scoped registry redirect applies only to `@celestial-ui/*`.
+Scoped packages use `publishConfig.access: public`. Install needs no extra `.npmrc` for public npm.
 
-### Publishing (maintainers)
+## GitHub Releases
 
-Publishing is **not automated in this repository yet**. When release workflows are added:
+After a successful npm publish, the Release workflow creates package-scoped git tags and GitHub Releases. Those releases are the source of version history and changelogs in this repository. They are not an alternate install registry.
 
-1. **npm:** npm Trusted Publishing (OIDC) or `NPM_TOKEN`
-2. **GitHub Packages:** `GITHUB_TOKEN` with `packages: write`
+## GitHub Packages (deferred)
 
-### Dual registry validation
+GitHub Packages is **not** a live install path. The npm scope is `@celestial-ui`, and this repository currently lives under GitHub user `dev-1603`. `GITHUB_TOKEN` cannot publish `@celestial-ui/*` into a mismatched GitHub namespace.
 
-| Stage           | What is validated                                                                     |
-| --------------- | ------------------------------------------------------------------------------------- |
-| **Local**       | `publishConfig.access: public`, Changesets `access: public`, `pnpm publish --dry-run` |
-| **Pre-release** | RC publish to both registries, install smoke test                                     |
-| **Production**  | Post-publish `npm view` on both registries                                            |
+Revisit GitHub Packages only after a GitHub owner matches `@celestial-ui` (or after a conscious, breaking npm scope rename). Do not configure consumer `.npmrc` files to `https://npm.pkg.github.com` for these packages.
 
-Do not publish production versions during development. Use Changesets prerelease (`0.1.0-rc.0`) for registry smoke tests.
+## Maintainer publishing
 
-## Required secrets (future CI publish job)
+Publishing is automated from `release/**` via npm Trusted Publishing (OIDC). There is no `NPM_TOKEN`. See [release.md](./release.md) for the Version Packages PR flow, GitHub Environment `npm`, and Trusted Publisher fields.
 
-| Secret         | Purpose                                     |
-| -------------- | ------------------------------------------- |
-| `NPM_TOKEN`    | npm registry publish (if not using OIDC)    |
-| `GITHUB_TOKEN` | GitHub Packages publish (`packages: write`) |
+Do not publish production versions from a laptop. Use Changesets on a `release/*` branch.
 
-These are documented only — no secrets are stored in this repository.
+## Validation
+
+| Stage           | What is validated                                                                   |
+| --------------- | ----------------------------------------------------------------------------------- |
+| **Local**       | `publishConfig.access: public`, Changesets `access: public`, `pnpm publish:dry-run` |
+| **CI**          | Format, lint, tests, pack, docs, tree-shaking, consumer fixtures                    |
+| **Pre-publish** | Release workflow `validate` job (same gate) before OIDC publish                     |
+| **Production**  | `changeset publish` to npm with provenance; GitHub Releases for tags and changelogs |

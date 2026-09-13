@@ -1,6 +1,6 @@
 # Celestial UI — Package Usage Guide
 
-Developer-facing guide for consuming the Celestial UI foundation packages from npm or GitHub Packages.
+Developer-facing guide for consuming the Celestial UI foundation packages from npm.
 
 ## 1. What is Celestial UI?
 
@@ -132,23 +132,11 @@ All foundation packages publish **dual CJS and ESM**. Bundlers resolve the `impo
 - **npm / pnpm / Yarn / Bun:** full support for all five packages (packed tarball fixtures)
 - **Deno:** partial; CSS imports and Node `fs`-based catalog APIs may not work
 
-## 13–14. Registries
+## 13–15. Registries
 
-Packages publish to:
+Packages publish to the **npm Registry** (`https://registry.npmjs.org`). No extra `.npmrc` is required for public installs.
 
-1. **npm Registry** — `https://registry.npmjs.org`
-2. **GitHub Packages** — `https://npm.pkg.github.com`
-
-See [registries.md](./registries.md) for consumer `.npmrc` configuration.
-
-## 15. GitHub Packages configuration
-
-```ini
-@celestial-ui:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
-```
-
-Use a GitHub personal access token with `read:packages` scope.
+GitHub Releases record tags and changelogs after publish. GitHub Packages is not a live install path. See [registries.md](./registries.md) and [release.md](./release.md).
 
 ## 16. Basic application setup
 
@@ -311,5 +299,5 @@ See [compatibility-matrix.md](./compatibility-matrix.md).
 - [Repository README](../README.md)
 - [Build and validation](./build-and-validate.md)
 - [Registry configuration](./registries.md)
+- [Release process](./release.md)
 - npm (after publish): `https://www.npmjs.com/package/@celestial-ui/<package>`
-- GitHub Packages: configure per [registries.md](./registries.md)

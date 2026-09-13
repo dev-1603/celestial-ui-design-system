@@ -6,12 +6,18 @@ on:
   pull_request:
     branches: ['develop', 'master', 'release/**']
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       # pnpm must be on PATH before setup-node@v5 (auto packageManager cache)
       - name: Setup pnpm

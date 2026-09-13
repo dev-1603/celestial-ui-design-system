@@ -7,5 +7,11 @@
   "access": "public",
   "baseBranch": "develop",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "ignore": [
+    "tree-shaking-test",
+    "@celestial-ui/eslint-config",
+    "@celestial-ui/prettier-config",
+    "@celestial-ui/typescript-config",
+    "@celestial-ui/package-validate"
+  ]
 }

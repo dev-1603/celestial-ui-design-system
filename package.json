@@ -16,7 +16,7 @@
     "clean": "turbo run clean",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "changeset publish",
+    "release": "pnpm build && changeset publish",
     "validate:graph": "node tooling/package-validate/dist/cli.js --skip-pack --skip-docs",
     "validate:packages": "node tooling/package-validate/dist/cli.js --skip-docs",
     "docs:validate": "node tooling/package-validate/dist/cli.js --skip-pack",

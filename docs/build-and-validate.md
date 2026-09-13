@@ -96,6 +96,8 @@ Runs `pnpm publish --dry-run` for each public package. **Does not publish.**
 
 GitHub Actions runs the full gate on push/PR. After `pnpm build` it runs `pnpm shake:test` (gzip budgets and leak assertions via package exports). See `.github/workflows/ci.yml`.
 
+Production publish is a separate workflow (`.github/workflows/release.yml`) on `release/**`. See [release.md](./release.md).
+
 ## Validation report
 
 After `pnpm validate`, read:

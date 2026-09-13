@@ -1258,6 +1258,11 @@
   ],
   "author": "Celestial Team",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dev-1603/celestial-ui-design-system.git",
+    "directory": "packages/core"
+  },
   "publishConfig": {
     "access": "public"
   },
