@@ -12,7 +12,7 @@ Production publishing for `@celestial-ui/*` runs only from `release/**` branches
 3. Review and merge the Version Packages PR. That merge is the only path that reaches npm.
 4. The publish job uses GitHub Environment `npm` (required reviewers). It publishes to the npm registry with OIDC, then creates git tags and GitHub Releases.
 
-`changeset status` in CI still compares against `develop` (Changesets `baseBranch`). Version PRs target `github.ref_name` (the triggering `release/*` branch).
+`changeset status` in CI compares against `origin/develop` (Changesets `baseBranch`). The workflow fetches that remote-tracking ref before the check because `actions/checkout` only has the PR/push ref. Version PRs target `github.ref_name` (the triggering `release/*` branch).
 
 ## Packages that publish
 
