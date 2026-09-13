@@ -161,11 +161,19 @@ Single entry: `@celestial-ui/theme`.
 
 ## Entry Points
 
-| Import path           | Purpose         | Use when                                |
-| --------------------- | --------------- | --------------------------------------- |
-| `@celestial-ui/theme` | All public APIs | Theme registration and `resolveTheme()` |
+Keep the Quick Start import of `resolveTheme` from `@celestial-ui/theme`. Prefer subpaths in application bundles:
 
-No CSS or provider subpaths.
+| Import path                            | Purpose                         | Environment                                       |
+| -------------------------------------- | ------------------------------- | ------------------------------------------------- |
+| `@celestial-ui/theme`                  | All public APIs, `resolveTheme` | Node/build Quick Start; still supported on root   |
+| `@celestial-ui/theme/themes/celestial` | `CELESTIAL_THEME` identity      | **Browser-safe** preset (no token catalog / `fs`) |
+| `@celestial-ui/theme/resolve`          | `resolveTheme()` engine         | **Node/build-time** (loads the tokens catalog)    |
+| `@celestial-ui/theme/registry`         | `createThemeRegistry`           | Registration without resolving                    |
+| `@celestial-ui/theme/mode`             | `resolveAppearanceMode`         | Mode preference helpers                           |
+
+Policy, errors, and version helpers stay on the root — there are no `./policy`, `./errors`, or `./version` subpaths.
+
+Apps should **not** call `resolveTheme()` in the browser. Resolve in Node/build (or consume a `ResolvedTheme` your shell already produced) and ship **CSS** (`@celestial-ui/styles/css` or `@celestial-ui/tokens/css`) to the client.
 
 ## Common Usage
 
@@ -330,9 +338,11 @@ Future framework integration is expected to consume this package through a frame
 
 ## SSR / Browser / Runtime
 
-`resolveTheme()` calls `getCanonicalTokenSources()` from `@celestial-ui/tokens`, which reads JSON with Node `fs`. Node consumer fixtures verify this path.
+`resolveTheme()` (root or `@celestial-ui/theme/resolve`) calls `getCanonicalTokenSources()` from `@celestial-ui/tokens`, which reads JSON with Node `fs`. Node consumer fixtures verify this path.
 
-Browser bundling of `resolveTheme()` is **not** a verified public contract. For the client, prefer:
+`@celestial-ui/theme/themes/celestial` is the browser-safe identity leaf (`CELESTIAL_THEME` only). Browser bundling of `resolveTheme()` is **not** a verified public contract.
+
+In the browser, consume **CSS** or an already-built `ResolvedTheme` — do not call `resolveTheme()` on the client. Prefer:
 
 - Precompiled CSS from `@celestial-ui/styles/css`, or
 - CSS from `@celestial-ui/tokens/css`

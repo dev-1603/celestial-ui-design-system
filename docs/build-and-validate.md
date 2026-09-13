@@ -29,6 +29,7 @@ pnpm test          # all packages
 pnpm typecheck     # tsc --noEmit per package
 pnpm lint          # currently tsc --noEmit (not ESLint)
 pnpm format:check  # Prettier
+pnpm shake:test    # gzip budgets + leak assertions (requires build)
 ```
 
 Tests run after build (`turbo.json` `test.dependsOn: ["build"]`) because styles artifact tests require `dist/css`.
@@ -93,7 +94,9 @@ Runs `pnpm publish --dry-run` for each public package. **Does not publish.**
 
 ## CI
 
-GitHub Actions runs the full gate on push/PR to `main`. See `.github/workflows/ci.yml`.
+GitHub Actions runs the full gate on push/PR. After `pnpm build` it runs `pnpm shake:test` (gzip budgets and leak assertions via package exports). See `.github/workflows/ci.yml`.
+
+Production publish is a separate workflow (`.github/workflows/release.yml`) on `release/**`. See [release.md](./release.md).
 
 ## Validation report
 

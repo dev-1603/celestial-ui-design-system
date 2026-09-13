@@ -2,49 +2,125 @@
   "name": "@celestial-ui/styles",
   "version": "0.1.0",
   "description": "Framework-neutral CSS delivery layer for resolved Celestial themes — compiler, runtime, SSR, and optional bridges.",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/cjs/index.d.ts",
+  "sideEffects": [
+    "./dist/**/*.css",
+    "./dist/css/**",
+    "./dist/cjs/**/*.css",
+    "./dist/esm/**/*.css"
+  ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      },
+      "default": "./dist/cjs/index.js"
     },
     "./css": "./dist/css/index.css",
     "./base": "./dist/css/base.css",
     "./tailwind": "./dist/css/tailwind.css",
     "./shadcn": "./dist/css/shadcn.css",
     "./runtime": {
-      "types": "./dist/runtime.d.ts",
-      "default": "./dist/runtime.js"
+      "import": {
+        "types": "./dist/esm/runtime.d.ts",
+        "default": "./dist/esm/runtime.js"
+      },
+      "require": {
+        "types": "./dist/cjs/runtime.d.ts",
+        "default": "./dist/cjs/runtime.js"
+      },
+      "default": "./dist/cjs/runtime.js"
     },
     "./ssr": {
-      "types": "./dist/ssr.d.ts",
-      "default": "./dist/ssr.js"
+      "import": {
+        "types": "./dist/esm/ssr.d.ts",
+        "default": "./dist/esm/ssr.js"
+      },
+      "require": {
+        "types": "./dist/cjs/ssr.d.ts",
+        "default": "./dist/cjs/ssr.js"
+      },
+      "default": "./dist/cjs/ssr.js"
     },
     "./compiler": {
-      "types": "./dist/compiler.d.ts",
-      "default": "./dist/compiler.js"
+      "import": {
+        "types": "./dist/esm/compiler.d.ts",
+        "default": "./dist/esm/compiler.js"
+      },
+      "require": {
+        "types": "./dist/cjs/compiler.d.ts",
+        "default": "./dist/cjs/compiler.js"
+      },
+      "default": "./dist/cjs/compiler.js"
+    },
+    "./bridges/tailwind": {
+      "import": {
+        "types": "./dist/esm/tailwind.d.ts",
+        "default": "./dist/esm/tailwind.js"
+      },
+      "require": {
+        "types": "./dist/cjs/tailwind.d.ts",
+        "default": "./dist/cjs/tailwind.js"
+      },
+      "default": "./dist/cjs/tailwind.js"
+    },
+    "./bridges/shadcn": {
+      "import": {
+        "types": "./dist/esm/shadcn.d.ts",
+        "default": "./dist/esm/shadcn.js"
+      },
+      "require": {
+        "types": "./dist/cjs/shadcn.d.ts",
+        "default": "./dist/cjs/shadcn.js"
+      },
+      "default": "./dist/cjs/shadcn.js"
+    },
+    "./bridges/base": {
+      "import": {
+        "types": "./dist/esm/base.d.ts",
+        "default": "./dist/esm/base.js"
+      },
+      "require": {
+        "types": "./dist/cjs/base.d.ts",
+        "default": "./dist/cjs/base.js"
+      },
+      "default": "./dist/cjs/base.js"
     }
   },
   "typesVersions": {
     "*": {
       "runtime": [
-        "./dist/runtime.d.ts"
+        "./dist/cjs/runtime.d.ts"
       ],
       "ssr": [
-        "./dist/ssr.d.ts"
+        "./dist/cjs/ssr.d.ts"
       ],
       "compiler": [
-        "./dist/compiler.d.ts"
+        "./dist/cjs/compiler.d.ts"
+      ],
+      "bridges/tailwind": [
+        "./dist/cjs/tailwind.d.ts"
+      ],
+      "bridges/shadcn": [
+        "./dist/cjs/shadcn.d.ts"
+      ],
+      "bridges/base": [
+        "./dist/cjs/base.d.ts"
       ]
     }
   },
   "scripts": {
-    "build": "rm -rf dist && tsc && node ./dist/scripts/build.js",
+    "build": "rm -rf dist && tsc && tsc -p tsconfig.esm.json && node ./dist/cjs/scripts/build.js && node ../../tooling/write-dual-package-json.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit",
-    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.esm.json",
+    "lint": "tsc --noEmit && tsc --noEmit -p tsconfig.esm.json",
     "clean": "rm -rf dist"
   },
   "keywords": [
@@ -55,6 +131,11 @@
   ],
   "author": "Celestial Team",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dev-1603/celestial-ui-design-system.git",
+    "directory": "packages/styles"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -63,7 +144,15 @@
     "!dist/scripts",
     "!dist/scripts/**",
     "!dist/test",
-    "!dist/test/**"
+    "!dist/test/**",
+    "!dist/cjs/scripts",
+    "!dist/cjs/scripts/**",
+    "!dist/esm/scripts",
+    "!dist/esm/scripts/**",
+    "!dist/cjs/test",
+    "!dist/cjs/test/**",
+    "!dist/esm/test",
+    "!dist/esm/test/**"
   ],
   "dependencies": {
     "@celestial-ui/theme": "workspace:*",

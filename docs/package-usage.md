@@ -1,6 +1,6 @@
 # Celestial UI — Package Usage Guide
 
-Developer-facing guide for consuming the Celestial UI foundation packages from npm or GitHub Packages.
+Developer-facing guide for consuming the Celestial UI foundation packages from npm.
 
 ## 1. What is Celestial UI?
 
@@ -127,32 +127,20 @@ Deno support is **best-effort** for CJS packages. See [compatibility matrix](./c
 
 ## 9–12. Package manager usage
 
-All foundation packages publish **CommonJS** (`require` / `import` via bundlers). Node.js **>= 22** is required. Bun 1.1.20 consumes the same CJS artifacts.
+All foundation packages publish **dual CJS and ESM**. Bundlers resolve the `import` condition (`dist/esm`). Node.js **>= 22** `require` and `main` keep CJS (`dist/cjs`). Bun 1.1.20 consumes the same artifacts.
 
 - **npm / pnpm / Yarn / Bun:** full support for all five packages (packed tarball fixtures)
 - **Deno:** partial; CSS imports and Node `fs`-based catalog APIs may not work
 
-## 13–14. Registries
+## 13–15. Registries
 
-Packages publish to:
+Packages publish to the **npm Registry** (`https://registry.npmjs.org`). No extra `.npmrc` is required for public installs.
 
-1. **npm Registry** — `https://registry.npmjs.org`
-2. **GitHub Packages** — `https://npm.pkg.github.com`
-
-See [registries.md](./registries.md) for consumer `.npmrc` configuration.
-
-## 15. GitHub Packages configuration
-
-```ini
-@celestial-ui:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
-```
-
-Use a GitHub personal access token with `read:packages` scope.
+GitHub Releases record tags and changelogs after publish. GitHub Packages is not a live install path. See [registries.md](./registries.md) and [release.md](./release.md).
 
 ## 16. Basic application setup
 
-Host application (product shell) resolves theme and CSS once:
+Host application (product shell) resolves theme and CSS once. `resolveTheme` from the package root remains the documented Quick Start (Node/build). `@celestial-ui/theme/themes/celestial` is browser-safe identity; `@celestial-ui/theme/resolve` is Node/build-time. Apps should consume CSS or an already-built `ResolvedTheme` in the browser — do not call `resolveTheme()` on the client.
 
 ```ts
 import { CELESTIAL_THEME, createThemeRegistry, resolveTheme } from '@celestial-ui/theme';
@@ -248,30 +236,32 @@ import { LucideAdapter } from '@celestial-ui/icons/providers/lucide';
 
 ## 32. Package exports
 
-Root barrels stay CJS convenience entries. Prefer granular subpaths in application bundles.
+Root barrels remain convenience entries. Prefer granular subpaths in application bundles. Bundlers resolve ESM via `import`; `require` keeps CJS.
 
-| Package | Subpaths                                                                                                                                |
-| ------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| tokens  | `.`, `./css`, `./tailwind`, `./shadcn`, `./types`, `./resolve`, `./catalog`, `./a11y`, `./validation`, `./generators`                   |
-| theme   | `.`, `./themes/celestial`, `./mode`, `./registry`, `./resolve`, `./slots`, `./validate`                                                 |
-| styles  | `.`, `./css`, `./base`, `./tailwind`, `./shadcn`, `./runtime`, `./ssr`, `./compiler`                                                    |
-| icons   | `.`, `./providers/*`                                                                                                                    |
-| core    | `.`, `./contracts`, `./behavior`, `./accessibility`, `./collection`, `./overlay`, `./runtime`, `./catalog`, `./testing`, `./specs/<id>` |
+| Package | Subpaths                                                                                                                                         |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| tokens  | `.`, `./css`, `./tailwind`, `./shadcn`, `./types`, `./resolve`, `./catalog`, `./a11y`, `./validation`, `./generators`                            |
+| theme   | `.`, `./themes/celestial`, `./mode`, `./registry`, `./resolve`, `./slots`, `./validate`                                                          |
+| styles  | `.`, `./css`, `./base`, `./tailwind`, `./shadcn`, `./runtime`, `./ssr`, `./compiler`, `./bridges/tailwind`, `./bridges/shadcn`, `./bridges/base` |
+| icons   | `.`, `./providers/*`                                                                                                                             |
+| core    | `.`, `./contracts`, `./behavior`, `./accessibility`, `./collection`, `./overlay`, `./runtime`, `./catalog`, `./testing`, `./specs/<id>`          |
 
 ## 32a. Import strategy and exclusive CSS stacks
 
-v0.1.0 is CommonJS: a root `import { … } from '@celestial-ui/<pkg>'` evaluates the whole barrel. Subpaths are additive; existing root imports keep working.
+v0.1.x ships dual CJS+ESM: bundlers use `import` (`dist/esm`); Node `require` keeps CJS. Prefer granular subpaths in application bundles. Root imports keep working.
 
-| Job                                    | Import                                                                                                                |
-| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Token CSS in the browser               | `@celestial-ui/tokens/css` (not the JS root; the root links Node `fs` catalog)                                        |
-| Flatten / resolve aliases in a bundler | `@celestial-ui/tokens/resolve`                                                                                        |
-| Load the JSON catalog                  | `@celestial-ui/tokens/catalog` — Node/`fs` only                                                                       |
-| Theme identity in the client           | `@celestial-ui/theme/themes/celestial`                                                                                |
-| `resolveTheme()`                       | `@celestial-ui/theme` or `./resolve` — Node/build                                                                     |
-| Styles runtime / SSR / compiler        | `@celestial-ui/styles/runtime`, `./ssr`, `./compiler` (not the JS root unless you need all three)                     |
-| Core controllers                       | `@celestial-ui/core/behavior`, `./runtime`, `./overlay`, … — not the root barrel                                      |
-| One icon provider                      | `@celestial-ui/icons` + **one** `./providers/<id>`. Do not bundle `lucide-static` CJS or a full `@iconify-json/*` set |
+| Job                                    | Import                                                                                                                            |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Token CSS in the browser               | `@celestial-ui/tokens/css` (not the JS root; the root links Node `fs` catalog)                                                    |
+| Flatten / resolve aliases in a bundler | `@celestial-ui/tokens/resolve`                                                                                                    |
+| Load the JSON catalog                  | `@celestial-ui/tokens/catalog` — Node/`fs` only                                                                                   |
+| Theme identity in the client           | `@celestial-ui/theme/themes/celestial` (browser-safe preset)                                                                      |
+| `resolveTheme()`                       | `@celestial-ui/theme` (Quick Start) or `./resolve` — Node/build only; do not call in the browser                                  |
+| Theme CSS / `ResolvedTheme` in the app | Prebuilt `@celestial-ui/styles/css` (or tokens CSS), or a `ResolvedTheme` produced at build time                                  |
+| Styles runtime / SSR / compiler        | `@celestial-ui/styles/runtime`, `./ssr`, `./compiler` (not the JS root unless you need all three)                                 |
+| Styles JS bridges                      | `@celestial-ui/styles/bridges/tailwind`, `./bridges/shadcn`, `./bridges/base` — CSS stays on `./tailwind` / `./shadcn` / `./base` |
+| Core controllers                       | `@celestial-ui/core/behavior`, `./runtime`, `./overlay`, … — not the root barrel                                                  |
+| One icon provider                      | `@celestial-ui/icons` + **one** `./providers/<id>`. Do not bundle `lucide-static` CJS or a full `@iconify-json/*` set             |
 
 **Pick one static CSS stack — never both:**
 
@@ -309,5 +299,5 @@ See [compatibility-matrix.md](./compatibility-matrix.md).
 - [Repository README](../README.md)
 - [Build and validation](./build-and-validate.md)
 - [Registry configuration](./registries.md)
+- [Release process](./release.md)
 - npm (after publish): `https://www.npmjs.com/package/@celestial-ui/<package>`
-- GitHub Packages: configure per [registries.md](./registries.md)

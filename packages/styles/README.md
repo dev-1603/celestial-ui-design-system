@@ -182,13 +182,19 @@ For `compileThemeSet`, `cssText` is the multi-mode stylesheet; `variables` is la
 
 ## Entry Points
 
-| Import path                     | Purpose                             | Use when                                    |
-| ------------------------------- | ----------------------------------- | ------------------------------------------- |
-| `@celestial-ui/styles`          | Compiler, runtime, SSR, generators  | Programmatic CSS                            |
-| `@celestial-ui/styles/css`      | Prebuilt multi-mode theme variables | Fastest app integration                     |
-| `@celestial-ui/styles/base`     | Opt-in a11y/base layer              | Reduced-motion, focus-visible, color-scheme |
-| `@celestial-ui/styles/tailwind` | Tailwind v4 `@theme inline` bridge  | Tailwind v4 projects                        |
-| `@celestial-ui/styles/shadcn`   | shadcn variable adapter             | shadcn/ui variable names                    |
+| Import path                             | Purpose                             | Use when                                                 |
+| --------------------------------------- | ----------------------------------- | -------------------------------------------------------- |
+| `@celestial-ui/styles`                  | Compiler, runtime, SSR, generators  | Programmatic CSS (`generateTailwindBridge` still on `.`) |
+| `@celestial-ui/styles/css`              | Prebuilt multi-mode theme variables | Fastest app integration                                  |
+| `@celestial-ui/styles/base`             | Opt-in a11y/base layer (CSS)        | Reduced-motion, focus-visible, color-scheme              |
+| `@celestial-ui/styles/tailwind`         | Tailwind v4 `@theme inline` CSS     | Tailwind v4 projects                                     |
+| `@celestial-ui/styles/shadcn`           | shadcn variable adapter (CSS)       | shadcn/ui variable names                                 |
+| `@celestial-ui/styles/runtime`          | `createThemeStyleManager`           | Browser style attachment                                 |
+| `@celestial-ui/styles/ssr`              | SSR helpers                         | Node/SSR string output                                   |
+| `@celestial-ui/styles/compiler`         | `compileThemeSet`                   | Build-time CSS                                           |
+| `@celestial-ui/styles/bridges/tailwind` | JS `generateTailwindBridge`         | Generate v4 `@theme` CSS in code                         |
+| `@celestial-ui/styles/bridges/shadcn`   | JS `generateShadcnAdapter`          | Generate shadcn mapping in code                          |
+| `@celestial-ui/styles/bridges/base`     | JS `generateBaseCss`                | Generate base CSS in code                                |
 
 `@celestial-ui/tokens/tailwind` is a **v3 preset**. `@celestial-ui/styles/tailwind` is a **v4 CSS bridge**. They are different artifacts.
 
@@ -265,7 +271,7 @@ Scopes isolate `styleId` and selectors so multiple roots can coexist.
 @import '@celestial-ui/styles/shadcn';
 ```
 
-Or generate at runtime with `generateTailwindBridge()` / `generateShadcnAdapter()`.
+Or generate at runtime with `generateTailwindBridge()` / `generateShadcnAdapter()` from `.` or from `@celestial-ui/styles/bridges/tailwind` and `/bridges/shadcn`.
 
 ## Package Combinations
 
@@ -330,13 +336,16 @@ Future framework integration is expected to consume this package through the fra
 
 Hydration tests assert SSR `styleId` matches runtime adoption. Pass a CSP `nonce` when required; invalid nonces throw `CSP_NONCE_INVALID`.
 
-v0.1.0 is **CommonJS**. Bun 1.1.20 consumed that CJS compiler output and resolved CSS subpaths with `require.resolve`. Deno CSS imports are best-effort, not a guaranteed contract.
+v0.1.x is **dual CJS + ESM**. Bundlers resolve `import` (`dist/esm`); Node `require` keeps CJS. Bun 1.1.20 consumed that CJS compiler output and resolved CSS subpaths with `require.resolve`. Deno CSS imports are best-effort, not a guaranteed contract.
 
 ## Tree-shaking / Bundle Usage
 
 - Import `@celestial-ui/styles/css` when you do not need the JS compiler/runtime in the client.
-- Root `@celestial-ui/styles` is a CJS barrel — not advertised as fully tree-shakable.
-- Use `./tailwind` or `./shadcn` only when you need those bridges.
+- Prefer `@celestial-ui/styles/runtime`, `./ssr`, `./compiler`, and `./bridges/*` over the root barrel in application bundles.
+- Root `@celestial-ui/styles` still exports `compileThemeSet` and `generateTailwindBridge` (Quick Start unchanged).
+- CSS keys `./css`, `./base`, `./tailwind`, `./shadcn` are assets. JS generators live on `./bridges/*` so they do not collide.
+- `sideEffects` lists CSS globs only (never `false`) so bundlers keep stylesheet imports.
+- Runtime JS does not import those CSS files.
 
 ## Troubleshooting
 

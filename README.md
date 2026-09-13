@@ -40,7 +40,8 @@ Framework adapters (`@celestial-ui/react`, `@celestial-ui/vue`, `@celestial-ui/s
 
 - [Package ecosystem guide](./docs/package-usage.md)
 - [Build and validation](./docs/build-and-validate.md)
-- [Registry setup (npm + GitHub Packages)](./docs/registries.md)
+- [Registry setup (npm)](./docs/registries.md)
+- [Release process](./docs/release.md)
 - [Compatibility matrix](./docs/compatibility-matrix.md)
 - [Frozen foundation packages](./docs/frozen-packages.md)
 

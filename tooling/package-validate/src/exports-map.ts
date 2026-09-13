@@ -11,10 +11,10 @@ export const PACK_DENY_PATTERNS: readonly RegExp[] = [
   /\.pem$/,
   /CORE_IMPLEMENTATION_PLAN\.md$/,
   /CORE_IMPLEMENTATION_REPORT\.md$/,
-  /^dist\/scripts(\/|$)/,
-  /^dist\/test(\/|$)/,
-  /^dist\/seed(\.|$)/,
-  /^dist\/load-optional(\.|$)/,
+  /^dist\/(?:cjs\/|esm\/)?scripts(\/|$)/,
+  /^dist\/(?:cjs\/|esm\/)?test(\/|$)/,
+  /^dist\/(?:cjs\/|esm\/)?seed(\.|$)/,
+  /^dist\/(?:cjs\/|esm\/)?load-optional(\.|$)/,
 ];
 
 /** Packed tarball size ceilings (bytes). OPTIONAL if exceeded. */
@@ -22,8 +22,8 @@ export const PACK_SIZE_BUDGETS: Readonly<Record<string, number>> = {
   '@celestial-ui/tokens': 40 * 1024,
   '@celestial-ui/theme': 20 * 1024,
   '@celestial-ui/styles': 35 * 1024,
-  '@celestial-ui/icons': 50 * 1024,
-  '@celestial-ui/core': 95 * 1024,
+  '@celestial-ui/icons': 60 * 1024,
+  '@celestial-ui/core': 120 * 1024,
 };
 
 /** CSS-exporting packages must not declare sideEffects: false. */
@@ -67,6 +67,9 @@ export const EXPECTED_SUBPATHS: Readonly<Record<string, readonly string[]>> = {
     './runtime',
     './ssr',
     './compiler',
+    './bridges/tailwind',
+    './bridges/shadcn',
+    './bridges/base',
   ],
   '@celestial-ui/icons': [
     '.',
@@ -103,21 +106,46 @@ export const BARREL_ISOLATION: Readonly<
   },
 };
 
+const EXPORT_CONDITION_ORDER = ['default', 'require', 'import', 'types'] as const;
+
 /**
- * Resolves a package.json exports entry to a relative file path.
- * String targets and `{ default }` conditions are supported.
+ * Collects every relative file target from a package.json exports entry.
+ * Walks string targets and nested `import` / `require` / `default` / `types` objects.
+ */
+export function resolveExportPaths(exportValue: unknown): string[] {
+  const found: string[] = [];
+  const seen = new Set<unknown>();
+  walkExportValue(exportValue, found, seen);
+  return [...new Set(found)];
+}
+
+/**
+ * Resolves a package.json exports entry to a representative relative file path.
+ * Prefers `default`, then `require`, then `import` (including nested condition objects).
  */
 export function resolveExportPath(exportValue: unknown): string | null {
-  if (typeof exportValue === 'string') {
-    return exportValue;
+  return resolveExportPaths(exportValue)[0] ?? null;
+}
+
+function walkExportValue(value: unknown, found: string[], seen: Set<unknown>): void {
+  if (typeof value === 'string') {
+    if (value.startsWith('.')) found.push(value);
+    return;
   }
-  if (exportValue && typeof exportValue === 'object') {
-    const record = exportValue as Record<string, unknown>;
-    if (typeof record.default === 'string') {
-      return record.default;
-    }
+  if (!value || typeof value !== 'object' || Array.isArray(value) || seen.has(value)) {
+    return;
   }
-  return null;
+  seen.add(value);
+  const record = value as Record<string, unknown>;
+  const keys = [
+    ...EXPORT_CONDITION_ORDER.filter((key) => key in record),
+    ...Object.keys(record).filter(
+      (key) => !(EXPORT_CONDITION_ORDER as readonly string[]).includes(key),
+    ),
+  ];
+  for (const key of keys) {
+    walkExportValue(record[key], found, seen);
+  }
 }
 
 /** Joins `resolveExportPath` onto a package root (source tree or packed tarball). */
@@ -179,17 +207,18 @@ export function collectExportMapFindings(
   }
 
   for (const [subpath, value] of Object.entries(exportsMap)) {
-    const target = resolveExportPath(value);
-    if (!target) continue;
-    const packedTarget = path.join(packedRoot, target);
-    if (!fs.existsSync(packedTarget)) {
-      findings.push({
-        package: packageName,
-        category: 'exports',
-        severity: 'BLOCKER',
-        reason: `Export ${subpath} points to missing file ${target}`,
-        remediation: 'Build the package and ensure export targets exist in dist',
-      });
+    const targets = resolveExportPaths(value);
+    for (const target of targets) {
+      const packedTarget = path.join(packedRoot, target);
+      if (!fs.existsSync(packedTarget)) {
+        findings.push({
+          package: packageName,
+          category: 'exports',
+          severity: 'BLOCKER',
+          reason: `Export ${subpath} points to missing file ${target}`,
+          remediation: 'Build the package and ensure export targets exist in dist',
+        });
+      }
     }
   }
 

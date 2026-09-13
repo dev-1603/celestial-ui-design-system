@@ -13,7 +13,13 @@ export interface CanonicalTokenSources {
 }
 
 function getDataDir(): string {
-  return path.resolve(__dirname, '../data');
+  const candidates = [path.resolve(__dirname, '../data'), path.resolve(__dirname, '../../data')];
+  for (const dir of candidates) {
+    if (fs.existsSync(path.join(dir, 'primitives.json'))) {
+      return dir;
+    }
+  }
+  return candidates[0];
 }
 
 function readJsonConfig(relativePath: string): TokenConfig {

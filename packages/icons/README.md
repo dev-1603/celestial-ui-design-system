@@ -192,14 +192,23 @@ Built-in provider ids: `'lucide' | 'fa' | 'material' | 'heroicons' | 'phosphor' 
 
 | Import path                                  | Export                                   | Peer / requirement                                                       |
 | -------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------ |
-| `@celestial-ui/icons/providers/lucide`       | `LucideAdapter`                          | `lucide-static`                                                          |
+| `@celestial-ui/icons/providers/lucide`       | `LucideAdapter`, `lucide` (alias)        | `lucide-static` (browser-safe JS peer)                                   |
 | `@celestial-ui/icons/providers/font-awesome` | `FontAwesomeAdapter`                     | `@fortawesome/fontawesome-svg-core` plus free solid and/or regular packs |
 | `@celestial-ui/icons/providers/material`     | `MaterialSymbolsAdapter`                 | Material Symbols **font CSS** in the app (no npm peer)                   |
 | `@celestial-ui/icons/providers/heroicons`    | `HeroiconsAdapter`                       | `heroicons` (SVG files)                                                  |
 | `@celestial-ui/icons/providers/phosphor`     | `PhosphorAdapter`                        | `@phosphor-icons/core`                                                   |
 | `@celestial-ui/icons/providers/iconify`      | `IconifyAdapter`, `createIconifyAdapter` | `@iconify/utils` and `@iconify-json/<prefix>`                            |
 
-Lucide loads the `lucide-static` package once and indexes PascalCase names. Per-icon tree-shaking at the resolver layer is not available because the canonical name is chosen at runtime.
+Lucide loads `lucide-static` with a static `require('lucide-static')` (bundler-visible; works in browser esbuild). `export const lucide = LucideAdapter` is the same object. Per-icon tree-shaking at the resolver layer is not available because the canonical name is chosen at runtime.
+
+You can register either name:
+
+```ts
+import { LucideAdapter, lucide } from '@celestial-ui/icons/providers/lucide';
+
+registerIconProvider(LucideAdapter);
+// or: registerIconProvider(lucide);
+```
 
 ## Entry Points
 
@@ -341,7 +350,9 @@ Future framework integration is expected to consume this package through the fra
 
 The resolver does not touch the DOM. Returning SVG strings or font classes avoids framework hydration of icon _components_, but you still must render consistently on server and client.
 
-Heroicons and Phosphor adapters read SVG files from the peer package (`fs`). That path is Node-oriented. Lucide uses `lucide-static` JS string exports. Material emits class + ligature text.
+Heroicons and Phosphor adapters read SVG files from the peer package (`fs` via the Node peer helper). That path is **Node-only** — not a verified browser contract. Keep using those adapters in Node/SSR fixtures; in the client prefer Lucide (`lucide-static`) or Material (`font-class`).
+
+Lucide uses bundler-visible `lucide-static` JS string exports (no `createRequire`). Font Awesome packs use static `require()` of the `@fortawesome/*` packages. Iconify’s default `ph` collection is static; other `@iconify-json/<prefix>` collections still resolve through Node. Material emits class + ligature text.
 
 v0.1.0 is **CommonJS**. Bun 1.1.20 consumed that CJS resolver via the same `icons-node` fixture as npm/pnpm/yarn. Optional peers must be installed in the consuming app (or they resolve to missing payloads). Deno is partial.
 
@@ -357,6 +368,7 @@ v0.1.0 is **CommonJS**. Bun 1.1.20 consumed that CJS resolver via the same `icon
 | -------------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | `status: 'missing'`                                      | Register the adapter, install the peer, use a canonical name (`search`, not `Search`) |
 | Lucide payload undefined                                 | `pnpm add lucide-static`                                                              |
+| Heroicons/Phosphor fail in the browser                   | Expected — those adapters read SVG files with Node `fs`. Use Lucide or Material       |
 | Font Awesome empty                                       | Install svg-core **and** a free icon pack; Pro is not bundled                         |
 | Material has no glyphs                                   | Load Material Symbols CSS; payload is `font-class`, not SVG                           |
 | SSR icons leak across requests                           | Do not use `configureCelestialIcons` as request state; pass `IconConfig` + registry   |

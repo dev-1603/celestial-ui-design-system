@@ -85,11 +85,11 @@ Before starting `@celestial-ui/react`, `@celestial-ui/vue`, or `@celestial-ui/sv
 
 ## Documented future work (not blockers)
 
-| Item                                   | Severity | Notes                                        |
-| -------------------------------------- | -------- | -------------------------------------------- |
-| ESM dual-publish                       | P2       | Improves tree-shaking; CJS retained in 0.1.x |
-| Framework-specific conformance runners | P2       | Live in framework packages                   |
-| Root barrel minimization               | P3       | Prefer subpath imports                       |
+| Item                                   | Severity | Notes                                                              |
+| -------------------------------------- | -------- | ------------------------------------------------------------------ |
+| ESM dual-publish                       | Done     | `import` → `dist/esm`; CJS retained via `require`/`default`/`main` |
+| Framework-specific conformance runners | P2       | Live in framework packages                                         |
+| Root barrel minimization               | P3       | Prefer subpath imports                                             |
 
 ## Lock checklist
 

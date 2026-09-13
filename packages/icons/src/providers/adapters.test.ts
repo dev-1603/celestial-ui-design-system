@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { LucideAdapter } from './lucide';
+import { LucideAdapter, lucide } from './lucide';
 import { FontAwesomeAdapter } from './font-awesome';
 import { MaterialSymbolsAdapter } from './material';
 import { HeroiconsAdapter } from './heroicons';
@@ -7,6 +7,11 @@ import { PhosphorAdapter } from './phosphor';
 import { IconifyAdapter, createIconifyAdapter } from './iconify';
 
 describe('[Unit] built-in provider adapters', () => {
+  it('should expose lucide as an alias of LucideAdapter', () => {
+    expect(lucide).toBe(LucideAdapter);
+    expect(lucide.id).toBe('lucide');
+  });
+
   it('should expose stable built-in ids', () => {
     expect(LucideAdapter.id).toBe('lucide');
     expect(FontAwesomeAdapter.id).toBe('fa');

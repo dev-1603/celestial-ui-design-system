@@ -2,465 +2,1249 @@
   "name": "@celestial-ui/core",
   "version": "0.1.0",
   "description": "Framework-agnostic behavioral and contractual foundation for the Celestial UI ecosystem.",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/cjs/index.d.ts",
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      },
+      "default": "./dist/cjs/index.js"
     },
     "./contracts": {
-      "types": "./dist/exports/contracts.d.ts",
-      "default": "./dist/exports/contracts.js"
+      "import": {
+        "types": "./dist/esm/exports/contracts.d.ts",
+        "default": "./dist/esm/exports/contracts.js"
+      },
+      "require": {
+        "types": "./dist/cjs/exports/contracts.d.ts",
+        "default": "./dist/cjs/exports/contracts.js"
+      },
+      "default": "./dist/cjs/exports/contracts.js"
     },
     "./behavior": {
-      "types": "./dist/exports/behavior.d.ts",
-      "default": "./dist/exports/behavior.js"
+      "import": {
+        "types": "./dist/esm/exports/behavior.d.ts",
+        "default": "./dist/esm/exports/behavior.js"
+      },
+      "require": {
+        "types": "./dist/cjs/exports/behavior.d.ts",
+        "default": "./dist/cjs/exports/behavior.js"
+      },
+      "default": "./dist/cjs/exports/behavior.js"
     },
     "./accessibility": {
-      "types": "./dist/exports/accessibility.d.ts",
-      "default": "./dist/exports/accessibility.js"
+      "import": {
+        "types": "./dist/esm/exports/accessibility.d.ts",
+        "default": "./dist/esm/exports/accessibility.js"
+      },
+      "require": {
+        "types": "./dist/cjs/exports/accessibility.d.ts",
+        "default": "./dist/cjs/exports/accessibility.js"
+      },
+      "default": "./dist/cjs/exports/accessibility.js"
     },
     "./collection": {
-      "types": "./dist/exports/collection.d.ts",
-      "default": "./dist/exports/collection.js"
+      "import": {
+        "types": "./dist/esm/exports/collection.d.ts",
+        "default": "./dist/esm/exports/collection.js"
+      },
+      "require": {
+        "types": "./dist/cjs/exports/collection.d.ts",
+        "default": "./dist/cjs/exports/collection.js"
+      },
+      "default": "./dist/cjs/exports/collection.js"
     },
     "./overlay": {
-      "types": "./dist/exports/overlay.d.ts",
-      "default": "./dist/exports/overlay.js"
+      "import": {
+        "types": "./dist/esm/exports/overlay.d.ts",
+        "default": "./dist/esm/exports/overlay.js"
+      },
+      "require": {
+        "types": "./dist/cjs/exports/overlay.d.ts",
+        "default": "./dist/cjs/exports/overlay.js"
+      },
+      "default": "./dist/cjs/exports/overlay.js"
     },
     "./runtime": {
-      "types": "./dist/exports/runtime.d.ts",
-      "default": "./dist/exports/runtime.js"
+      "import": {
+        "types": "./dist/esm/exports/runtime.d.ts",
+        "default": "./dist/esm/exports/runtime.js"
+      },
+      "require": {
+        "types": "./dist/cjs/exports/runtime.d.ts",
+        "default": "./dist/cjs/exports/runtime.js"
+      },
+      "default": "./dist/cjs/exports/runtime.js"
     },
     "./catalog": {
-      "types": "./dist/exports/catalog.d.ts",
-      "default": "./dist/exports/catalog.js"
+      "import": {
+        "types": "./dist/esm/exports/catalog.d.ts",
+        "default": "./dist/esm/exports/catalog.js"
+      },
+      "require": {
+        "types": "./dist/cjs/exports/catalog.d.ts",
+        "default": "./dist/cjs/exports/catalog.js"
+      },
+      "default": "./dist/cjs/exports/catalog.js"
     },
     "./testing": {
-      "types": "./dist/testing/index.d.ts",
-      "default": "./dist/testing/index.js"
+      "import": {
+        "types": "./dist/esm/testing/index.d.ts",
+        "default": "./dist/esm/testing/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/testing/index.d.ts",
+        "default": "./dist/cjs/testing/index.js"
+      },
+      "default": "./dist/cjs/testing/index.js"
     },
     "./specs/accordion": {
-      "types": "./dist/catalog/specs/accordion.d.ts",
-      "default": "./dist/catalog/specs/accordion.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/accordion.d.ts",
+        "default": "./dist/esm/catalog/specs/accordion.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/accordion.d.ts",
+        "default": "./dist/cjs/catalog/specs/accordion.js"
+      },
+      "default": "./dist/cjs/catalog/specs/accordion.js"
     },
     "./specs/action-bar": {
-      "types": "./dist/catalog/specs/action-bar.d.ts",
-      "default": "./dist/catalog/specs/action-bar.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/action-bar.d.ts",
+        "default": "./dist/esm/catalog/specs/action-bar.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/action-bar.d.ts",
+        "default": "./dist/cjs/catalog/specs/action-bar.js"
+      },
+      "default": "./dist/cjs/catalog/specs/action-bar.js"
     },
     "./specs/alert": {
-      "types": "./dist/catalog/specs/alert.d.ts",
-      "default": "./dist/catalog/specs/alert.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/alert.d.ts",
+        "default": "./dist/esm/catalog/specs/alert.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/alert.d.ts",
+        "default": "./dist/cjs/catalog/specs/alert.js"
+      },
+      "default": "./dist/cjs/catalog/specs/alert.js"
     },
     "./specs/alert-dialog": {
-      "types": "./dist/catalog/specs/alert-dialog.d.ts",
-      "default": "./dist/catalog/specs/alert-dialog.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/alert-dialog.d.ts",
+        "default": "./dist/esm/catalog/specs/alert-dialog.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/alert-dialog.d.ts",
+        "default": "./dist/cjs/catalog/specs/alert-dialog.js"
+      },
+      "default": "./dist/cjs/catalog/specs/alert-dialog.js"
     },
     "./specs/app-shell": {
-      "types": "./dist/catalog/specs/app-shell.d.ts",
-      "default": "./dist/catalog/specs/app-shell.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/app-shell.d.ts",
+        "default": "./dist/esm/catalog/specs/app-shell.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/app-shell.d.ts",
+        "default": "./dist/cjs/catalog/specs/app-shell.js"
+      },
+      "default": "./dist/cjs/catalog/specs/app-shell.js"
     },
     "./specs/aspect-ratio": {
-      "types": "./dist/catalog/specs/aspect-ratio.d.ts",
-      "default": "./dist/catalog/specs/aspect-ratio.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/aspect-ratio.d.ts",
+        "default": "./dist/esm/catalog/specs/aspect-ratio.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/aspect-ratio.d.ts",
+        "default": "./dist/cjs/catalog/specs/aspect-ratio.js"
+      },
+      "default": "./dist/cjs/catalog/specs/aspect-ratio.js"
     },
     "./specs/avatar": {
-      "types": "./dist/catalog/specs/avatar.d.ts",
-      "default": "./dist/catalog/specs/avatar.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/avatar.d.ts",
+        "default": "./dist/esm/catalog/specs/avatar.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/avatar.d.ts",
+        "default": "./dist/cjs/catalog/specs/avatar.js"
+      },
+      "default": "./dist/cjs/catalog/specs/avatar.js"
     },
     "./specs/badge": {
-      "types": "./dist/catalog/specs/badge.d.ts",
-      "default": "./dist/catalog/specs/badge.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/badge.d.ts",
+        "default": "./dist/esm/catalog/specs/badge.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/badge.d.ts",
+        "default": "./dist/cjs/catalog/specs/badge.js"
+      },
+      "default": "./dist/cjs/catalog/specs/badge.js"
     },
     "./specs/banner": {
-      "types": "./dist/catalog/specs/banner.d.ts",
-      "default": "./dist/catalog/specs/banner.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/banner.d.ts",
+        "default": "./dist/esm/catalog/specs/banner.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/banner.d.ts",
+        "default": "./dist/cjs/catalog/specs/banner.js"
+      },
+      "default": "./dist/cjs/catalog/specs/banner.js"
     },
     "./specs/blockquote": {
-      "types": "./dist/catalog/specs/blockquote.d.ts",
-      "default": "./dist/catalog/specs/blockquote.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/blockquote.d.ts",
+        "default": "./dist/esm/catalog/specs/blockquote.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/blockquote.d.ts",
+        "default": "./dist/cjs/catalog/specs/blockquote.js"
+      },
+      "default": "./dist/cjs/catalog/specs/blockquote.js"
     },
     "./specs/box": {
-      "types": "./dist/catalog/specs/box.d.ts",
-      "default": "./dist/catalog/specs/box.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/box.d.ts",
+        "default": "./dist/esm/catalog/specs/box.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/box.d.ts",
+        "default": "./dist/cjs/catalog/specs/box.js"
+      },
+      "default": "./dist/cjs/catalog/specs/box.js"
     },
     "./specs/breadcrumb": {
-      "types": "./dist/catalog/specs/breadcrumb.d.ts",
-      "default": "./dist/catalog/specs/breadcrumb.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/breadcrumb.d.ts",
+        "default": "./dist/esm/catalog/specs/breadcrumb.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/breadcrumb.d.ts",
+        "default": "./dist/cjs/catalog/specs/breadcrumb.js"
+      },
+      "default": "./dist/cjs/catalog/specs/breadcrumb.js"
     },
     "./specs/button": {
-      "types": "./dist/catalog/specs/button.d.ts",
-      "default": "./dist/catalog/specs/button.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/button.d.ts",
+        "default": "./dist/esm/catalog/specs/button.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/button.d.ts",
+        "default": "./dist/cjs/catalog/specs/button.js"
+      },
+      "default": "./dist/cjs/catalog/specs/button.js"
     },
     "./specs/calendar": {
-      "types": "./dist/catalog/specs/calendar.d.ts",
-      "default": "./dist/catalog/specs/calendar.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/calendar.d.ts",
+        "default": "./dist/esm/catalog/specs/calendar.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/calendar.d.ts",
+        "default": "./dist/cjs/catalog/specs/calendar.js"
+      },
+      "default": "./dist/cjs/catalog/specs/calendar.js"
     },
     "./specs/callout": {
-      "types": "./dist/catalog/specs/callout.d.ts",
-      "default": "./dist/catalog/specs/callout.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/callout.d.ts",
+        "default": "./dist/esm/catalog/specs/callout.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/callout.d.ts",
+        "default": "./dist/cjs/catalog/specs/callout.js"
+      },
+      "default": "./dist/cjs/catalog/specs/callout.js"
     },
     "./specs/card": {
-      "types": "./dist/catalog/specs/card.d.ts",
-      "default": "./dist/catalog/specs/card.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/card.d.ts",
+        "default": "./dist/esm/catalog/specs/card.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/card.d.ts",
+        "default": "./dist/cjs/catalog/specs/card.js"
+      },
+      "default": "./dist/cjs/catalog/specs/card.js"
     },
     "./specs/carousel": {
-      "types": "./dist/catalog/specs/carousel.d.ts",
-      "default": "./dist/catalog/specs/carousel.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/carousel.d.ts",
+        "default": "./dist/esm/catalog/specs/carousel.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/carousel.d.ts",
+        "default": "./dist/cjs/catalog/specs/carousel.js"
+      },
+      "default": "./dist/cjs/catalog/specs/carousel.js"
     },
     "./specs/center": {
-      "types": "./dist/catalog/specs/center.d.ts",
-      "default": "./dist/catalog/specs/center.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/center.d.ts",
+        "default": "./dist/esm/catalog/specs/center.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/center.d.ts",
+        "default": "./dist/cjs/catalog/specs/center.js"
+      },
+      "default": "./dist/cjs/catalog/specs/center.js"
     },
     "./specs/chart": {
-      "types": "./dist/catalog/specs/chart.d.ts",
-      "default": "./dist/catalog/specs/chart.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/chart.d.ts",
+        "default": "./dist/esm/catalog/specs/chart.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/chart.d.ts",
+        "default": "./dist/cjs/catalog/specs/chart.js"
+      },
+      "default": "./dist/cjs/catalog/specs/chart.js"
     },
     "./specs/checkbox": {
-      "types": "./dist/catalog/specs/checkbox.d.ts",
-      "default": "./dist/catalog/specs/checkbox.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/checkbox.d.ts",
+        "default": "./dist/esm/catalog/specs/checkbox.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/checkbox.d.ts",
+        "default": "./dist/cjs/catalog/specs/checkbox.js"
+      },
+      "default": "./dist/cjs/catalog/specs/checkbox.js"
     },
     "./specs/chip": {
-      "types": "./dist/catalog/specs/chip.d.ts",
-      "default": "./dist/catalog/specs/chip.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/chip.d.ts",
+        "default": "./dist/esm/catalog/specs/chip.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/chip.d.ts",
+        "default": "./dist/cjs/catalog/specs/chip.js"
+      },
+      "default": "./dist/cjs/catalog/specs/chip.js"
     },
     "./specs/code": {
-      "types": "./dist/catalog/specs/code.d.ts",
-      "default": "./dist/catalog/specs/code.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/code.d.ts",
+        "default": "./dist/esm/catalog/specs/code.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/code.d.ts",
+        "default": "./dist/cjs/catalog/specs/code.js"
+      },
+      "default": "./dist/cjs/catalog/specs/code.js"
     },
     "./specs/collapsible": {
-      "types": "./dist/catalog/specs/collapsible.d.ts",
-      "default": "./dist/catalog/specs/collapsible.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/collapsible.d.ts",
+        "default": "./dist/esm/catalog/specs/collapsible.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/collapsible.d.ts",
+        "default": "./dist/cjs/catalog/specs/collapsible.js"
+      },
+      "default": "./dist/cjs/catalog/specs/collapsible.js"
     },
     "./specs/color-picker": {
-      "types": "./dist/catalog/specs/color-picker.d.ts",
-      "default": "./dist/catalog/specs/color-picker.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/color-picker.d.ts",
+        "default": "./dist/esm/catalog/specs/color-picker.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/color-picker.d.ts",
+        "default": "./dist/cjs/catalog/specs/color-picker.js"
+      },
+      "default": "./dist/cjs/catalog/specs/color-picker.js"
     },
     "./specs/combobox": {
-      "types": "./dist/catalog/specs/combobox.d.ts",
-      "default": "./dist/catalog/specs/combobox.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/combobox.d.ts",
+        "default": "./dist/esm/catalog/specs/combobox.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/combobox.d.ts",
+        "default": "./dist/cjs/catalog/specs/combobox.js"
+      },
+      "default": "./dist/cjs/catalog/specs/combobox.js"
     },
     "./specs/command": {
-      "types": "./dist/catalog/specs/command.d.ts",
-      "default": "./dist/catalog/specs/command.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/command.d.ts",
+        "default": "./dist/esm/catalog/specs/command.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/command.d.ts",
+        "default": "./dist/cjs/catalog/specs/command.js"
+      },
+      "default": "./dist/cjs/catalog/specs/command.js"
     },
     "./specs/container": {
-      "types": "./dist/catalog/specs/container.d.ts",
-      "default": "./dist/catalog/specs/container.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/container.d.ts",
+        "default": "./dist/esm/catalog/specs/container.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/container.d.ts",
+        "default": "./dist/cjs/catalog/specs/container.js"
+      },
+      "default": "./dist/cjs/catalog/specs/container.js"
     },
     "./specs/context-menu": {
-      "types": "./dist/catalog/specs/context-menu.d.ts",
-      "default": "./dist/catalog/specs/context-menu.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/context-menu.d.ts",
+        "default": "./dist/esm/catalog/specs/context-menu.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/context-menu.d.ts",
+        "default": "./dist/cjs/catalog/specs/context-menu.js"
+      },
+      "default": "./dist/cjs/catalog/specs/context-menu.js"
     },
     "./specs/data-table": {
-      "types": "./dist/catalog/specs/data-table.d.ts",
-      "default": "./dist/catalog/specs/data-table.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/data-table.d.ts",
+        "default": "./dist/esm/catalog/specs/data-table.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/data-table.d.ts",
+        "default": "./dist/cjs/catalog/specs/data-table.js"
+      },
+      "default": "./dist/cjs/catalog/specs/data-table.js"
     },
     "./specs/date-picker": {
-      "types": "./dist/catalog/specs/date-picker.d.ts",
-      "default": "./dist/catalog/specs/date-picker.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/date-picker.d.ts",
+        "default": "./dist/esm/catalog/specs/date-picker.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/date-picker.d.ts",
+        "default": "./dist/cjs/catalog/specs/date-picker.js"
+      },
+      "default": "./dist/cjs/catalog/specs/date-picker.js"
     },
     "./specs/date-range-picker": {
-      "types": "./dist/catalog/specs/date-range-picker.d.ts",
-      "default": "./dist/catalog/specs/date-range-picker.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/date-range-picker.d.ts",
+        "default": "./dist/esm/catalog/specs/date-range-picker.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/date-range-picker.d.ts",
+        "default": "./dist/cjs/catalog/specs/date-range-picker.js"
+      },
+      "default": "./dist/cjs/catalog/specs/date-range-picker.js"
     },
     "./specs/dialog": {
-      "types": "./dist/catalog/specs/dialog.d.ts",
-      "default": "./dist/catalog/specs/dialog.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/dialog.d.ts",
+        "default": "./dist/esm/catalog/specs/dialog.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/dialog.d.ts",
+        "default": "./dist/cjs/catalog/specs/dialog.js"
+      },
+      "default": "./dist/cjs/catalog/specs/dialog.js"
     },
     "./specs/divider": {
-      "types": "./dist/catalog/specs/divider.d.ts",
-      "default": "./dist/catalog/specs/divider.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/divider.d.ts",
+        "default": "./dist/esm/catalog/specs/divider.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/divider.d.ts",
+        "default": "./dist/cjs/catalog/specs/divider.js"
+      },
+      "default": "./dist/cjs/catalog/specs/divider.js"
     },
     "./specs/drawer": {
-      "types": "./dist/catalog/specs/drawer.d.ts",
-      "default": "./dist/catalog/specs/drawer.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/drawer.d.ts",
+        "default": "./dist/esm/catalog/specs/drawer.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/drawer.d.ts",
+        "default": "./dist/cjs/catalog/specs/drawer.js"
+      },
+      "default": "./dist/cjs/catalog/specs/drawer.js"
     },
     "./specs/dropdown-menu": {
-      "types": "./dist/catalog/specs/dropdown-menu.d.ts",
-      "default": "./dist/catalog/specs/dropdown-menu.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/dropdown-menu.d.ts",
+        "default": "./dist/esm/catalog/specs/dropdown-menu.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/dropdown-menu.d.ts",
+        "default": "./dist/cjs/catalog/specs/dropdown-menu.js"
+      },
+      "default": "./dist/cjs/catalog/specs/dropdown-menu.js"
     },
     "./specs/dropzone": {
-      "types": "./dist/catalog/specs/dropzone.d.ts",
-      "default": "./dist/catalog/specs/dropzone.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/dropzone.d.ts",
+        "default": "./dist/esm/catalog/specs/dropzone.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/dropzone.d.ts",
+        "default": "./dist/cjs/catalog/specs/dropzone.js"
+      },
+      "default": "./dist/cjs/catalog/specs/dropzone.js"
     },
     "./specs/empty-state": {
-      "types": "./dist/catalog/specs/empty-state.d.ts",
-      "default": "./dist/catalog/specs/empty-state.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/empty-state.d.ts",
+        "default": "./dist/esm/catalog/specs/empty-state.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/empty-state.d.ts",
+        "default": "./dist/cjs/catalog/specs/empty-state.js"
+      },
+      "default": "./dist/cjs/catalog/specs/empty-state.js"
     },
     "./specs/figure": {
-      "types": "./dist/catalog/specs/figure.d.ts",
-      "default": "./dist/catalog/specs/figure.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/figure.d.ts",
+        "default": "./dist/esm/catalog/specs/figure.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/figure.d.ts",
+        "default": "./dist/cjs/catalog/specs/figure.js"
+      },
+      "default": "./dist/cjs/catalog/specs/figure.js"
     },
     "./specs/file-upload": {
-      "types": "./dist/catalog/specs/file-upload.d.ts",
-      "default": "./dist/catalog/specs/file-upload.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/file-upload.d.ts",
+        "default": "./dist/esm/catalog/specs/file-upload.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/file-upload.d.ts",
+        "default": "./dist/cjs/catalog/specs/file-upload.js"
+      },
+      "default": "./dist/cjs/catalog/specs/file-upload.js"
     },
     "./specs/flex": {
-      "types": "./dist/catalog/specs/flex.d.ts",
-      "default": "./dist/catalog/specs/flex.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/flex.d.ts",
+        "default": "./dist/esm/catalog/specs/flex.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/flex.d.ts",
+        "default": "./dist/cjs/catalog/specs/flex.js"
+      },
+      "default": "./dist/cjs/catalog/specs/flex.js"
     },
     "./specs/form": {
-      "types": "./dist/catalog/specs/form.d.ts",
-      "default": "./dist/catalog/specs/form.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/form.d.ts",
+        "default": "./dist/esm/catalog/specs/form.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/form.d.ts",
+        "default": "./dist/cjs/catalog/specs/form.js"
+      },
+      "default": "./dist/cjs/catalog/specs/form.js"
     },
     "./specs/grid": {
-      "types": "./dist/catalog/specs/grid.d.ts",
-      "default": "./dist/catalog/specs/grid.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/grid.d.ts",
+        "default": "./dist/esm/catalog/specs/grid.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/grid.d.ts",
+        "default": "./dist/cjs/catalog/specs/grid.js"
+      },
+      "default": "./dist/cjs/catalog/specs/grid.js"
     },
     "./specs/heading": {
-      "types": "./dist/catalog/specs/heading.d.ts",
-      "default": "./dist/catalog/specs/heading.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/heading.d.ts",
+        "default": "./dist/esm/catalog/specs/heading.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/heading.d.ts",
+        "default": "./dist/cjs/catalog/specs/heading.js"
+      },
+      "default": "./dist/cjs/catalog/specs/heading.js"
     },
     "./specs/hero": {
-      "types": "./dist/catalog/specs/hero.d.ts",
-      "default": "./dist/catalog/specs/hero.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/hero.d.ts",
+        "default": "./dist/esm/catalog/specs/hero.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/hero.d.ts",
+        "default": "./dist/cjs/catalog/specs/hero.js"
+      },
+      "default": "./dist/cjs/catalog/specs/hero.js"
     },
     "./specs/hover-card": {
-      "types": "./dist/catalog/specs/hover-card.d.ts",
-      "default": "./dist/catalog/specs/hover-card.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/hover-card.d.ts",
+        "default": "./dist/esm/catalog/specs/hover-card.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/hover-card.d.ts",
+        "default": "./dist/cjs/catalog/specs/hover-card.js"
+      },
+      "default": "./dist/cjs/catalog/specs/hover-card.js"
     },
     "./specs/icon": {
-      "types": "./dist/catalog/specs/icon.d.ts",
-      "default": "./dist/catalog/specs/icon.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/icon.d.ts",
+        "default": "./dist/esm/catalog/specs/icon.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/icon.d.ts",
+        "default": "./dist/cjs/catalog/specs/icon.js"
+      },
+      "default": "./dist/cjs/catalog/specs/icon.js"
     },
     "./specs/image": {
-      "types": "./dist/catalog/specs/image.d.ts",
-      "default": "./dist/catalog/specs/image.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/image.d.ts",
+        "default": "./dist/esm/catalog/specs/image.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/image.d.ts",
+        "default": "./dist/cjs/catalog/specs/image.js"
+      },
+      "default": "./dist/cjs/catalog/specs/image.js"
     },
     "./specs/input": {
-      "types": "./dist/catalog/specs/input.d.ts",
-      "default": "./dist/catalog/specs/input.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/input.d.ts",
+        "default": "./dist/esm/catalog/specs/input.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/input.d.ts",
+        "default": "./dist/cjs/catalog/specs/input.js"
+      },
+      "default": "./dist/cjs/catalog/specs/input.js"
     },
     "./specs/input-otp": {
-      "types": "./dist/catalog/specs/input-otp.d.ts",
-      "default": "./dist/catalog/specs/input-otp.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/input-otp.d.ts",
+        "default": "./dist/esm/catalog/specs/input-otp.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/input-otp.d.ts",
+        "default": "./dist/cjs/catalog/specs/input-otp.js"
+      },
+      "default": "./dist/cjs/catalog/specs/input-otp.js"
     },
     "./specs/kbd": {
-      "types": "./dist/catalog/specs/kbd.d.ts",
-      "default": "./dist/catalog/specs/kbd.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/kbd.d.ts",
+        "default": "./dist/esm/catalog/specs/kbd.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/kbd.d.ts",
+        "default": "./dist/cjs/catalog/specs/kbd.js"
+      },
+      "default": "./dist/cjs/catalog/specs/kbd.js"
     },
     "./specs/label": {
-      "types": "./dist/catalog/specs/label.d.ts",
-      "default": "./dist/catalog/specs/label.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/label.d.ts",
+        "default": "./dist/esm/catalog/specs/label.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/label.d.ts",
+        "default": "./dist/cjs/catalog/specs/label.js"
+      },
+      "default": "./dist/cjs/catalog/specs/label.js"
     },
     "./specs/link": {
-      "types": "./dist/catalog/specs/link.d.ts",
-      "default": "./dist/catalog/specs/link.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/link.d.ts",
+        "default": "./dist/esm/catalog/specs/link.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/link.d.ts",
+        "default": "./dist/cjs/catalog/specs/link.js"
+      },
+      "default": "./dist/cjs/catalog/specs/link.js"
     },
     "./specs/list": {
-      "types": "./dist/catalog/specs/list.d.ts",
-      "default": "./dist/catalog/specs/list.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/list.d.ts",
+        "default": "./dist/esm/catalog/specs/list.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/list.d.ts",
+        "default": "./dist/cjs/catalog/specs/list.js"
+      },
+      "default": "./dist/cjs/catalog/specs/list.js"
     },
     "./specs/list-item": {
-      "types": "./dist/catalog/specs/list-item.d.ts",
-      "default": "./dist/catalog/specs/list-item.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/list-item.d.ts",
+        "default": "./dist/esm/catalog/specs/list-item.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/list-item.d.ts",
+        "default": "./dist/cjs/catalog/specs/list-item.js"
+      },
+      "default": "./dist/cjs/catalog/specs/list-item.js"
     },
     "./specs/menubar": {
-      "types": "./dist/catalog/specs/menubar.d.ts",
-      "default": "./dist/catalog/specs/menubar.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/menubar.d.ts",
+        "default": "./dist/esm/catalog/specs/menubar.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/menubar.d.ts",
+        "default": "./dist/cjs/catalog/specs/menubar.js"
+      },
+      "default": "./dist/cjs/catalog/specs/menubar.js"
     },
     "./specs/meter": {
-      "types": "./dist/catalog/specs/meter.d.ts",
-      "default": "./dist/catalog/specs/meter.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/meter.d.ts",
+        "default": "./dist/esm/catalog/specs/meter.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/meter.d.ts",
+        "default": "./dist/cjs/catalog/specs/meter.js"
+      },
+      "default": "./dist/cjs/catalog/specs/meter.js"
     },
     "./specs/navigation-menu": {
-      "types": "./dist/catalog/specs/navigation-menu.d.ts",
-      "default": "./dist/catalog/specs/navigation-menu.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/navigation-menu.d.ts",
+        "default": "./dist/esm/catalog/specs/navigation-menu.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/navigation-menu.d.ts",
+        "default": "./dist/cjs/catalog/specs/navigation-menu.js"
+      },
+      "default": "./dist/cjs/catalog/specs/navigation-menu.js"
     },
     "./specs/notice": {
-      "types": "./dist/catalog/specs/notice.d.ts",
-      "default": "./dist/catalog/specs/notice.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/notice.d.ts",
+        "default": "./dist/esm/catalog/specs/notice.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/notice.d.ts",
+        "default": "./dist/cjs/catalog/specs/notice.js"
+      },
+      "default": "./dist/cjs/catalog/specs/notice.js"
     },
     "./specs/number-input": {
-      "types": "./dist/catalog/specs/number-input.d.ts",
-      "default": "./dist/catalog/specs/number-input.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/number-input.d.ts",
+        "default": "./dist/esm/catalog/specs/number-input.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/number-input.d.ts",
+        "default": "./dist/cjs/catalog/specs/number-input.js"
+      },
+      "default": "./dist/cjs/catalog/specs/number-input.js"
     },
     "./specs/page-header": {
-      "types": "./dist/catalog/specs/page-header.d.ts",
-      "default": "./dist/catalog/specs/page-header.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/page-header.d.ts",
+        "default": "./dist/esm/catalog/specs/page-header.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/page-header.d.ts",
+        "default": "./dist/cjs/catalog/specs/page-header.js"
+      },
+      "default": "./dist/cjs/catalog/specs/page-header.js"
     },
     "./specs/page-layout": {
-      "types": "./dist/catalog/specs/page-layout.d.ts",
-      "default": "./dist/catalog/specs/page-layout.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/page-layout.d.ts",
+        "default": "./dist/esm/catalog/specs/page-layout.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/page-layout.d.ts",
+        "default": "./dist/cjs/catalog/specs/page-layout.js"
+      },
+      "default": "./dist/cjs/catalog/specs/page-layout.js"
     },
     "./specs/pagination": {
-      "types": "./dist/catalog/specs/pagination.d.ts",
-      "default": "./dist/catalog/specs/pagination.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/pagination.d.ts",
+        "default": "./dist/esm/catalog/specs/pagination.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/pagination.d.ts",
+        "default": "./dist/cjs/catalog/specs/pagination.js"
+      },
+      "default": "./dist/cjs/catalog/specs/pagination.js"
     },
     "./specs/panel": {
-      "types": "./dist/catalog/specs/panel.d.ts",
-      "default": "./dist/catalog/specs/panel.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/panel.d.ts",
+        "default": "./dist/esm/catalog/specs/panel.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/panel.d.ts",
+        "default": "./dist/cjs/catalog/specs/panel.js"
+      },
+      "default": "./dist/cjs/catalog/specs/panel.js"
     },
     "./specs/password-input": {
-      "types": "./dist/catalog/specs/password-input.d.ts",
-      "default": "./dist/catalog/specs/password-input.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/password-input.d.ts",
+        "default": "./dist/esm/catalog/specs/password-input.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/password-input.d.ts",
+        "default": "./dist/cjs/catalog/specs/password-input.js"
+      },
+      "default": "./dist/cjs/catalog/specs/password-input.js"
     },
     "./specs/phone-input": {
-      "types": "./dist/catalog/specs/phone-input.d.ts",
-      "default": "./dist/catalog/specs/phone-input.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/phone-input.d.ts",
+        "default": "./dist/esm/catalog/specs/phone-input.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/phone-input.d.ts",
+        "default": "./dist/cjs/catalog/specs/phone-input.js"
+      },
+      "default": "./dist/cjs/catalog/specs/phone-input.js"
     },
     "./specs/pin-input": {
-      "types": "./dist/catalog/specs/pin-input.d.ts",
-      "default": "./dist/catalog/specs/pin-input.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/pin-input.d.ts",
+        "default": "./dist/esm/catalog/specs/pin-input.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/pin-input.d.ts",
+        "default": "./dist/cjs/catalog/specs/pin-input.js"
+      },
+      "default": "./dist/cjs/catalog/specs/pin-input.js"
     },
     "./specs/popover": {
-      "types": "./dist/catalog/specs/popover.d.ts",
-      "default": "./dist/catalog/specs/popover.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/popover.d.ts",
+        "default": "./dist/esm/catalog/specs/popover.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/popover.d.ts",
+        "default": "./dist/cjs/catalog/specs/popover.js"
+      },
+      "default": "./dist/cjs/catalog/specs/popover.js"
     },
     "./specs/progress": {
-      "types": "./dist/catalog/specs/progress.d.ts",
-      "default": "./dist/catalog/specs/progress.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/progress.d.ts",
+        "default": "./dist/esm/catalog/specs/progress.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/progress.d.ts",
+        "default": "./dist/cjs/catalog/specs/progress.js"
+      },
+      "default": "./dist/cjs/catalog/specs/progress.js"
     },
     "./specs/radio-group": {
-      "types": "./dist/catalog/specs/radio-group.d.ts",
-      "default": "./dist/catalog/specs/radio-group.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/radio-group.d.ts",
+        "default": "./dist/esm/catalog/specs/radio-group.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/radio-group.d.ts",
+        "default": "./dist/cjs/catalog/specs/radio-group.js"
+      },
+      "default": "./dist/cjs/catalog/specs/radio-group.js"
     },
     "./specs/rating": {
-      "types": "./dist/catalog/specs/rating.d.ts",
-      "default": "./dist/catalog/specs/rating.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/rating.d.ts",
+        "default": "./dist/esm/catalog/specs/rating.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/rating.d.ts",
+        "default": "./dist/cjs/catalog/specs/rating.js"
+      },
+      "default": "./dist/cjs/catalog/specs/rating.js"
     },
     "./specs/resizable": {
-      "types": "./dist/catalog/specs/resizable.d.ts",
-      "default": "./dist/catalog/specs/resizable.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/resizable.d.ts",
+        "default": "./dist/esm/catalog/specs/resizable.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/resizable.d.ts",
+        "default": "./dist/cjs/catalog/specs/resizable.js"
+      },
+      "default": "./dist/cjs/catalog/specs/resizable.js"
     },
     "./specs/scroll-area": {
-      "types": "./dist/catalog/specs/scroll-area.d.ts",
-      "default": "./dist/catalog/specs/scroll-area.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/scroll-area.d.ts",
+        "default": "./dist/esm/catalog/specs/scroll-area.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/scroll-area.d.ts",
+        "default": "./dist/cjs/catalog/specs/scroll-area.js"
+      },
+      "default": "./dist/cjs/catalog/specs/scroll-area.js"
     },
     "./specs/search-input": {
-      "types": "./dist/catalog/specs/search-input.d.ts",
-      "default": "./dist/catalog/specs/search-input.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/search-input.d.ts",
+        "default": "./dist/esm/catalog/specs/search-input.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/search-input.d.ts",
+        "default": "./dist/cjs/catalog/specs/search-input.js"
+      },
+      "default": "./dist/cjs/catalog/specs/search-input.js"
     },
     "./specs/segmented-control": {
-      "types": "./dist/catalog/specs/segmented-control.d.ts",
-      "default": "./dist/catalog/specs/segmented-control.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/segmented-control.d.ts",
+        "default": "./dist/esm/catalog/specs/segmented-control.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/segmented-control.d.ts",
+        "default": "./dist/cjs/catalog/specs/segmented-control.js"
+      },
+      "default": "./dist/cjs/catalog/specs/segmented-control.js"
     },
     "./specs/select": {
-      "types": "./dist/catalog/specs/select.d.ts",
-      "default": "./dist/catalog/specs/select.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/select.d.ts",
+        "default": "./dist/esm/catalog/specs/select.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/select.d.ts",
+        "default": "./dist/cjs/catalog/specs/select.js"
+      },
+      "default": "./dist/cjs/catalog/specs/select.js"
     },
     "./specs/separator": {
-      "types": "./dist/catalog/specs/separator.d.ts",
-      "default": "./dist/catalog/specs/separator.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/separator.d.ts",
+        "default": "./dist/esm/catalog/specs/separator.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/separator.d.ts",
+        "default": "./dist/cjs/catalog/specs/separator.js"
+      },
+      "default": "./dist/cjs/catalog/specs/separator.js"
     },
     "./specs/sheet": {
-      "types": "./dist/catalog/specs/sheet.d.ts",
-      "default": "./dist/catalog/specs/sheet.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/sheet.d.ts",
+        "default": "./dist/esm/catalog/specs/sheet.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/sheet.d.ts",
+        "default": "./dist/cjs/catalog/specs/sheet.js"
+      },
+      "default": "./dist/cjs/catalog/specs/sheet.js"
     },
     "./specs/sidebar": {
-      "types": "./dist/catalog/specs/sidebar.d.ts",
-      "default": "./dist/catalog/specs/sidebar.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/sidebar.d.ts",
+        "default": "./dist/esm/catalog/specs/sidebar.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/sidebar.d.ts",
+        "default": "./dist/cjs/catalog/specs/sidebar.js"
+      },
+      "default": "./dist/cjs/catalog/specs/sidebar.js"
     },
     "./specs/skeleton": {
-      "types": "./dist/catalog/specs/skeleton.d.ts",
-      "default": "./dist/catalog/specs/skeleton.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/skeleton.d.ts",
+        "default": "./dist/esm/catalog/specs/skeleton.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/skeleton.d.ts",
+        "default": "./dist/cjs/catalog/specs/skeleton.js"
+      },
+      "default": "./dist/cjs/catalog/specs/skeleton.js"
     },
     "./specs/slider": {
-      "types": "./dist/catalog/specs/slider.d.ts",
-      "default": "./dist/catalog/specs/slider.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/slider.d.ts",
+        "default": "./dist/esm/catalog/specs/slider.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/slider.d.ts",
+        "default": "./dist/cjs/catalog/specs/slider.js"
+      },
+      "default": "./dist/cjs/catalog/specs/slider.js"
     },
     "./specs/sonner": {
-      "types": "./dist/catalog/specs/sonner.d.ts",
-      "default": "./dist/catalog/specs/sonner.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/sonner.d.ts",
+        "default": "./dist/esm/catalog/specs/sonner.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/sonner.d.ts",
+        "default": "./dist/cjs/catalog/specs/sonner.js"
+      },
+      "default": "./dist/cjs/catalog/specs/sonner.js"
     },
     "./specs/spacer": {
-      "types": "./dist/catalog/specs/spacer.d.ts",
-      "default": "./dist/catalog/specs/spacer.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/spacer.d.ts",
+        "default": "./dist/esm/catalog/specs/spacer.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/spacer.d.ts",
+        "default": "./dist/cjs/catalog/specs/spacer.js"
+      },
+      "default": "./dist/cjs/catalog/specs/spacer.js"
     },
     "./specs/spinner": {
-      "types": "./dist/catalog/specs/spinner.d.ts",
-      "default": "./dist/catalog/specs/spinner.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/spinner.d.ts",
+        "default": "./dist/esm/catalog/specs/spinner.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/spinner.d.ts",
+        "default": "./dist/cjs/catalog/specs/spinner.js"
+      },
+      "default": "./dist/cjs/catalog/specs/spinner.js"
     },
     "./specs/stack": {
-      "types": "./dist/catalog/specs/stack.d.ts",
-      "default": "./dist/catalog/specs/stack.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/stack.d.ts",
+        "default": "./dist/esm/catalog/specs/stack.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/stack.d.ts",
+        "default": "./dist/cjs/catalog/specs/stack.js"
+      },
+      "default": "./dist/cjs/catalog/specs/stack.js"
     },
     "./specs/stat": {
-      "types": "./dist/catalog/specs/stat.d.ts",
-      "default": "./dist/catalog/specs/stat.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/stat.d.ts",
+        "default": "./dist/esm/catalog/specs/stat.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/stat.d.ts",
+        "default": "./dist/cjs/catalog/specs/stat.js"
+      },
+      "default": "./dist/cjs/catalog/specs/stat.js"
     },
     "./specs/stepper": {
-      "types": "./dist/catalog/specs/stepper.d.ts",
-      "default": "./dist/catalog/specs/stepper.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/stepper.d.ts",
+        "default": "./dist/esm/catalog/specs/stepper.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/stepper.d.ts",
+        "default": "./dist/cjs/catalog/specs/stepper.js"
+      },
+      "default": "./dist/cjs/catalog/specs/stepper.js"
     },
     "./specs/switch": {
-      "types": "./dist/catalog/specs/switch.d.ts",
-      "default": "./dist/catalog/specs/switch.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/switch.d.ts",
+        "default": "./dist/esm/catalog/specs/switch.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/switch.d.ts",
+        "default": "./dist/cjs/catalog/specs/switch.js"
+      },
+      "default": "./dist/cjs/catalog/specs/switch.js"
     },
     "./specs/table": {
-      "types": "./dist/catalog/specs/table.d.ts",
-      "default": "./dist/catalog/specs/table.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/table.d.ts",
+        "default": "./dist/esm/catalog/specs/table.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/table.d.ts",
+        "default": "./dist/cjs/catalog/specs/table.js"
+      },
+      "default": "./dist/cjs/catalog/specs/table.js"
     },
     "./specs/tabs": {
-      "types": "./dist/catalog/specs/tabs.d.ts",
-      "default": "./dist/catalog/specs/tabs.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/tabs.d.ts",
+        "default": "./dist/esm/catalog/specs/tabs.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/tabs.d.ts",
+        "default": "./dist/cjs/catalog/specs/tabs.js"
+      },
+      "default": "./dist/cjs/catalog/specs/tabs.js"
     },
     "./specs/tag": {
-      "types": "./dist/catalog/specs/tag.d.ts",
-      "default": "./dist/catalog/specs/tag.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/tag.d.ts",
+        "default": "./dist/esm/catalog/specs/tag.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/tag.d.ts",
+        "default": "./dist/cjs/catalog/specs/tag.js"
+      },
+      "default": "./dist/cjs/catalog/specs/tag.js"
     },
     "./specs/text": {
-      "types": "./dist/catalog/specs/text.d.ts",
-      "default": "./dist/catalog/specs/text.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/text.d.ts",
+        "default": "./dist/esm/catalog/specs/text.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/text.d.ts",
+        "default": "./dist/cjs/catalog/specs/text.js"
+      },
+      "default": "./dist/cjs/catalog/specs/text.js"
     },
     "./specs/textarea": {
-      "types": "./dist/catalog/specs/textarea.d.ts",
-      "default": "./dist/catalog/specs/textarea.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/textarea.d.ts",
+        "default": "./dist/esm/catalog/specs/textarea.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/textarea.d.ts",
+        "default": "./dist/cjs/catalog/specs/textarea.js"
+      },
+      "default": "./dist/cjs/catalog/specs/textarea.js"
     },
     "./specs/time-picker": {
-      "types": "./dist/catalog/specs/time-picker.d.ts",
-      "default": "./dist/catalog/specs/time-picker.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/time-picker.d.ts",
+        "default": "./dist/esm/catalog/specs/time-picker.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/time-picker.d.ts",
+        "default": "./dist/cjs/catalog/specs/time-picker.js"
+      },
+      "default": "./dist/cjs/catalog/specs/time-picker.js"
     },
     "./specs/timeline": {
-      "types": "./dist/catalog/specs/timeline.d.ts",
-      "default": "./dist/catalog/specs/timeline.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/timeline.d.ts",
+        "default": "./dist/esm/catalog/specs/timeline.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/timeline.d.ts",
+        "default": "./dist/cjs/catalog/specs/timeline.js"
+      },
+      "default": "./dist/cjs/catalog/specs/timeline.js"
     },
     "./specs/toast": {
-      "types": "./dist/catalog/specs/toast.d.ts",
-      "default": "./dist/catalog/specs/toast.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/toast.d.ts",
+        "default": "./dist/esm/catalog/specs/toast.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/toast.d.ts",
+        "default": "./dist/cjs/catalog/specs/toast.js"
+      },
+      "default": "./dist/cjs/catalog/specs/toast.js"
     },
     "./specs/toggle": {
-      "types": "./dist/catalog/specs/toggle.d.ts",
-      "default": "./dist/catalog/specs/toggle.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/toggle.d.ts",
+        "default": "./dist/esm/catalog/specs/toggle.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/toggle.d.ts",
+        "default": "./dist/cjs/catalog/specs/toggle.js"
+      },
+      "default": "./dist/cjs/catalog/specs/toggle.js"
     },
     "./specs/toggle-group": {
-      "types": "./dist/catalog/specs/toggle-group.d.ts",
-      "default": "./dist/catalog/specs/toggle-group.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/toggle-group.d.ts",
+        "default": "./dist/esm/catalog/specs/toggle-group.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/toggle-group.d.ts",
+        "default": "./dist/cjs/catalog/specs/toggle-group.js"
+      },
+      "default": "./dist/cjs/catalog/specs/toggle-group.js"
     },
     "./specs/toolbar": {
-      "types": "./dist/catalog/specs/toolbar.d.ts",
-      "default": "./dist/catalog/specs/toolbar.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/toolbar.d.ts",
+        "default": "./dist/esm/catalog/specs/toolbar.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/toolbar.d.ts",
+        "default": "./dist/cjs/catalog/specs/toolbar.js"
+      },
+      "default": "./dist/cjs/catalog/specs/toolbar.js"
     },
     "./specs/tooltip": {
-      "types": "./dist/catalog/specs/tooltip.d.ts",
-      "default": "./dist/catalog/specs/tooltip.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/tooltip.d.ts",
+        "default": "./dist/esm/catalog/specs/tooltip.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/tooltip.d.ts",
+        "default": "./dist/cjs/catalog/specs/tooltip.js"
+      },
+      "default": "./dist/cjs/catalog/specs/tooltip.js"
     },
     "./specs/transfer-list": {
-      "types": "./dist/catalog/specs/transfer-list.d.ts",
-      "default": "./dist/catalog/specs/transfer-list.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/transfer-list.d.ts",
+        "default": "./dist/esm/catalog/specs/transfer-list.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/transfer-list.d.ts",
+        "default": "./dist/cjs/catalog/specs/transfer-list.js"
+      },
+      "default": "./dist/cjs/catalog/specs/transfer-list.js"
     },
     "./specs/tree": {
-      "types": "./dist/catalog/specs/tree.d.ts",
-      "default": "./dist/catalog/specs/tree.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/tree.d.ts",
+        "default": "./dist/esm/catalog/specs/tree.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/tree.d.ts",
+        "default": "./dist/cjs/catalog/specs/tree.js"
+      },
+      "default": "./dist/cjs/catalog/specs/tree.js"
     },
     "./specs/tree-view": {
-      "types": "./dist/catalog/specs/tree-view.d.ts",
-      "default": "./dist/catalog/specs/tree-view.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/tree-view.d.ts",
+        "default": "./dist/esm/catalog/specs/tree-view.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/tree-view.d.ts",
+        "default": "./dist/cjs/catalog/specs/tree-view.js"
+      },
+      "default": "./dist/cjs/catalog/specs/tree-view.js"
     },
     "./specs/video": {
-      "types": "./dist/catalog/specs/video.d.ts",
-      "default": "./dist/catalog/specs/video.js"
+      "import": {
+        "types": "./dist/esm/catalog/specs/video.d.ts",
+        "default": "./dist/esm/catalog/specs/video.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog/specs/video.d.ts",
+        "default": "./dist/cjs/catalog/specs/video.js"
+      },
+      "default": "./dist/cjs/catalog/specs/video.js"
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist && tsc && tsc -p tsconfig.esm.json && node ../../tooling/write-dual-package-json.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit",
-    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.esm.json",
+    "lint": "tsc --noEmit && tsc --noEmit -p tsconfig.esm.json",
     "clean": "rm -rf dist"
   },
   "files": [
@@ -474,6 +1258,11 @@
   ],
   "author": "Celestial Team",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dev-1603/celestial-ui-design-system.git",
+    "directory": "packages/core"
+  },
   "publishConfig": {
     "access": "public"
   },

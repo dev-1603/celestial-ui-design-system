@@ -4,6 +4,9 @@
  * Peer: `heroicons` (optional). The package has no JS entry — only SVG files
  * under `24/outline`, `24/solid`, `20/solid`, and `16/solid`.
  *
+ * Node-only: SVG files are read with `fs` via `../peers`. Not a verified
+ * browser contract; use Lucide (or Material font-class) in the client.
+ *
  * SVG Safety: `kind: 'svg-string'`. Framework adapter must sanitize.
  */
 import type {
