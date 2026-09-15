@@ -82,7 +82,7 @@ export async function packAndValidatePackage(
   }
 
   const extractDir = fs.mkdtempSync(path.join(os.tmpdir(), 'celestial-pack-'));
-  await extract({ file: tarballPath, cwd: extractDir });
+  extract({ file: tarballPath, cwd: extractDir });
 
   const packedRoot = path.join(extractDir, 'package');
   const packedPkgJson = JSON.parse(
@@ -146,6 +146,7 @@ export async function packAndValidatePackage(
       });
     }
   }
+  
 
   findings.push(
     ...collectExportMapFindings(
@@ -153,9 +154,9 @@ export async function packAndValidatePackage(
       packedPkgJson.exports as Record<string, unknown> | undefined,
       packedRoot,
     ),
+    ...collectSideEffectsFindings(pkg.name, packedPkgJson),
+    ...collectBarrelIsolationFindings(pkg.name, pkg.directory),
   );
-  findings.push(...collectSideEffectsFindings(pkg.name, packedPkgJson));
-  findings.push(...collectBarrelIsolationFindings(pkg.name, pkg.directory));
 
   const publishConfig = packedPkgJson.publishConfig as { access?: string } | undefined;
   if (publishConfig?.access !== 'public') {

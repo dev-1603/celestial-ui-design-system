@@ -1,4 +1,3 @@
-import { PLUGIN_CONTRACT_VERSION } from '../version';
 import type { Environment } from '../environment/environment';
 import type { Direction } from '../directionality/direction';
 import type { ComponentId } from '../ids';

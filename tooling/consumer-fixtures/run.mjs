@@ -4,7 +4,7 @@ import * as os from 'node:os';
 import * as path from 'node:path';
 import { fixturesDir, packAll, run, writeTarballDependencies } from './lib.mjs';
 
-const MANAGERS = ['pnpm', 'npm', 'yarn', 'bun'];
+const MANAGERS = new Set(['pnpm', 'npm', 'yarn', 'bun']);
 
 function installTarballs(projectDir, packageNames, tarballs, manager) {
   writeTarballDependencies(projectDir, packageNames, tarballs);
@@ -33,11 +33,12 @@ function runCjsSmoke(projectDir, packageNames, manager) {
     return;
   }
   const requires = packageNames
-    .map(
-      (name, i) =>
-        `const m${i} = require(${JSON.stringify(name)});
-if (!m${i}) throw new Error(${JSON.stringify(`CJS require(${name}) returned empty`)});`,
-    )
+    .map((name, i) => {
+      const moduleName = JSON.stringify(name);
+      const emptyError = JSON.stringify('CJS require(' + name + ') returned empty');
+      return `const m${i} = require(${moduleName});
+if (!m${i}) throw new Error(${emptyError});`;
+    })
     .join('\n');
   fs.writeFileSync(
     path.join(projectDir, '_cjs-smoke.cjs'),
@@ -63,7 +64,7 @@ function runFixture(fixtureName, packageNames, tarballs, manager) {
 
 function main() {
   const manager = process.argv[2] ?? 'pnpm';
-  if (!MANAGERS.includes(manager)) {
+  if (!MANAGERS.has(manager)) {
     throw new Error(`Unsupported package manager: ${manager}`);
   }
   if (manager === 'bun') {

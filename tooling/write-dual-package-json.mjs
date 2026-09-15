@@ -35,7 +35,7 @@ function walkJs(dir, files = []) {
 
 function hasImport(source, names, specPattern) {
   return names.every((name) =>
-    new RegExp(`import\\s*\\{[^}]*\\b${name}\\b[^}]*\\}\\s*from\\s*['"]${specPattern}['"]`).test(
+    new RegExp(String.raw`import\s*\{[^}]*\b${name}\b[^}]*\}\s*from\s*['"]${specPattern}['"]`).test(
       source,
     ),
   );

@@ -34,11 +34,10 @@ export function createCelestialRuntime(options: CreateRuntimeOptions = {}): Cele
       if (destroyed) return;
       services.set(id, service);
     },
-    registerDefaultProps(componentId, props) {
+    registerDefaultProps(_componentId, _props) {
       if (destroyed) return;
-      // stored in config.defaultProps via plugin — immutable after create
-      void componentId;
-      void props;
+      // Reserved no-op: config.defaultProps is immutable after create.
+      // Full default-props merge remains an adapter concern (v0.1).
     },
     registerDiagnosticSink(sink) {
       if (destroyed) return;
@@ -122,9 +121,7 @@ export function createCelestialRuntime(options: CreateRuntimeOptions = {}): Cele
  * prefer explicit `createCelestialRuntime()` per app or request.
  */
 export function getDefaultRuntime(): CelestialRuntime {
-  if (!defaultRuntime) {
-    defaultRuntime = createCelestialRuntime();
-  }
+  defaultRuntime ??= createCelestialRuntime();
   return defaultRuntime;
 }
 
