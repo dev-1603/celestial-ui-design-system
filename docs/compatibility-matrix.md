@@ -2,21 +2,21 @@
 
 Support levels for consuming Celestial UI foundation packages.
 
-| Package                | npm | pnpm | Yarn (Berry) | Bun 1.1.20 | Deno                                       |
-| ---------------------- | --- | ---- | ------------ | ---------- | ------------------------------------------ |
-| `@celestial-ui/tokens` | ✓   | ✓    | ✓            | ✓          | Partial (CSS ✓; Node `fs` catalog API N/A) |
-| `@celestial-ui/theme`  | ✓   | ✓    | ✓            | ✓          | Partial (CJS interop)                      |
-| `@celestial-ui/styles` | ✓   | ✓    | ✓            | ✓          | Partial (CSS imports best-effort)          |
-| `@celestial-ui/icons`  | ✓   | ✓    | ✓            | ✓          | Partial (CJS + optional peers)             |
-| `@celestial-ui/core`   | ✓   | ✓    | ✓            | ✓          | Partial (CJS interop)                      |
-| `@celestial-ui/react`  | N/A | N/A  | N/A          | N/A        | N/A (not in this repo)                     |
-| `@celestial-ui/vue`    | N/A | N/A  | N/A          | N/A        | N/A (not in this repo)                     |
-| `@celestial-ui/svelte` | N/A | N/A  | N/A          | N/A        | N/A (not in this repo)                     |
+| Package                | npm | pnpm | Yarn (Berry) | Bun 1.1.20 | Deno                                         |
+| ---------------------- | --- | ---- | ------------ | ---------- | -------------------------------------------- |
+| `@celestial-ui/tokens` | ✓   | ✓    | ✓            | ✓          | Partial (CSS ✓; JS catalog is embedded JSON) |
+| `@celestial-ui/theme`  | ✓   | ✓    | ✓            | ✓          | Partial (CJS interop)                        |
+| `@celestial-ui/styles` | ✓   | ✓    | ✓            | ✓          | Partial (CSS imports best-effort)            |
+| `@celestial-ui/icons`  | ✓   | ✓    | ✓            | ✓          | Partial (CJS + optional peers)               |
+| `@celestial-ui/core`   | ✓   | ✓    | ✓            | ✓          | Partial (CJS interop)                        |
+| `@celestial-ui/react`  | N/A | N/A  | N/A          | N/A        | N/A (not in this repo)                       |
+| `@celestial-ui/vue`    | N/A | N/A  | N/A          | N/A        | N/A (not in this repo)                       |
+| `@celestial-ui/svelte` | N/A | N/A  | N/A          | N/A        | N/A (not in this repo)                       |
 
 ## Legend
 
 - **✓** — Supported and tested via packed-tarball consumer fixtures
-- **Partial** — May work with `npm:` specifiers; Deno ergonomics are limited for Node `fs` catalog APIs and CJS interop
+- **Partial** — May work with `npm:` specifiers; Deno ergonomics are limited for CJS interop and CSS import conventions
 - **N/A** — Package does not exist in this monorepo
 
 Package-manager installation and runtime execution are separate. A **✓** under Bun means the same packed-tarball consumer fixtures as npm/pnpm/yarn, installed and executed with Bun (`bun install`, `bun check.ts`, plus a CJS `require` smoke).
@@ -30,13 +30,15 @@ Package-manager installation and runtime execution are separate. A **✓** under
 
 ## How combinations are tested
 
-| Manager    | Command                   | Scope                              |
-| ---------- | ------------------------- | ---------------------------------- |
-| pnpm       | `pnpm consumer:test`      | All Node fixtures (required in CI) |
-| npm        | `pnpm consumer:test:npm`  | All Node fixtures                  |
-| Yarn Berry | `pnpm consumer:test:yarn` | All Node fixtures                  |
-| Bun        | `pnpm consumer:test:bun`  | Same Node fixtures; required in CI |
-| Deno       | `pnpm consumer:test:deno` | Core import only; non-blocking     |
+| Manager      | Command                     | Scope                                                                                            |
+| ------------ | --------------------------- | ------------------------------------------------------------------------------------------------ |
+| pnpm         | `pnpm consumer:test`        | Packed tarball Node fixtures (required in CI and release)                                        |
+| pnpm local   | `pnpm consumer:test:portal` | Independent-repo `link:` (required in CI); Yarn Berry `portal:` optional when Yarn 2+ is on PATH |
+| npm          | `pnpm consumer:test:npm`    | Packed tarball Node fixtures (required in CI)                                                    |
+| Yarn Classic | `yarn --version` 1.x        | Local `file:` attempted by `consumer:test:portal` when Yarn 1 is found                           |
+| Yarn Berry   | `pnpm consumer:test:yarn`   | Packed tarball Node fixtures; `portal:` when Yarn 2+ is on PATH                                  |
+| Bun          | `pnpm consumer:test:bun`    | Same Node fixtures; required in CI                                                               |
+| Deno         | `pnpm consumer:test:deno`   | Core import only; non-blocking                                                                   |
 
 ## CSS consumption
 

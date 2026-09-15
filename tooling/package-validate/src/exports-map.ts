@@ -32,6 +32,16 @@ export const CSS_SIDEEFFECT_PACKAGES: ReadonlySet<string> = new Set([
   '@celestial-ui/styles',
 ]);
 
+/** JS-only packages that are side-effect free and must declare it for tree-shaking. */
+export const SIDE_EFFECT_FREE_PACKAGES: ReadonlySet<string> = new Set([
+  '@celestial-ui/theme',
+  '@celestial-ui/icons',
+  '@celestial-ui/core',
+]);
+
+const RELATIVE_SPECIFIER_RE = /(?:from\s+|import\s*\(\s*|import\s+)(['"])(\.\.?\/[^'"]+)\1/g;
+const ESM_FILE_EXT = /\.(?:js|mjs|cjs|json|css|node|svg)$/;
+
 export const CORE_SPEC_EXPORT_PREFIX = './specs/';
 export const CORE_EXPECTED_SPEC_COUNT = 103;
 
@@ -229,21 +239,95 @@ export function collectSideEffectsFindings(
   packageName: string,
   packedPkgJson: Record<string, unknown>,
 ): ValidationFinding[] {
-  if (!CSS_SIDEEFFECT_PACKAGES.has(packageName)) {
+  if (CSS_SIDEEFFECT_PACKAGES.has(packageName)) {
+    if (packedPkgJson.sideEffects === false) {
+      return [
+        {
+          package: packageName,
+          category: 'exports',
+          severity: 'BLOCKER',
+          reason: 'sideEffects must not be false; CSS subpath imports are side effects',
+          remediation: 'Omit sideEffects or list CSS globs; never set false on tokens/styles',
+        },
+      ];
+    }
     return [];
   }
-  if (packedPkgJson.sideEffects === false) {
+  if (SIDE_EFFECT_FREE_PACKAGES.has(packageName) && packedPkgJson.sideEffects !== false) {
     return [
       {
         package: packageName,
         category: 'exports',
         severity: 'BLOCKER',
-        reason: 'sideEffects must not be false; CSS subpath imports are side effects',
-        remediation: 'Omit sideEffects or list CSS globs; never set false on tokens/styles',
+        reason: 'JS-only package must declare sideEffects: false for tree-shaking',
+        remediation: 'Set sideEffects to false when the package has no module-level side effects',
       },
     ];
   }
   return [];
+}
+
+function collectRelativeSpecifiers(source: string): string[] {
+  const specifiers: string[] = [];
+  RELATIVE_SPECIFIER_RE.lastIndex = 0;
+  let match: RegExpExecArray | null;
+  while ((match = RELATIVE_SPECIFIER_RE.exec(source))) {
+    const specifier = match[2];
+    if (specifier) specifiers.push(specifier);
+  }
+  return specifiers;
+}
+
+function walkPackedFiles(dir: string, prefix = ''): string[] {
+  if (!fs.existsSync(dir)) return [];
+  const files: string[] = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const rel = prefix ? `${prefix}/${entry.name}` : entry.name;
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...walkPackedFiles(full, rel));
+    } else {
+      files.push(rel);
+    }
+  }
+  return files;
+}
+
+/** Packed ESM must use explicit .js extensions so Node native import works. */
+export function collectEsmExtensionFindings(
+  packageName: string,
+  packedRoot: string,
+): ValidationFinding[] {
+  const esmDir = path.join(packedRoot, 'dist/esm');
+  if (!fs.existsSync(esmDir)) {
+    return [
+      {
+        package: packageName,
+        category: 'exports',
+        severity: 'BLOCKER',
+        reason: 'Packed package is missing dist/esm',
+        remediation: 'Run the dual CJS/ESM build before packing',
+      },
+    ];
+  }
+
+  const findings: ValidationFinding[] = [];
+  for (const rel of walkPackedFiles(esmDir)) {
+    if (!rel.endsWith('.js') && !rel.endsWith('.d.ts')) continue;
+    const source = fs.readFileSync(path.join(esmDir, rel), 'utf8');
+    for (const specifier of collectRelativeSpecifiers(source)) {
+      if (!ESM_FILE_EXT.test(specifier)) {
+        findings.push({
+          package: packageName,
+          category: 'exports',
+          severity: 'BLOCKER',
+          reason: `dist/esm/${rel} has extensionless relative specifier "${specifier}"`,
+          remediation: 'Rewrite ESM relative imports to .js or /index.js after tsc emit',
+        });
+      }
+    }
+  }
+  return findings;
 }
 
 export function collectBarrelIsolationFindings(

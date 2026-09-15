@@ -3,6 +3,14 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
+      "inputs": [
+        "src/**",
+        "scripts/**",
+        "package.json",
+        "tsconfig.json",
+        "tsconfig.*.json",
+        "$TURBO_ROOT$/tooling/write-dual-package-json.mjs"
+      ],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "test": {

@@ -8,9 +8,12 @@
  * externalize them. Adapters that only need those JS peers must not import
  * this module — `createRequire` from `module` is not browser-safe.
  *
- * File-based peers (Heroicons SVG, Phosphor SVG under `@phosphor-icons/core`)
- * and dynamic `@iconify-json/<prefix>` collection loads stay here. They use
- * Node `fs` / `createRequire` and are not a verified browser contract.
+ * File-based peers (Phosphor SVG under `@phosphor-icons/core`) and dynamic
+ * `@iconify-json/<prefix>` collection loads stay here. They use Node `fs` /
+ * `createRequire` and are not a verified browser contract.
+ *
+ * Lucide and Heroicons adapters must not import this module — their catalogue
+ * glyphs are generated at build time.
  *
  * Specifiers are allowlisted. Adapters never `require()` caller-controlled
  * paths.
@@ -65,7 +68,7 @@ export function readPeerPackageVersion(packageName: string): string | undefined 
  * Read a relative SVG (or other text) asset from an installed peer package.
  * Rejects path traversal and non-allowlisted package names.
  *
- * Node-only (`fs`). Heroicons and Phosphor adapters depend on this path.
+ * Node-only (`fs`). Phosphor adapters depend on this path.
  */
 export function readOptionalPeerAsset(
   packageName: string,

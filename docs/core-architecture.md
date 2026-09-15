@@ -111,7 +111,7 @@ import { defineComponentSpec } from '@celestial-ui/core/contracts';
 import { createConformanceHarness } from '@celestial-ui/core/testing';
 ```
 
-The root export remains for convenience. **CJS output (v0.1.x)** limits dead-code elimination — ESM dual-publish is documented future work.
+The root export remains for convenience. **Dual CJS + ESM (v0.1.x)** — bundlers resolve `import` to `dist/esm`; Node `require` keeps CJS. Prefer granular subpaths so unused specs stay out of application bundles.
 
 ## Adapter boundary
 

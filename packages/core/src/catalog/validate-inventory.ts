@@ -1,5 +1,4 @@
-import type { ComponentSpec } from '../spec/spec';
-import { validateComponentSpec } from '../spec/spec';
+import { validateComponentSpec, type ComponentSpec } from '../spec/spec';
 import { createConformanceHarness } from '../conformance/harness';
 import {
   GENERIC_COMPONENT_INVENTORY,
@@ -7,13 +6,7 @@ import {
   type GenericInventoryEntry,
 } from './spec-factory';
 import { listComponentSpecs } from './specs/registry';
-import {
-  COMPONENT_TAXONOMIES,
-  ENGINEERING_FAMILIES,
-  type CatalogEntry,
-  type ComponentTaxonomy,
-  type EngineeringFamily,
-} from './types';
+import { COMPONENT_TAXONOMIES, ENGINEERING_FAMILIES } from './types';
 import { ALL_COMPONENT_CAPABILITIES } from '../capabilities/types';
 import { CANONICAL_CATALOG } from './registry';
 
@@ -58,20 +51,10 @@ function validateInventoryEntry(entry: GenericInventoryEntry): InventoryValidati
   return issues;
 }
 
-export function validateGenericInventory(): InventoryValidationReport {
-  const issues: InventoryValidationIssue[] = [];
-  const expected = GENERIC_COMPONENT_INVENTORY.expectedCount;
-  const entries = GENERIC_COMPONENT_INVENTORY.entries;
-
-  if (entries.length !== expected) {
-    issues.push(
-      issue(
-        'INVENTORY_COUNT_MISMATCH',
-        `Expected ${expected} generic components, found ${entries.length}`,
-      ),
-    );
-  }
-
+function validateInventoryUniqueness(
+  entries: readonly GenericInventoryEntry[],
+  issues: InventoryValidationIssue[],
+): Set<string> {
   const seen = new Set<string>();
   for (const entry of entries) {
     if (seen.has(entry.id)) {
@@ -80,12 +63,19 @@ export function validateGenericInventory(): InventoryValidationReport {
     seen.add(entry.id);
     issues.push(...validateInventoryEntry(entry));
   }
+  return seen;
+}
 
-  if (CANONICAL_CATALOG.length !== entries.length) {
+function validateCatalogAlignment(
+  seen: Set<string>,
+  entryCount: number,
+  issues: InventoryValidationIssue[],
+): void {
+  if (CANONICAL_CATALOG.length !== entryCount) {
     issues.push(
       issue(
         'CATALOG_COUNT_MISMATCH',
-        `Catalog has ${CANONICAL_CATALOG.length} entries, inventory has ${entries.length}`,
+        `Catalog has ${CANONICAL_CATALOG.length} entries, inventory has ${entryCount}`,
       ),
     );
   }
@@ -104,19 +94,69 @@ export function validateGenericInventory(): InventoryValidationReport {
       }
     }
   }
+}
 
+function validateExpectedInventoryIds(seen: Set<string>, issues: InventoryValidationIssue[]): void {
   for (const id of GENERIC_COMPONENT_IDS) {
     if (!seen.has(id)) {
       issues.push(issue('MISSING_INVENTORY_ID', `Inventory missing expected id "${id}"`, id));
     }
   }
+}
+
+export function validateGenericInventory(): InventoryValidationReport {
+  const issues: InventoryValidationIssue[] = [];
+  const expected = GENERIC_COMPONENT_INVENTORY.expectedCount;
+  const entries = GENERIC_COMPONENT_INVENTORY.entries;
+
+  if (entries.length !== expected) {
+    issues.push(
+      issue(
+        'INVENTORY_COUNT_MISMATCH',
+        `Expected ${expected} generic components, found ${entries.length}`,
+      ),
+    );
+  }
+
+  const seen = validateInventoryUniqueness(entries, issues);
+  validateCatalogAlignment(seen, entries.length, issues);
+  validateExpectedInventoryIds(seen, issues);
 
   return { passed: issues.length === 0, issues };
 }
 
-export function validateAllComponentSpecs(): InventoryValidationReport {
-  const inventoryReport = validateGenericInventory();
-  const issues: InventoryValidationIssue[] = [...inventoryReport.issues];
+function validateSpecConformance(spec: ComponentSpec, issues: InventoryValidationIssue[]): void {
+  const validation = validateComponentSpec(spec);
+  if (!validation.isValid) {
+    for (const error of validation.errors) {
+      issues.push(issue('INVALID_SPEC', error.reason, spec.contract.id));
+    }
+  }
+
+  const harness = createConformanceHarness(spec);
+  const specReport = harness.validateSpec();
+  const capReport = harness.validateCapabilities();
+  for (const failure of [...specReport.failures, ...capReport.failures]) {
+    issues.push(issue('CONFORMANCE_FAILED', failure.message, spec.contract.id));
+  }
+}
+
+function validateFrameworkLeak(spec: ComponentSpec, issues: InventoryValidationIssue[]): void {
+  const serialized = JSON.stringify(spec);
+  for (const pattern of FRAMEWORK_LEAK_PATTERNS) {
+    if (pattern.test(serialized)) {
+      issues.push(
+        issue(
+          'FRAMEWORK_LEAK',
+          `Framework-specific reference matched ${pattern}`,
+          spec.contract.id,
+        ),
+      );
+    }
+  }
+}
+
+function validateLoadedSpecs(issues: InventoryValidationIssue[]): void {
   const specs = listComponentSpecs();
 
   if (specs.length !== GENERIC_COMPONENT_INVENTORY.expectedCount) {
@@ -129,34 +169,15 @@ export function validateAllComponentSpecs(): InventoryValidationReport {
   }
 
   for (const spec of specs) {
-    const validation = validateComponentSpec(spec);
-    if (!validation.isValid) {
-      for (const error of validation.errors) {
-        issues.push(issue('INVALID_SPEC', error.reason, spec.contract.id));
-      }
-    }
-
-    const harness = createConformanceHarness(spec);
-    const specReport = harness.validateSpec();
-    const capReport = harness.validateCapabilities();
-    for (const failure of [...specReport.failures, ...capReport.failures]) {
-      issues.push(issue('CONFORMANCE_FAILED', failure.message, spec.contract.id));
-    }
-
-    const serialized = JSON.stringify(spec);
-    for (const pattern of FRAMEWORK_LEAK_PATTERNS) {
-      if (pattern.test(serialized)) {
-        issues.push(
-          issue(
-            'FRAMEWORK_LEAK',
-            `Framework-specific reference matched ${pattern}`,
-            spec.contract.id,
-          ),
-        );
-      }
-    }
+    validateSpecConformance(spec, issues);
+    validateFrameworkLeak(spec, issues);
   }
+}
 
+export function validateAllComponentSpecs(): InventoryValidationReport {
+  const inventoryReport = validateGenericInventory();
+  const issues: InventoryValidationIssue[] = [...inventoryReport.issues];
+  validateLoadedSpecs(issues);
   return { passed: issues.length === 0, issues };
 }
 
@@ -168,4 +189,4 @@ export function assertGenericInventoryValid(): void {
   }
 }
 
-export type { CatalogEntry, ComponentTaxonomy, EngineeringFamily };
+export type { CatalogEntry, ComponentTaxonomy, EngineeringFamily } from './types';

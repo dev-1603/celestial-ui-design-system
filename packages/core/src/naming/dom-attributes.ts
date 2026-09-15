@@ -18,6 +18,12 @@ export const CUI_ATTRIBUTES = {
 
 const CAMEL_TO_KEBAB = /[A-Z]/g;
 
+function compareUtf16(a: string, b: string): number {
+  if (a < b) return -1;
+  if (a > b) return 1;
+  return 0;
+}
+
 export function toKebabCase(value: string): string {
   return value.replace(CAMEL_TO_KEBAB, (match) => `-${match.toLowerCase()}`);
 }
@@ -40,7 +46,7 @@ export function buildPartAttributes(options: PartAttributeOptions): Record<strin
     [CUI_ATTRIBUTES.part]: toKebabCase(options.partName),
   };
   if (options.states && options.states.length > 0) {
-    attrs[CUI_ATTRIBUTES.state] = [...options.states].sort().join(' ');
+    attrs[CUI_ATTRIBUTES.state] = [...options.states].sort(compareUtf16).join(' ');
   }
   if (options.variant) {
     attrs[CUI_ATTRIBUTES.variant] = toKebabCase(options.variant);

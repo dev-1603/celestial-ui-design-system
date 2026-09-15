@@ -3,7 +3,7 @@ import type { Token } from '@celestial-ui/tokens';
 import { styleError, StyleCompilationError } from './errors';
 import type { StyleError } from './errors';
 import { formatTokenDeclarations } from './format-value';
-import { computeContentHash } from './hash';
+import { compareUtf16, computeContentHash } from './hash';
 import { SEMANTIC_CSS_REGISTRY } from './semantic-registry';
 import { buildMetadataComment, serializeLayeredCss } from './serializer';
 import { buildScopeSelector, getScopeKey } from './scope';
@@ -69,7 +69,7 @@ function compileDeclarations(
   const includeSemantic = options.includeSemanticVariables !== false;
   const formattedByPath = new Map<string, Array<readonly [string, string]>>();
 
-  const sortedPaths = Object.keys(theme.tokens).sort();
+  const sortedPaths = Object.keys(theme.tokens).sort(compareUtf16);
 
   for (const path of sortedPaths) {
     const token = theme.tokens[path];
@@ -232,7 +232,7 @@ export function compileThemeSet(
     themeId: metadata.themeId,
     modes: themes
       .map((t) => t.mode)
-      .sort()
+      .sort(compareUtf16)
       .join(','),
     semanticCssApiVersion: metadata.semanticCssApiVersion,
   };

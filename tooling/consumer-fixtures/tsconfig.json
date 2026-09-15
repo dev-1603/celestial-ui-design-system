@@ -1,0 +1,42 @@
+// Scopes IDE/tsc type-checking for portal-check.ts to this directory.
+//
+// portal-check.ts is a *template* copied by run-portal.mjs into temporary
+// consumer projects that npm/pnpm-install the real published packages. It is
+// not part of the pnpm workspace graph (this directory has no package.json)
+// and the repo root has no node_modules/@celestial-ui/* symlinks for these
+// packages. Without this file, an editor opening portal-check.ts falls back
+// to the root tsconfig.json, which has no `paths` mapping and reports
+// spurious ts2307 "Cannot find module" errors even though the file is
+// verified for real inside each generated temp consumer project (see
+// run-portal.mjs's `pnpm exec tsc --noEmit -p tsconfig.json`).
+//
+// The paths below point at the already-built dist declaration files so the
+// IDE resolves the same 9 subpath imports this fixture uses, matching what a
+// real npm install would resolve post-`pnpm build`.
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@celestial-ui/core": ["../../packages/core/dist/esm/index.d.ts"],
+      "@celestial-ui/core/behavior": ["../../packages/core/dist/esm/exports/behavior.d.ts"],
+      "@celestial-ui/core/contracts": ["../../packages/core/dist/esm/exports/contracts.d.ts"],
+      "@celestial-ui/core/specs/button": ["../../packages/core/dist/esm/catalog/specs/button.d.ts"],
+      "@celestial-ui/tokens/resolve": ["../../packages/tokens/dist/esm/resolve.d.ts"],
+      "@celestial-ui/theme/themes/celestial": [
+        "../../packages/theme/dist/esm/themes/celestial.d.ts"
+      ],
+      "@celestial-ui/theme/resolve": ["../../packages/theme/dist/esm/resolve.d.ts"],
+      "@celestial-ui/styles/runtime": ["../../packages/styles/dist/esm/runtime.d.ts"],
+      "@celestial-ui/icons": ["../../packages/icons/dist/esm/index.d.ts"]
+    }
+  },
+  "include": ["portal-check.ts"]
+}

@@ -20,7 +20,11 @@ export type {
   PointerSemanticAction,
   PointerInteractionSpec,
 } from '../interaction/pointer-types';
-export type { KeyboardContract, KeyboardBindingSpec } from '../accessibility/keyboard-contract';
+export type {
+  KeyboardContract,
+  KeyboardBindingSpec,
+  KeyboardBindingIntent,
+} from '../accessibility/keyboard-contract';
 export type { FocusContract } from '../accessibility/focus-contract';
 export type { CollectionContract, SelectionContract } from '../collection/contracts';
 export type {

@@ -97,4 +97,12 @@ describe('published export map', () => {
     expect(compiledNames).not.toContain('catalog/specs/dialog.js');
     expect(compiledNames).not.toContain('catalog/specs/registry.js');
   });
+
+  it('emitted ESM relative specifiers include .js extensions', () => {
+    const esmIndex = fs.readFileSync(path.join(pkgRoot, 'dist/esm/index.js'), 'utf8');
+    expect(esmIndex).toMatch(/from ['"]\.\/version\.js['"]/);
+    expect(esmIndex).not.toMatch(/from ['"]\.\/version['"]/);
+    const esmDts = fs.readFileSync(path.join(pkgRoot, 'dist/esm/index.d.ts'), 'utf8');
+    expect(esmDts).toMatch(/from ['"]\.\/version\.js['"]/);
+  });
 });

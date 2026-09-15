@@ -115,7 +115,7 @@
     }
   },
   "scripts": {
-    "build": "rm -rf dist && tsc && tsc -p tsconfig.esm.json && node ./dist/cjs/scripts/build.js && node ../../tooling/write-dual-package-json.mjs",
+    "build": "node ./scripts/embed-catalog.mjs && rm -rf dist && tsc && tsc -p tsconfig.esm.json && node ./dist/cjs/scripts/build.js && node ../../tooling/write-dual-package-json.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.esm.json",

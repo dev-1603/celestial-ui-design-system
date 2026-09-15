@@ -126,7 +126,7 @@ export function createOverlayController(options: OverlayOptions = {}): OverlayCo
     },
     requestDismiss(reason) {
       if (destroyed || !open) return false;
-      const top = stack[stack.length - 1];
+      const top = stack.at(-1);
       if (top !== controller) return false;
       if (reason === 'escape' && options.dismissOnEscape === false) return false;
       if (reason === 'outside' && options.dismissOnOutside === false) return false;
@@ -148,5 +148,5 @@ export function createOverlayController(options: OverlayOptions = {}): OverlayCo
 
 export function getTopOverlay(): OverlayController | null {
   const stack = getStack();
-  return stack[stack.length - 1] ?? null;
+  return stack.at(-1) ?? null;
 }

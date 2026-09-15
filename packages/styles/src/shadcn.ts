@@ -1,7 +1,5 @@
-import type { ShadcnRegistry } from './types';
-import type { StyleScope } from './types';
 import { buildScopeSelector } from './scope';
-import type { AppearanceMode } from './types';
+import type { AppearanceMode, ShadcnRegistry, StyleScope } from './types';
 
 /**
  * shadcn generic variable mappings → stable Celestial semantic variables.

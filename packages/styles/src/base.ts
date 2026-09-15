@@ -1,5 +1,4 @@
-import type { StyleScope } from './types';
-import type { AppearanceMode } from './types';
+import type { AppearanceMode, StyleScope } from './types';
 import { buildScopeSelector } from './scope';
 
 export interface GenerateBaseOptions {

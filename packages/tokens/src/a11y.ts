@@ -3,6 +3,12 @@
  * Uses WCAG 2.2 contrast formula.
  */
 
+const RGB_COLOR_PATTERN = /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/;
+
+function hexChannel(hex: string, start: number): number {
+  return Number.parseInt(hex.slice(start, start + 2), 16);
+}
+
 export function parseColorToRGBA(color: string): [number, number, number, number] {
   color = color.trim().toLowerCase();
 
@@ -16,33 +22,23 @@ export function parseColorToRGBA(color: string): [number, number, number, number
         .join('');
     }
     if (c.length === 6) {
-      return [
-        parseInt(c.slice(0, 2), 16),
-        parseInt(c.slice(2, 4), 16),
-        parseInt(c.slice(4, 6), 16),
-        1, // Default alpha
-      ];
+      return [hexChannel(c, 0), hexChannel(c, 2), hexChannel(c, 4), 1];
     }
     if (c.length === 8) {
-      return [
-        parseInt(c.slice(0, 2), 16),
-        parseInt(c.slice(2, 4), 16),
-        parseInt(c.slice(4, 6), 16),
-        parseInt(c.slice(6, 8), 16) / 255,
-      ];
+      return [hexChannel(c, 0), hexChannel(c, 2), hexChannel(c, 4), hexChannel(c, 6) / 255];
     }
     throw new Error(`Invalid hex color: ${color}`);
   }
 
   // Handle rgb/rgba
   if (color.startsWith('rgb')) {
-    const match = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+    const match = RGB_COLOR_PATTERN.exec(color);
     if (!match) throw new Error(`Invalid rgb/rgba color: ${color}`);
     return [
-      parseInt(match[1], 10),
-      parseInt(match[2], 10),
-      parseInt(match[3], 10),
-      match[4] ? parseFloat(match[4]) : 1,
+      Number.parseInt(match[1], 10),
+      Number.parseInt(match[2], 10),
+      Number.parseInt(match[3], 10),
+      match[4] ? Number.parseFloat(match[4]) : 1,
     ];
   }
 
@@ -83,23 +79,16 @@ export function getLuminance(r: number, g: number, b: number): number {
   return 0.2126 * R + 0.7152 * G + 0.0722 * B;
 }
 
+function opaqueRgb(rgba: [number, number, number, number]): [number, number, number] {
+  return [rgba[0], rgba[1], rgba[2]];
+}
+
 export function getContrastRatio(color1: string, color2: string): number {
   const rgba1 = parseColorToRGBA(color1);
   const rgba2 = parseColorToRGBA(color2);
 
-  // If either has alpha, we assume they are composited over white for worst-case,
-  // or we composite them if one is explicitly the background.
-  // For basic AA validation, we composite the foreground (color1) over the background (color2).
-  // If background has alpha, we composite it over white.
-
-  const bg =
-    rgba2[3] < 1
-      ? compositeColors(rgba2, [255, 255, 255, 1])
-      : ([rgba2[0], rgba2[1], rgba2[2]] as [number, number, number]);
-  const fg =
-    rgba1[3] < 1
-      ? compositeColors(rgba1, [bg[0], bg[1], bg[2], 1])
-      : ([rgba1[0], rgba1[1], rgba1[2]] as [number, number, number]);
+  const bg = rgba2[3] < 1 ? compositeColors(rgba2, [255, 255, 255, 1]) : opaqueRgb(rgba2);
+  const fg = rgba1[3] < 1 ? compositeColors(rgba1, [bg[0], bg[1], bg[2], 1]) : opaqueRgb(rgba1);
 
   const l1 = getLuminance(fg[0], fg[1], fg[2]);
   const l2 = getLuminance(bg[0], bg[1], bg[2]);

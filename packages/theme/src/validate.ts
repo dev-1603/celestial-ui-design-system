@@ -249,17 +249,11 @@ export function validateThemeConfig(
   return report;
 }
 
-export function validateTenantThemeProfile(
-  registry: ThemeRegistry,
+function validateTenantIdentity(
   profile: TenantThemeProfile,
-  catalogFlat: Record<string, Token>,
-): ThemeValidationReport {
-  const report: ThemeValidationReport = {
-    isValid: true,
-    errors: [],
-    warnings: [],
-  };
-
+  registry: ThemeRegistry,
+  report: ThemeValidationReport,
+): void {
   if (!profile.tenantId?.trim()) {
     report.errors.push(
       themeError('TENANT_ID_REQUIRED', 'Tenant profile tenantId is required.', {
@@ -306,8 +300,16 @@ export function validateTenantThemeProfile(
     );
     report.isValid = false;
   }
+}
+
+function validateTenantModePreference(
+  profile: TenantThemeProfile,
+  report: ThemeValidationReport,
+): void {
+  if (!profile.modePreference) {
+    return;
+  }
   if (
-    profile.modePreference &&
     profile.modePreference !== 'light' &&
     profile.modePreference !== 'dark' &&
     profile.modePreference !== 'system'
@@ -320,39 +322,62 @@ export function validateTenantThemeProfile(
     );
     report.isValid = false;
   }
+}
 
-  if (profile.slots) {
-    for (const [slotId, overrides] of Object.entries(profile.slots)) {
-      if (!THEME_SLOT_IDS.includes(slotId as ThemeSlotId)) {
-        report.errors.push(
-          themeError('UNKNOWN_SLOT', `Tenant profile references unknown slot '${slotId}'.`, {
-            field: 'slots',
-            layer: 'tenant',
-          }),
-        );
-        report.isValid = false;
-        continue;
-      }
-      if (!overrides) {
-        continue;
-      }
-      validateThemeOverrides(
-        overrides,
-        catalogFlat,
-        report,
-        'tenant',
-        `Tenant '${profile.tenantId}' slot '${slotId}'`,
-        (path, token, declaredSlot) =>
-          canTenantOverride(
-            path,
-            token,
-            isPathInSlot(path, declaredSlot!),
-            isPolicyAllowedInSlot(getEffectivePolicy(path, token), declaredSlot!),
-          ),
-        slotId as ThemeSlotId,
-      );
-    }
+function validateTenantSlots(
+  profile: TenantThemeProfile,
+  catalogFlat: Record<string, Token>,
+  report: ThemeValidationReport,
+): void {
+  if (!profile.slots) {
+    return;
   }
+  for (const [slotId, overrides] of Object.entries(profile.slots)) {
+    if (!THEME_SLOT_IDS.includes(slotId as ThemeSlotId)) {
+      report.errors.push(
+        themeError('UNKNOWN_SLOT', `Tenant profile references unknown slot '${slotId}'.`, {
+          field: 'slots',
+          layer: 'tenant',
+        }),
+      );
+      report.isValid = false;
+      continue;
+    }
+    if (!overrides) {
+      continue;
+    }
+    validateThemeOverrides(
+      overrides,
+      catalogFlat,
+      report,
+      'tenant',
+      `Tenant '${profile.tenantId}' slot '${slotId}'`,
+      (path, token, declaredSlot) =>
+        canTenantOverride(
+          path,
+          token,
+          isPathInSlot(path, declaredSlot!),
+          isPolicyAllowedInSlot(getEffectivePolicy(path, token), declaredSlot!),
+        ),
+      slotId as ThemeSlotId,
+    );
+  }
+}
+
+export function validateTenantThemeProfile(
+  registry: ThemeRegistry,
+  profile: TenantThemeProfile,
+  catalogFlat: Record<string, Token>,
+): ThemeValidationReport {
+  const report: ThemeValidationReport = {
+    isValid: true,
+    errors: [],
+    warnings: [],
+  };
+
+  validateTenantIdentity(profile, registry, report);
+  validateTenantModePreference(profile, report);
+  validateTenantSlots(profile, catalogFlat, report);
 
   return report;
 }

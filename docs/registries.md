@@ -31,6 +31,6 @@ Do not publish production versions from a laptop. Use Changesets on a `release/*
 | Stage           | What is validated                                                                   |
 | --------------- | ----------------------------------------------------------------------------------- |
 | **Local**       | `publishConfig.access: public`, Changesets `access: public`, `pnpm publish:dry-run` |
-| **CI**          | Format, lint, tests, pack, docs, tree-shaking, consumer fixtures                    |
-| **Pre-publish** | Release workflow `validate` job (same gate) before OIDC publish                     |
+| **CI**          | Format, typecheck, tests, pack, docs, tree-shaking, packed-tarball consumers        |
+| **Pre-publish** | Release `validate`: pack + docs + pnpm tarball consumer (not a CI replay)           |
 | **Production**  | `changeset publish` to npm with provenance; GitHub Releases for tags and changelogs |

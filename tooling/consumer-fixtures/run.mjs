@@ -4,7 +4,7 @@ import * as os from 'node:os';
 import * as path from 'node:path';
 import { fixturesDir, packAll, run, writeTarballDependencies } from './lib.mjs';
 
-const MANAGERS = ['pnpm', 'npm', 'yarn', 'bun'];
+const MANAGERS = new Set(['pnpm', 'npm', 'yarn', 'bun']);
 
 function installTarballs(projectDir, packageNames, tarballs, manager) {
   writeTarballDependencies(projectDir, packageNames, tarballs);
@@ -28,16 +28,27 @@ function runCheck(projectDir, manager) {
   run('node --import tsx check.ts', projectDir);
 }
 
+function runNativeEsm(projectDir, packageNames) {
+  const imports = packageNames.map((name) => `await import(${JSON.stringify(name)});`).join('\n');
+  fs.writeFileSync(
+    path.join(projectDir, '_native-esm.mjs'),
+    `${imports}
+console.log('native esm OK');
+`,
+  );
+  run('node _native-esm.mjs', projectDir);
+}
+
 function runCjsSmoke(projectDir, packageNames, manager) {
   if (manager !== 'bun') {
     return;
   }
   const requires = packageNames
-    .map(
-      (name, i) =>
-        `const m${i} = require(${JSON.stringify(name)});
-if (!m${i}) throw new Error(${JSON.stringify(`CJS require(${name}) returned empty`)});`,
-    )
+    .map((name, i) => {
+      const emptyMessage = `CJS require(${name}) returned empty`;
+      return `const m${i} = require(${JSON.stringify(name)});
+if (!m${i}) throw new Error(${JSON.stringify(emptyMessage)});`;
+    })
     .join('\n');
   fs.writeFileSync(
     path.join(projectDir, '_cjs-smoke.cjs'),
@@ -57,13 +68,14 @@ function runFixture(fixtureName, packageNames, tarballs, manager) {
   console.log(`\n=== Consumer test: ${fixtureName} (${manager}) ===`);
   installTarballs(tempDir, packageNames, tarballs, manager);
   runCheck(tempDir, manager);
+  runNativeEsm(tempDir, packageNames);
   runCjsSmoke(tempDir, packageNames, manager);
   fs.rmSync(tempDir, { recursive: true, force: true });
 }
 
 function main() {
   const manager = process.argv[2] ?? 'pnpm';
-  if (!MANAGERS.includes(manager)) {
+  if (!MANAGERS.has(manager)) {
     throw new Error(`Unsupported package manager: ${manager}`);
   }
   if (manager === 'bun') {

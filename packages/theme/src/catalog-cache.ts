@@ -5,9 +5,7 @@ let cachedSources: CanonicalTokenSources | undefined;
 
 /** Returns the canonical token catalog, loading once per process. */
 export function getCachedCanonicalTokenSources(): CanonicalTokenSources {
-  if (!cachedSources) {
-    cachedSources = getCanonicalTokenSources();
-  }
+  cachedSources ??= getCanonicalTokenSources();
   return cachedSources;
 }
 

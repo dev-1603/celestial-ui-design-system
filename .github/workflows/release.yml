@@ -28,7 +28,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0
           persist-credentials: false
 
       - name: Setup pnpm
@@ -82,6 +81,11 @@ jobs:
           pr-title: 'chore: version packages'
           pr-base-branch: ${{ github.ref_name }}
 
+  # Releasability gate for the exact publish SHA.
+  # PR CI proves the commit (format/lint/typecheck/test/build/shake/consumers).
+  # Release does not wait on that workflow and can also run via workflow_dispatch,
+  # so this job re-runs build + package-validate + tree-shake + consumers rather
+  # than assuming CI already passed.
   validate:
     if: needs.select-mode.outputs.mode == 'publish'
     needs: select-mode
@@ -111,14 +115,26 @@ jobs:
       - name: Build package-validate tooling
         run: pnpm --filter @celestial-ui/package-validate build
 
-      - name: Validate
-        run: pnpm validate
+      - name: Build
+        run: pnpm build
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Test
+        run: pnpm test
+
+      - name: Validate packages and documentation
+        run: node tooling/package-validate/dist/cli.js
 
       - name: Tree-shaking budgets
         run: pnpm shake:test
 
       - name: Consumer tests (pnpm)
         run: pnpm consumer:test
+
+      - name: Consumer tests (independent link/portal)
+        run: pnpm consumer:test:portal
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2

@@ -2,9 +2,11 @@ import { execSync } from 'node:child_process';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { extract } from 'tar';
 import {
   collectBarrelIsolationFindings,
+  collectEsmExtensionFindings,
   collectExportMapFindings,
   collectPackSizeFindings,
   collectSideEffectsFindings,
@@ -155,7 +157,9 @@ export async function packAndValidatePackage(
     ),
   );
   findings.push(...collectSideEffectsFindings(pkg.name, packedPkgJson));
+  findings.push(...collectEsmExtensionFindings(pkg.name, packedRoot));
   findings.push(...collectBarrelIsolationFindings(pkg.name, pkg.directory));
+  findings.push(...(await collectNativeEsmImportFindings(pkg.name, packedPkgJson, packedRoot)));
 
   const publishConfig = packedPkgJson.publishConfig as { access?: string } | undefined;
   if (publishConfig?.access !== 'public') {
@@ -171,6 +175,37 @@ export async function packAndValidatePackage(
   findings.push(...collectPackSizeFindings(pkg.name, fs.statSync(tarballPath).size));
 
   return findings;
+}
+
+async function collectNativeEsmImportFindings(
+  packageName: string,
+  packedPkgJson: Record<string, unknown>,
+  packedRoot: string,
+): Promise<ValidationFinding[]> {
+  const runtimeDeps = packedPkgJson.dependencies as Record<string, string> | undefined;
+  if (runtimeDeps && Object.keys(runtimeDeps).length > 0) {
+    return [];
+  }
+  const esmEntry = path.join(packedRoot, 'dist/esm/index.js');
+  if (!fs.existsSync(esmEntry)) {
+    return [];
+  }
+  try {
+    await import(pathToFileURL(esmEntry).href);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    return [
+      {
+        package: packageName,
+        category: 'exports',
+        severity: 'BLOCKER',
+        reason: `Native Node ESM import of packed dist/esm/index.js failed: ${message}`,
+        remediation:
+          'Ensure ESM relative specifiers include .js extensions and Node globals are patched',
+      },
+    ];
+  }
+  return [];
 }
 
 export function validateChangesetsAccess(repoRoot: string): ValidationFinding[] {

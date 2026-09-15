@@ -12,7 +12,6 @@ export function normalizeOverrideValue(
 }
 
 export function overrideToToken(
-  tokenPath: string,
   override: TokenOverride | TokenOverrideValue,
   catalogToken: Token,
 ): Token {
@@ -39,7 +38,7 @@ export function setTokenAtPath(config: TokenConfig, tokenPath: string, token: To
     current = current[key] as Record<string, unknown>;
   }
 
-  const leafKey = parts[parts.length - 1]!;
+  const leafKey = parts.at(-1)!;
   current[leafKey] = token;
   return result;
 }

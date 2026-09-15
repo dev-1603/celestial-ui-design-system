@@ -7,7 +7,7 @@ Production publishing for `@celestial-ui/*` runs only from `release/**` branches
 1. Merge changesets into a `release/*` branch (each consumer-visible change needs a `.changeset/*.md` file).
 2. Push to that branch (or dispatch the Release workflow). `changesets/action/select-mode` chooses:
    - **version** — pending changeset files exist. Opens or updates `chore: version packages` against the same `release/*` branch. Does not publish.
-   - **publish** — no pending changeset files, and package versions are not yet on npm. Runs the validation gate, then publishes.
+   - **publish** — no pending changeset files, and package versions are not yet on npm. Runs the artifact gate (pack/docs + pnpm tarball consumers), then publishes. CI on the same SHA already ran typecheck, tests, tree-shaking, and npm/Bun consumers.
    - **none** — nothing to version or publish.
 3. Review and merge the Version Packages PR. That merge is the only path that reaches npm.
 4. The publish job uses GitHub Environment `npm` (required reviewers). It publishes to the npm registry with OIDC, then creates git tags and GitHub Releases.
