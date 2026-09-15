@@ -15,9 +15,7 @@ import {
 import { ACME_NEXUS_THEME, ACME_THEME } from './fixtures';
 
 function catalogFlat() {
-  return flattenTokens(
-    buildTokenConfigForMode(getCanonicalTokenSources(), 'light'),
-  );
+  return flattenTokens(buildTokenConfigForMode(getCanonicalTokenSources(), 'light'));
 }
 
 describe('Theme inheritance', () => {

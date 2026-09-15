@@ -32,13 +32,7 @@ export type NativeName = string;
  * The canonical set of built-in provider IDs shipped with this package.
  * Custom/tenant providers may use any string not in this set.
  */
-export type BuiltInProviderId =
-  | 'lucide'
-  | 'fa'
-  | 'material'
-  | 'heroicons'
-  | 'phosphor'
-  | 'iconify';
+export type BuiltInProviderId = 'lucide' | 'fa' | 'material' | 'heroicons' | 'phosphor' | 'iconify';
 
 // ─── Icon Variant ─────────────────────────────────────────────────────────────
 
@@ -124,12 +118,7 @@ export interface ProviderCapabilities {
  * - `font-class`    One or more CSS class names for a font-based icon.
  * - `url`           Asset URL reference (for CDN-hosted or local SVG assets).
  */
-export type IconPayloadKind =
-  | 'svg-string'
-  | 'svg-data'
-  | 'component-ref'
-  | 'font-class'
-  | 'url';
+export type IconPayloadKind = 'svg-string' | 'svg-data' | 'component-ref' | 'font-class' | 'url';
 
 /**
  * Normalized icon payload returned by a provider adapter.
@@ -307,11 +296,7 @@ export interface IconThemeHint {
  * - `missing`               → no provider could satisfy; `missingIconPolicy` was applied.
  * - `error`                 → an unrecoverable error occurred.
  */
-export type ResolutionStatus =
-  | 'resolved'
-  | 'resolved-via-fallback'
-  | 'missing'
-  | 'error';
+export type ResolutionStatus = 'resolved' | 'resolved-via-fallback' | 'missing' | 'error';
 
 /**
  * Diagnostic information attached when `IconConfig.diagnostics: true`.

@@ -16,7 +16,7 @@ Core describes **what** a component is. It does not render DOM, JSX, Vue templat
 
 It ships **103** generic component specs (six hand-authored references + ninety-seven profile-generated), granular `./specs/<id>` entry points, and zero production runtime dependencies.
 
-`sideEffects` is `false`. Output in v0.1.0 is **CommonJS**.
+`sideEffects` is `false`. Output in v0.1.0 is **dual CJS and ESM**.
 
 ## Why use it?
 
@@ -113,6 +113,8 @@ Deno is **partial**. A best-effort non-blocking fixture imports `createDisclosur
 No other `@celestial-ui/*` package is required.
 
 ### Verified compatibility
+
+Local independent-repo consumption (package directory, not `dist/`, not `src/`) can be checked with `pnpm consumer:test:portal`. pnpm uses `link:`; Yarn Berry uses `portal:`. That command is a maintainer DX check, not a publish gate. See [package-usage.md](../../docs/package-usage.md#8a-local-development-independent-component-library).
 
 | Environment   | Status    | What was verified                                           |
 | ------------- | --------- | ----------------------------------------------------------- |
@@ -245,6 +247,8 @@ const runtime = createCelestialRuntime({
 
 Use one runtime per SSR request. `createEnvironment()` already returns a null environment when `document` is undefined.
 
+`registerDefaultProps` on the plugin context is **reserved**. v0.1 accepts the call so plugins can install without throwing, and it does **not** merge into `runtime.config.defaultProps`. Default-prop application is an adapter concern. Do not rely on this hook to change component defaults.
+
 ## Advanced Usage
 
 ### Conformance
@@ -362,7 +366,7 @@ Do not treat `@celestial-ui/react`, `@celestial-ui/vue`, or `@celestial-ui/svelt
 - Use `@celestial-ui/core/specs/button` when you need one spec. Do not import the root barrel expecting only that spec.
 - `@celestial-ui/core/catalog` does not embed full specs.
 - Do not import `@celestial-ui/core/testing` in application bundles.
-- v0.1.x is **CJS**. Dead-code elimination is limited compared to ESM. Prefer granular subpaths; do not claim the package is fully tree-shakable. ESM dual-publish is documented as future work in architecture docs.
+- v0.1.x ships **dual CJS + ESM**. Bundlers resolve `import` to `dist/esm`; Node `require` keeps `dist/cjs`. Prefer granular subpaths so unused controllers and specs stay out of the bundle.
 
 ## Troubleshooting
 
@@ -389,7 +393,7 @@ Do not treat `@celestial-ui/react`, `@celestial-ui/vue`, or `@celestial-ui/svelt
 
 ## Documentation
 
-- [Package usage](../../docs/package-usage.md)
+- [Package usage](../../docs/package-usage.md) — prefer `./behavior` / `./runtime` over the root barrel
 - [Core architecture](../../docs/core-architecture.md)
 - [Component contract](../../docs/core-component-contract.md)
 - [Component specification](../../docs/core-component-specification.md)

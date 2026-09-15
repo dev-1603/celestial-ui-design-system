@@ -16,7 +16,10 @@ export function serializeDeclarations(declarations: Readonly<Record<string, stri
   return sorted.map(([prop, value]) => `  ${prop}: ${value};`).join('\n');
 }
 
-export function serializeRuleBlock(selector: string, declarations: Readonly<Record<string, string>>): string {
+export function serializeRuleBlock(
+  selector: string,
+  declarations: Readonly<Record<string, string>>,
+): string {
   if (Object.keys(declarations).length === 0) return '';
   const body = serializeDeclarations(declarations);
   return `${selector} {\n${body}\n}`;
@@ -60,7 +63,9 @@ export function buildSemanticDeclarations(
   internalVarForPath: (path: string) => string,
 ): Record<string, string> {
   const result: Record<string, string> = {};
-  for (const [alias, tokenPath] of Object.entries(semanticMap).sort(([a], [b]) => a.localeCompare(b))) {
+  for (const [alias, tokenPath] of Object.entries(semanticMap).sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
     result[alias] = `var(${internalVarForPath(tokenPath)})`;
   }
   return result;

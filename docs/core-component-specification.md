@@ -6,25 +6,25 @@ A `ComponentSpec` describes a Celestial UI component **without implementing it**
 
 ```ts
 interface ComponentSpec {
-  specSchemaVersion: string;       // e.g. '1.1.0'
-  contract: ComponentContract;     // semantic capabilities
-  metadata: ComponentMetadata;     // catalog + taxonomy
-  defaults?: ComponentDefaults;      // props, variants, size
+  specSchemaVersion: string; // e.g. '1.1.0'
+  contract: ComponentContract; // semantic capabilities
+  metadata: ComponentMetadata; // catalog + taxonomy
+  defaults?: ComponentDefaults; // props, variants, size
   environment?: EnvironmentRequirements;
 }
 ```
 
 ## Metadata fields
 
-| Field | Required | Purpose |
-|---|---|---|
-| `displayName` | yes | Human-readable name |
-| `status` | yes | `stable` \| `preview` \| `deprecated` \| `draft` |
-| `purpose` | recommended | One-line semantic purpose |
-| `taxonomy` | catalog specs | `atomic` → `advanced` (classification only) |
-| `engineeringFamily` | catalog specs | e.g. `forms`, `overlays`, `collections` |
-| `capabilities` | catalog specs | Declared capability flags validated against contract |
-| `complexity` | optional | `simple` \| `moderate` \| `complex` |
+| Field               | Required      | Purpose                                              |
+| ------------------- | ------------- | ---------------------------------------------------- |
+| `displayName`       | yes           | Human-readable name                                  |
+| `status`            | yes           | `stable` \| `preview` \| `deprecated` \| `draft`     |
+| `purpose`           | recommended   | One-line semantic purpose                            |
+| `taxonomy`          | catalog specs | `atomic` → `advanced` (classification only)          |
+| `engineeringFamily` | catalog specs | e.g. `forms`, `overlays`, `collections`              |
+| `capabilities`      | catalog specs | Declared capability flags validated against contract |
+| `complexity`        | optional      | `simple` \| `moderate` \| `complex`                  |
 
 Taxonomy and engineering family **do not** determine package architecture.
 
@@ -65,10 +65,10 @@ export const mySpec = defineComponentSpec({
 
 ## Catalog vs spec files
 
-| API | Loads | Use when |
-|---|---|---|
-| `@celestial-ui/core/catalog` | Metadata registry only | Discovery, docs, tooling |
-| `@celestial-ui/core/specs/button` | Full frozen spec | Conformance, code generation |
+| API                               | Loads                  | Use when                     |
+| --------------------------------- | ---------------------- | ---------------------------- |
+| `@celestial-ui/core/catalog`      | Metadata registry only | Discovery, docs, tooling     |
+| `@celestial-ui/core/specs/button` | Full frozen spec       | Conformance, code generation |
 
 This avoids eager loading of all specs when querying the catalog.
 
@@ -76,14 +76,14 @@ This avoids eager loading of all specs when querying the catalog.
 
 Six reference specs ship with Core:
 
-| ID | Family | Exercises |
-|---|---|---|
-| `button` | primitives | variants, sizes, pointer, keyboard |
-| `input` | forms | controlled state, form field |
-| `checkbox` | forms | checked/indeterminate states |
-| `select` | collections | collection, selection, overlay anatomy |
-| `dialog` | overlays | focus trap, modal overlay |
-| `table` | data-display | grid role, multi-select collection |
+| ID         | Family       | Exercises                              |
+| ---------- | ------------ | -------------------------------------- |
+| `button`   | primitives   | variants, sizes, pointer, keyboard     |
+| `input`    | forms        | controlled state, form field           |
+| `checkbox` | forms        | checked/indeterminate states           |
+| `select`   | collections  | collection, selection, overlay anatomy |
+| `dialog`   | overlays     | focus trap, modal overlay              |
+| `table`    | data-display | grid role, multi-select collection     |
 
 ## Conformance
 

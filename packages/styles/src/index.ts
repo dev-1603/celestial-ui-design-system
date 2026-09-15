@@ -1,7 +1,4 @@
-export {
-  SEMANTIC_CSS_API_VERSION,
-  STYLES_PACKAGE_VERSION,
-} from './types';
+export { SEMANTIC_CSS_API_VERSION, STYLES_PACKAGE_VERSION } from './types';
 
 export type {
   AppearanceMode,
@@ -26,38 +23,13 @@ export type {
 } from './types';
 
 export type { StyleError, StyleErrorCode } from './errors';
-export {
-  StyleCompilationError,
-  StyleRuntimeError,
-  styleError,
-} from './errors';
+export { StyleCompilationError, StyleRuntimeError, styleError } from './errors';
 
-export {
-  SEMANTIC_CSS_REGISTRY,
-  /** @internal */
-  getSemanticRegistryEntries,
-  /** @internal */
-  validateSemanticRegistry,
-} from './semantic-registry';
+export { SEMANTIC_CSS_REGISTRY } from './semantic-registry';
 
-export {
-  tokenPathToVariableName,
-  /** @internal */
-  tokenSubPathToVariableName,
-  /** @internal */
-  isValidTokenPath,
-  /** @internal */
-  COMPOSITE_TOKEN_TYPES,
-  /** @internal */
-  SCALAR_TOKEN_TYPES,
-} from './variable-registry';
+export { tokenPathToVariableName } from './variable-registry';
 
-export {
-  compileResolvedTheme,
-  compileThemeSet,
-  /** @internal */
-  generateSemanticVariables,
-} from './compiler';
+export { compileResolvedTheme, compileThemeSet } from './compiler';
 
 export {
   getScopeKey,
@@ -66,8 +38,6 @@ export {
   getThemeAttributes,
   applyThemeAttributes,
   resolveScopeTarget,
-  /** @internal Test/runtime registry reset — not a product API. */
-  clearScopeRegistry,
 } from './scope';
 
 export { createThemeStyleManager, adoptHydratedStyle } from './runtime';
@@ -79,17 +49,8 @@ export {
   renderThemeRootAttributes,
 } from './ssr';
 
-export {
-  DEFAULT_TAILWIND_BRIDGE,
-  generateTailwindBridge,
-} from './tailwind';
+export { DEFAULT_TAILWIND_BRIDGE, generateTailwindBridge } from './tailwind';
 
-export {
-  DEFAULT_SHADCN_REGISTRY,
-  generateShadcnAdapter,
-} from './shadcn';
+export { DEFAULT_SHADCN_REGISTRY, generateShadcnAdapter } from './shadcn';
 
 export { generateBaseCss } from './base';
-
-/** @internal */
-export { computeContentHash } from './hash';

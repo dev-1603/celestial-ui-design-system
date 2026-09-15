@@ -20,9 +20,7 @@ export function renderThemeStyleTag(
     throw new StyleRuntimeError('CSP_NONCE_INVALID', 'Invalid CSP nonce format');
   }
   const id = options.id ?? compiled.styleId;
-  const nonceAttr = options.nonce
-    ? ` nonce="${escapeHtmlAttribute(options.nonce)}"`
-    : '';
+  const nonceAttr = options.nonce ? ` nonce="${escapeHtmlAttribute(options.nonce)}"` : '';
   const safeCss = compiled.cssText.replace(/<\/style/gi, '<\\/style');
   return `<style id="${escapeHtmlAttribute(id)}" data-cui-hash="${escapeHtmlAttribute(compiled.contentHash)}" data-cui-theme="${escapeHtmlAttribute(compiled.metadata.themeId)}" data-cui-mode="${escapeHtmlAttribute(compiled.metadata.mode)}"${nonceAttr}>${safeCss}</style>`;
 }

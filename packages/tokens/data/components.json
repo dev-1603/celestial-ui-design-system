@@ -1,36 +1,132 @@
 {
   "button": {
     "primary": {
-      "background": { "$type": "color", "$value": "{action.primary.background}", "$extensions": { "celestial": { "layer": "component" } } },
-      "hover": { "$type": "color", "$value": "{action.primary.hover}", "$extensions": { "celestial": { "layer": "component" } } },
-      "active": { "$type": "color", "$value": "{action.primary.active}", "$extensions": { "celestial": { "layer": "component" } } },
-      "text": { "$type": "color", "$value": "{action.primary.text}", "$extensions": { "celestial": { "layer": "component" } } }
+      "background": {
+        "$type": "color",
+        "$value": "{action.primary.background}",
+        "$extensions": { "celestial": { "layer": "component" } }
+      },
+      "hover": {
+        "$type": "color",
+        "$value": "{action.primary.hover}",
+        "$extensions": { "celestial": { "layer": "component" } }
+      },
+      "active": {
+        "$type": "color",
+        "$value": "{action.primary.active}",
+        "$extensions": { "celestial": { "layer": "component" } }
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{action.primary.text}",
+        "$extensions": { "celestial": { "layer": "component" } }
+      }
     },
     "secondary": {
-      "background": { "$type": "color", "$value": "{action.secondary.background}", "$extensions": { "celestial": { "layer": "component" } } },
-      "hover": { "$type": "color", "$value": "{action.secondary.hover}", "$extensions": { "celestial": { "layer": "component" } } },
-      "active": { "$type": "color", "$value": "{action.secondary.active}", "$extensions": { "celestial": { "layer": "component" } } },
-      "text": { "$type": "color", "$value": "{action.secondary.text}", "$extensions": { "celestial": { "layer": "component" } } }
+      "background": {
+        "$type": "color",
+        "$value": "{action.secondary.background}",
+        "$extensions": { "celestial": { "layer": "component" } }
+      },
+      "hover": {
+        "$type": "color",
+        "$value": "{action.secondary.hover}",
+        "$extensions": { "celestial": { "layer": "component" } }
+      },
+      "active": {
+        "$type": "color",
+        "$value": "{action.secondary.active}",
+        "$extensions": { "celestial": { "layer": "component" } }
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{action.secondary.text}",
+        "$extensions": { "celestial": { "layer": "component" } }
+      }
     },
     "danger": {
-      "background": { "$type": "color", "$value": "{action.danger.background}", "$extensions": { "celestial": { "layer": "component" } } },
-      "hover": { "$type": "color", "$value": "{action.danger.hover}", "$extensions": { "celestial": { "layer": "component" } } },
-      "active": { "$type": "color", "$value": "{action.danger.active}", "$extensions": { "celestial": { "layer": "component" } } },
-      "text": { "$type": "color", "$value": "{action.danger.text}", "$extensions": { "celestial": { "layer": "component" } } }
+      "background": {
+        "$type": "color",
+        "$value": "{action.danger.background}",
+        "$extensions": { "celestial": { "layer": "component" } }
+      },
+      "hover": {
+        "$type": "color",
+        "$value": "{action.danger.hover}",
+        "$extensions": { "celestial": { "layer": "component" } }
+      },
+      "active": {
+        "$type": "color",
+        "$value": "{action.danger.active}",
+        "$extensions": { "celestial": { "layer": "component" } }
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{action.danger.text}",
+        "$extensions": { "celestial": { "layer": "component" } }
+      }
     },
-    "paddingX": { "$type": "dimension", "$value": "{space.4}", "$extensions": { "celestial": { "layer": "component" } } },
-    "paddingY": { "$type": "dimension", "$value": "{space.2}", "$extensions": { "celestial": { "layer": "component" } } },
-    "radius": { "$type": "dimension", "$value": "{radius.md}", "$extensions": { "celestial": { "layer": "component" } } }
+    "paddingX": {
+      "$type": "dimension",
+      "$value": "{space.4}",
+      "$extensions": { "celestial": { "layer": "component" } }
+    },
+    "paddingY": {
+      "$type": "dimension",
+      "$value": "{space.2}",
+      "$extensions": { "celestial": { "layer": "component" } }
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.md}",
+      "$extensions": { "celestial": { "layer": "component" } }
+    }
   },
   "input": {
-    "background": { "$type": "color", "$value": "{surface.elevated}", "$extensions": { "celestial": { "layer": "component" } } },
-    "border": { "$type": "color", "$value": "{border.default}", "$extensions": { "celestial": { "layer": "component" } } },
-    "hoverBorder": { "$type": "color", "$value": "{border.strong}", "$extensions": { "celestial": { "layer": "component" } } },
-    "focusBorder": { "$type": "color", "$value": "{focus.color}", "$extensions": { "celestial": { "layer": "component" } } },
-    "text": { "$type": "color", "$value": "{text.primary}", "$extensions": { "celestial": { "layer": "component" } } },
-    "placeholder": { "$type": "color", "$value": "{text.muted}", "$extensions": { "celestial": { "layer": "component" } } },
-    "paddingX": { "$type": "dimension", "$value": "{space.3}", "$extensions": { "celestial": { "layer": "component" } } },
-    "paddingY": { "$type": "dimension", "$value": "{space.2}", "$extensions": { "celestial": { "layer": "component" } } },
-    "radius": { "$type": "dimension", "$value": "{radius.md}", "$extensions": { "celestial": { "layer": "component" } } }
+    "background": {
+      "$type": "color",
+      "$value": "{surface.elevated}",
+      "$extensions": { "celestial": { "layer": "component" } }
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{border.default}",
+      "$extensions": { "celestial": { "layer": "component" } }
+    },
+    "hoverBorder": {
+      "$type": "color",
+      "$value": "{border.strong}",
+      "$extensions": { "celestial": { "layer": "component" } }
+    },
+    "focusBorder": {
+      "$type": "color",
+      "$value": "{focus.color}",
+      "$extensions": { "celestial": { "layer": "component" } }
+    },
+    "text": {
+      "$type": "color",
+      "$value": "{text.primary}",
+      "$extensions": { "celestial": { "layer": "component" } }
+    },
+    "placeholder": {
+      "$type": "color",
+      "$value": "{text.muted}",
+      "$extensions": { "celestial": { "layer": "component" } }
+    },
+    "paddingX": {
+      "$type": "dimension",
+      "$value": "{space.3}",
+      "$extensions": { "celestial": { "layer": "component" } }
+    },
+    "paddingY": {
+      "$type": "dimension",
+      "$value": "{space.2}",
+      "$extensions": { "celestial": { "layer": "component" } }
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.md}",
+      "$extensions": { "celestial": { "layer": "component" } }
+    }
   }
 }

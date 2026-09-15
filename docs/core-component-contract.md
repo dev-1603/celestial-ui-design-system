@@ -15,11 +15,11 @@ Current schema: **`1.1.0`**
 
 Every contract includes:
 
-| Field | Purpose |
-|---|---|
-| `id` | Kebab-case `ComponentId` |
-| `version` | Component contract version |
-| `schemaVersion` | Contract schema version |
+| Field           | Purpose                    |
+| --------------- | -------------------------- |
+| `id`            | Kebab-case `ComponentId`   |
+| `version`       | Component contract version |
+| `schemaVersion` | Contract schema version    |
 
 ## Capability contracts
 
@@ -31,7 +31,7 @@ Typed prop definitions with optional controlled flag, enum values, defaults, and
 
 Named variant dimensions (e.g. `variant: primary | secondary`).
 
-### Sizes (`SizeContract`) — *new in 1.1*
+### Sizes (`SizeContract`) — _new in 1.1_
 
 First-class size dimension when applicable:
 
@@ -68,7 +68,7 @@ Role, accessible name source, keyboard/focus specs, ARIA relationships.
 
 Semantic keyboard bindings mapping keys → intents (`activate`, `next`, `dismiss`, …).
 
-### Pointer (`PointerContract`) — *new in 1.1*
+### Pointer (`PointerContract`) — _new in 1.1_
 
 Semantic pointer interactions (`click`, `press`, `hover`, `longpress`, …) with disabled suppression rules. **Not** React/Vue event types.
 

@@ -1,14 +1,6 @@
 export type Direction = 'ltr' | 'rtl';
 
-export type LogicalKey =
-  | 'next'
-  | 'prev'
-  | 'start'
-  | 'end'
-  | 'up'
-  | 'down'
-  | 'home'
-  | 'end-of-list';
+export type LogicalKey = 'next' | 'prev' | 'start' | 'end' | 'up' | 'down' | 'home' | 'end-of-list';
 
 const LTR_HORIZONTAL: Record<string, LogicalKey | null> = {
   ArrowRight: 'next',
@@ -32,9 +24,6 @@ export function getLogicalKeyMap(direction: Direction): Record<string, LogicalKe
   return direction === 'rtl' ? RTL_HORIZONTAL : LTR_HORIZONTAL;
 }
 
-export function resolveLogicalKey(
-  key: string,
-  direction: Direction,
-): LogicalKey | null {
+export function resolveLogicalKey(key: string, direction: Direction): LogicalKey | null {
   return getLogicalKeyMap(direction)[key] ?? null;
 }

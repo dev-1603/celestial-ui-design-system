@@ -4,8 +4,4 @@ export type {
   SelectionController,
   RovingFocusController,
 } from '../collection';
-export {
-  createCollection,
-  createSelection,
-  createRovingFocus,
-} from '../collection';
+export { createCollection, createSelection, createRovingFocus } from '../collection';

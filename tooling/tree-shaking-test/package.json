@@ -1,0 +1,24 @@
+{
+  "name": "tree-shaking-test",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "shake:test": "node measure.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@celestial-ui/core": "workspace:^",
+    "@celestial-ui/icons": "workspace:^",
+    "@celestial-ui/styles": "workspace:^",
+    "@celestial-ui/theme": "workspace:^",
+    "@celestial-ui/tokens": "workspace:^"
+  }
+}

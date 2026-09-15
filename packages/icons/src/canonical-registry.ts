@@ -84,8 +84,6 @@ class CanonicalRegistry {
  * Applications and framework adapters use this instance.
  * Tests may construct their own `CanonicalRegistry` instances with mock data.
  */
-export const canonicalRegistry = new CanonicalRegistry(
-  canonicalData as CanonicalCatalogueFile,
-);
+export const canonicalRegistry = new CanonicalRegistry(canonicalData as CanonicalCatalogueFile);
 
 export { CanonicalRegistry };

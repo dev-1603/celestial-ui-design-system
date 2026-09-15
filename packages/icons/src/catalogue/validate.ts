@@ -136,7 +136,9 @@ export function validateProviderCatalogue(
       continue;
     }
     if (typeof entry['nativeName'] !== 'string' || !entry['nativeName']) {
-      errors.push(`Entry at index ${i} (${entry['canonicalName']}) is missing a valid 'nativeName'.`);
+      errors.push(
+        `Entry at index ${i} (${entry['canonicalName']}) is missing a valid 'nativeName'.`,
+      );
       continue;
     }
     const canonicalName = entry['canonicalName'] as string;

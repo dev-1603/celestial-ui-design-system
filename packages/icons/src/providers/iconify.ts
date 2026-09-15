@@ -4,6 +4,10 @@
  * Peer: `@iconify/utils` (optional) plus `@iconify-json/{prefix}` for each
  * collection. NEVER import `@iconify/json`.
  *
+ * `@iconify/utils` and `@iconify-json/ph` use static `require()` (bundler-visible).
+ * Other `@iconify-json/<prefix>` collections load through Node `createRequire`
+ * and are not a verified browser contract.
+ *
  * Native names are `prefix:name` (e.g. `ph:magnifying-glass`).
  * Per-request / SSR: `createIconifyAdapter({ collection: 'mdi' })` and register
  * that instance on a request-local registry. Do not mutate process state.
@@ -19,7 +23,7 @@ import type {
 } from '../types';
 import { PROVIDER_CONTRACT_VERSION } from '../version';
 import { createNativeNameLookup } from '../mapping';
-import { loadOptionalPeer, readPeerPackageVersion } from '../peers';
+import { loadOptionalPeer } from '../peers';
 import { isValidIconName } from '../ids';
 import iconifyCatalogue from '../data/mappings/iconify.json';
 
@@ -74,13 +78,41 @@ function unwrapIconifyJson(pack: unknown): unknown {
   return pack;
 }
 
+function loadIconifyUtils(): IconifyUtils | undefined {
+  try {
+    return require('@iconify/utils') as IconifyUtils;
+  } catch {
+    return undefined;
+  }
+}
+
+function readIconifyUtilsVersion(): string {
+  try {
+    const pkg = require('@iconify/utils/package.json') as { version?: unknown };
+    return typeof pkg.version === 'string' ? pkg.version : 'installed';
+  } catch {
+    return loadIconifyUtils() ? 'installed' : 'uninstalled';
+  }
+}
+
 function loadIconifyCollection(prefix: string): unknown {
   if (!ICONIFY_PREFIX_PATTERN.test(prefix)) return undefined;
+  if (prefix === 'ph') {
+    try {
+      return unwrapIconifyJson(require('@iconify-json/ph'));
+    } catch {
+      /* fall through to dynamic Node load */
+    }
+  }
+  // Dynamic prefix: Node `createRequire` via peers (not browser-safe).
   const pack = loadOptionalPeer<unknown>(`@iconify-json/${prefix}`);
   return unwrapIconifyJson(pack);
 }
 
-function loadIconifySvg(nativeName: string, iconSetOverride: unknown | undefined): string | undefined {
+function loadIconifySvg(
+  nativeName: string,
+  iconSetOverride: unknown | undefined,
+): string | undefined {
   const colonIdx = nativeName.indexOf(':');
   if (colonIdx < 0) return undefined;
 
@@ -88,7 +120,7 @@ function loadIconifySvg(nativeName: string, iconSetOverride: unknown | undefined
   const name = nativeName.slice(colonIdx + 1);
   if (!ICONIFY_PREFIX_PATTERN.test(prefix) || !isValidIconName(name)) return undefined;
 
-  const utils = loadOptionalPeer<IconifyUtils>('@iconify/utils');
+  const utils = loadIconifyUtils();
   if (!utils?.getIconData || !utils.iconToSVG || !utils.iconToHTML) return undefined;
 
   const collection = unwrapIconifyJson(iconSetOverride) ?? loadIconifyCollection(prefix);
@@ -115,7 +147,7 @@ export function createIconifyAdapter(options: IconifyAdapterOptions = {}): IconP
   return {
     id: 'iconify',
     displayName: 'Iconify',
-    version: readPeerPackageVersion('@iconify/utils') ?? 'uninstalled',
+    version: readIconifyUtilsVersion(),
     catalogueSchemaVersion: PROVIDER_CONTRACT_VERSION,
     capabilities: ICONIFY_CAPABILITIES,
 

@@ -130,7 +130,7 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
       ...profileContractBase(),
       props: {
         props: {
-          'ariaLabel': { name: 'ariaLabel', type: 'string' },
+          ariaLabel: { name: 'ariaLabel', type: 'string' },
         },
         nativePassthrough: 'root',
       },
@@ -168,14 +168,18 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
         nativePassthrough: 'control',
       },
       sizes: { sizes: ['sm', 'md', 'lg'], defaultSize: 'md' },
-      states: { allowed: ['disabled', 'readonly', 'required', 'invalid', 'focus', 'focus-visible'] },
+      states: {
+        allowed: ['disabled', 'readonly', 'required', 'invalid', 'focus', 'focus-visible'],
+      },
       parts: {
         parts: {
           root: { name: 'root', required: true },
           control: { name: 'control', required: true, refTarget: true, receivesNativeProps: true },
         },
       },
-      events: { events: { change: { name: 'change' }, focus: { name: 'focus' }, blur: { name: 'blur' } } },
+      events: {
+        events: { change: { name: 'change' }, focus: { name: 'focus' }, blur: { name: 'blur' } },
+      },
       controlled: { fields: [{ prop: 'value', event: 'change' }] },
       accessibility: { role: 'textbox', name: { from: 'slot:label' } },
       pointer: pointerClick,
@@ -291,10 +295,21 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
     }),
   },
   'form-group': {
-    capabilities: ['identity', 'props', 'parts', 'events', 'accessibility', 'behavior', 'form-field'],
+    capabilities: [
+      'identity',
+      'props',
+      'parts',
+      'events',
+      'accessibility',
+      'behavior',
+      'form-field',
+    ],
     buildContract: () => ({
       ...profileContractBase(),
-      props: { props: { disabled: { name: 'disabled', type: 'boolean' } }, nativePassthrough: 'none' },
+      props: {
+        props: { disabled: { name: 'disabled', type: 'boolean' } },
+        nativePassthrough: 'none',
+      },
       parts: { parts: { root: { name: 'root', required: true } } },
       events: { events: { change: { name: 'change' } } },
       accessibility: { role: 'form', name: { from: 'prop:ariaLabel' } },
@@ -334,7 +349,11 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
       parts: { parts: overlayParts },
       events: { events: { openChange: { name: 'openChange' }, dismiss: { name: 'dismiss' } } },
       controlled: { fields: [{ prop: 'open', event: 'openChange' }] },
-      accessibility: { role: 'dialog', name: { from: 'prop:ariaLabel' }, keyboard: dismissKeyboard },
+      accessibility: {
+        role: 'dialog',
+        name: { from: 'prop:ariaLabel' },
+        keyboard: dismissKeyboard,
+      },
       keyboard: { bindings: dismissKeyboard },
       pointer: { interactions: [{ action: 'click' }], suppressWhenDisabled: false },
       focus: { trap: true, restoreOnClose: true },
@@ -690,7 +709,11 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
         props: { src: { name: 'src', type: 'string' }, alt: { name: 'alt', type: 'string' } },
         nativePassthrough: 'root',
       },
-      parts: { parts: { root: { name: 'root', required: true, refTarget: true, receivesNativeProps: true } } },
+      parts: {
+        parts: {
+          root: { name: 'root', required: true, refTarget: true, receivesNativeProps: true },
+        },
+      },
       accessibility: { role: 'img', name: { from: 'prop:ariaLabel' } },
       refs: { primary: 'root', targets: { root: { part: 'root' } } },
     }),
@@ -771,7 +794,10 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
     ],
     buildContract: () => ({
       ...profileContractBase(),
-      props: { props: { value: { name: 'value', type: 'string', controlled: true } }, nativePassthrough: 'none' },
+      props: {
+        props: { value: { name: 'value', type: 'string', controlled: true } },
+        nativePassthrough: 'none',
+      },
       states: { allowed: ['focus-visible', 'selected', 'disabled'] },
       parts: {
         parts: {

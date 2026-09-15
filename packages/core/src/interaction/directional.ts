@@ -14,9 +14,9 @@ export function resolveDirectionalIntent(
   }
   switch (logical) {
     case 'next':
-      return orientation === 'horizontal' ? 'next' : 'next';
+      return 'next';
     case 'prev':
-      return orientation === 'horizontal' ? 'prev' : 'prev';
+      return 'prev';
     case 'down':
       return orientation !== 'horizontal' ? 'next' : null;
     case 'up':

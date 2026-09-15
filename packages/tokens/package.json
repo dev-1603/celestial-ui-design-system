@@ -2,27 +2,134 @@
   "name": "@celestial-ui/tokens",
   "version": "0.1.0",
   "description": "Framework-agnostic, canonical design-token package for the Celestial Nexus ecosystem.",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/cjs/index.d.ts",
+  "sideEffects": [
+    "./dist/**/*.css",
+    "./dist/css/**",
+    "./dist/cjs/**/*.css",
+    "./dist/esm/**/*.css"
+  ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      },
+      "default": "./dist/cjs/index.js"
     },
     "./css": "./dist/css/tokens.css",
     "./tailwind": "./dist/tailwind.preset.js",
-    "./shadcn": "./dist/css/shadcn-mapping.css"
+    "./shadcn": "./dist/css/shadcn-mapping.css",
+    "./types": {
+      "import": {
+        "types": "./dist/esm/types.d.ts",
+        "default": "./dist/esm/types.js"
+      },
+      "require": {
+        "types": "./dist/cjs/types.d.ts",
+        "default": "./dist/cjs/types.js"
+      },
+      "default": "./dist/cjs/types.js"
+    },
+    "./resolve": {
+      "import": {
+        "types": "./dist/esm/resolve.d.ts",
+        "default": "./dist/esm/resolve.js"
+      },
+      "require": {
+        "types": "./dist/cjs/resolve.d.ts",
+        "default": "./dist/cjs/resolve.js"
+      },
+      "default": "./dist/cjs/resolve.js"
+    },
+    "./catalog": {
+      "import": {
+        "types": "./dist/esm/catalog.d.ts",
+        "default": "./dist/esm/catalog.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog.d.ts",
+        "default": "./dist/cjs/catalog.js"
+      },
+      "default": "./dist/cjs/catalog.js"
+    },
+    "./a11y": {
+      "import": {
+        "types": "./dist/esm/a11y.d.ts",
+        "default": "./dist/esm/a11y.js"
+      },
+      "require": {
+        "types": "./dist/cjs/a11y.d.ts",
+        "default": "./dist/cjs/a11y.js"
+      },
+      "default": "./dist/cjs/a11y.js"
+    },
+    "./validation": {
+      "import": {
+        "types": "./dist/esm/validation.d.ts",
+        "default": "./dist/esm/validation.js"
+      },
+      "require": {
+        "types": "./dist/cjs/validation.d.ts",
+        "default": "./dist/cjs/validation.js"
+      },
+      "default": "./dist/cjs/validation.js"
+    },
+    "./generators": {
+      "import": {
+        "types": "./dist/esm/generators.d.ts",
+        "default": "./dist/esm/generators.js"
+      },
+      "require": {
+        "types": "./dist/cjs/generators.d.ts",
+        "default": "./dist/cjs/generators.js"
+      },
+      "default": "./dist/cjs/generators.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "types": [
+        "./dist/cjs/types.d.ts"
+      ],
+      "resolve": [
+        "./dist/cjs/resolve.d.ts"
+      ],
+      "catalog": [
+        "./dist/cjs/catalog.d.ts"
+      ],
+      "a11y": [
+        "./dist/cjs/a11y.d.ts"
+      ],
+      "validation": [
+        "./dist/cjs/validation.d.ts"
+      ],
+      "generators": [
+        "./dist/cjs/generators.d.ts"
+      ]
+    }
   },
   "scripts": {
-    "build": "tsc && node ./dist/scripts/build.js",
+    "build": "node ./scripts/embed-catalog.mjs && rm -rf dist && tsc && tsc -p tsconfig.esm.json && node ./dist/cjs/scripts/build.js && node ../../tooling/write-dual-package-json.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit",
-    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.esm.json",
+    "lint": "tsc --noEmit && tsc --noEmit -p tsconfig.esm.json",
     "clean": "rm -rf dist"
   },
   "files": [
     "dist",
+    "!dist/scripts",
+    "!dist/scripts/**",
+    "!dist/cjs/scripts",
+    "!dist/cjs/scripts/**",
+    "!dist/esm/scripts",
+    "!dist/esm/scripts/**",
     "data"
   ],
   "keywords": [
@@ -32,6 +139,11 @@
   ],
   "author": "Celestial Team",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dev-1603/celestial-ui-design-system.git",
+    "directory": "packages/tokens"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -39,5 +151,9 @@
     "@types/node": "^26.4.0",
     "typescript": "^5.4.0",
     "vitest": "^1.4.0"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "bun": ">=1.1.0"
   }
 }

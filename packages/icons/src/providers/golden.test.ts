@@ -41,10 +41,9 @@ function resolveSearch(adapter: IconProviderAdapter) {
 }
 
 describe('[Golden] real provider payloads for canonical search', () => {
-  it('Lucide returns svg-string when lucide-static is installed', () => {
-    requirePeer('lucide-static');
+  it('Lucide returns svg-string from the generated catalogue map', () => {
     const result = resolveSearch(LucideAdapter);
-    expect(result.status, 'adapter installed but failed to resolve').toBe('resolved');
+    expect(result.status, 'generated Lucide catalogue failed to resolve').toBe('resolved');
     expect(result.payload?.kind).toBe('svg-string');
     expect(result.nativeName).toBe('Search');
     assertSvgString(result.payload?.data, 'lucide');
@@ -67,10 +66,9 @@ describe('[Golden] real provider payloads for canonical search', () => {
     expect(result.payload?.data).toBe('material-symbols-outlined search');
   });
 
-  it('Heroicons returns svg-string when heroicons is installed', () => {
-    requirePeer('heroicons');
+  it('Heroicons returns svg-string from the generated catalogue map', () => {
     const result = resolveSearch(HeroiconsAdapter);
-    expect(result.status, 'adapter installed but failed to resolve').toBe('resolved');
+    expect(result.status, 'generated Heroicons catalogue failed to resolve').toBe('resolved');
     expect(result.payload?.kind).toBe('svg-string');
     assertSvgString(result.payload?.data, 'heroicons');
   });

@@ -10,8 +10,6 @@ describe('localization', () => {
   });
 
   it('resolves provided messages', () => {
-    expect(resolveMessage('closeLabel', { messages: { closeLabel: 'Fermer' } })).toBe(
-      'Fermer',
-    );
+    expect(resolveMessage('closeLabel', { messages: { closeLabel: 'Fermer' } })).toBe('Fermer');
   });
 });

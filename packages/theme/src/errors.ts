@@ -1,10 +1,4 @@
-export type ThemeErrorLayer =
-  | 'canonical'
-  | 'mode'
-  | 'theme'
-  | 'tenant'
-  | 'schema'
-  | 'inheritance';
+export type ThemeErrorLayer = 'canonical' | 'mode' | 'theme' | 'tenant' | 'schema' | 'inheritance';
 
 export type ThemeErrorCode =
   | 'SCHEMA_INCOMPATIBLE'

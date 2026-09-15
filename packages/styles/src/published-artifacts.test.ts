@@ -8,6 +8,7 @@ import { createThemeRegistry, resolveTheme, CELESTIAL_THEME } from '@celestial-u
 const cssDir = path.join(__dirname, '..', 'dist', 'css');
 const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8')) as {
   exports: Record<string, unknown>;
+  sideEffects?: false | string[];
 };
 
 describe('published artifacts', () => {
@@ -16,6 +17,100 @@ describe('published artifacts', () => {
     expect(pkg.exports['./base']).toBe('./dist/css/base.css');
     expect(pkg.exports['./tailwind']).toBe('./dist/css/tailwind.css');
     expect(pkg.exports['./shadcn']).toBe('./dist/css/shadcn.css');
+  });
+
+  it('exposes additive JS subpaths for runtime, ssr, and compiler', () => {
+    expect(pkg.exports['./runtime']).toEqual({
+      import: {
+        types: './dist/esm/runtime.d.ts',
+        default: './dist/esm/runtime.js',
+      },
+      require: {
+        types: './dist/cjs/runtime.d.ts',
+        default: './dist/cjs/runtime.js',
+      },
+      default: './dist/cjs/runtime.js',
+    });
+    expect(pkg.exports['./ssr']).toEqual({
+      import: {
+        types: './dist/esm/ssr.d.ts',
+        default: './dist/esm/ssr.js',
+      },
+      require: {
+        types: './dist/cjs/ssr.d.ts',
+        default: './dist/cjs/ssr.js',
+      },
+      default: './dist/cjs/ssr.js',
+    });
+    expect(pkg.exports['./compiler']).toEqual({
+      import: {
+        types: './dist/esm/compiler.d.ts',
+        default: './dist/esm/compiler.js',
+      },
+      require: {
+        types: './dist/cjs/compiler.d.ts',
+        default: './dist/cjs/compiler.js',
+      },
+      default: './dist/cjs/compiler.js',
+    });
+  });
+
+  it('exposes JS bridge subpaths that do not collide with CSS assets', () => {
+    expect(pkg.exports['./bridges/tailwind']).toEqual({
+      import: {
+        types: './dist/esm/tailwind.d.ts',
+        default: './dist/esm/tailwind.js',
+      },
+      require: {
+        types: './dist/cjs/tailwind.d.ts',
+        default: './dist/cjs/tailwind.js',
+      },
+      default: './dist/cjs/tailwind.js',
+    });
+    expect(pkg.exports['./bridges/shadcn']).toEqual({
+      import: {
+        types: './dist/esm/shadcn.d.ts',
+        default: './dist/esm/shadcn.js',
+      },
+      require: {
+        types: './dist/cjs/shadcn.d.ts',
+        default: './dist/cjs/shadcn.js',
+      },
+      default: './dist/cjs/shadcn.js',
+    });
+    expect(pkg.exports['./bridges/base']).toEqual({
+      import: {
+        types: './dist/esm/base.d.ts',
+        default: './dist/esm/base.js',
+      },
+      require: {
+        types: './dist/cjs/base.d.ts',
+        default: './dist/cjs/base.js',
+      },
+      default: './dist/cjs/base.js',
+    });
+    expect(pkg.exports['./css']).toBe('./dist/css/index.css');
+    expect(pkg.exports['./base']).toBe('./dist/css/base.css');
+    expect(pkg.exports['./tailwind']).toBe('./dist/css/tailwind.css');
+    expect(pkg.exports['./shadcn']).toBe('./dist/css/shadcn.css');
+  });
+
+  it('lists CSS globs in sideEffects (never false)', () => {
+    expect(pkg.sideEffects).not.toBe(false);
+    expect(Array.isArray(pkg.sideEffects)).toBe(true);
+    expect(pkg.sideEffects?.every((glob) => glob.includes('.css') || glob.includes('/css'))).toBe(
+      true,
+    );
+  });
+
+  it('runtime JS does not import CSS files', () => {
+    const files = ['runtime.js', 'ssr.js', 'compiler.js', 'index.js'];
+    for (const file of files) {
+      for (const tree of ['cjs', 'esm']) {
+        const source = fs.readFileSync(path.join(__dirname, '..', 'dist', tree, file), 'utf8');
+        expect(source, `${tree}/${file}`).not.toMatch(/\.css['"]/);
+      }
+    }
   });
 
   it('built CSS contains celestial light, dark, semantic, and compatibility vars', () => {
@@ -66,5 +161,18 @@ describe('published artifacts', () => {
       expect(compiled.variables[match![1]]).toBeDefined();
       expect(tw).toContain(cuiRef);
     }
+  });
+
+  it('does not re-export @internal helpers from the root barrel', () => {
+    const indexSource = fs.readFileSync(path.join(__dirname, 'index.ts'), 'utf8');
+    expect(indexSource).not.toContain('getSemanticRegistryEntries');
+    expect(indexSource).not.toContain('validateSemanticRegistry');
+    expect(indexSource).not.toContain('tokenSubPathToVariableName');
+    expect(indexSource).not.toContain('isValidTokenPath');
+    expect(indexSource).not.toContain('COMPOSITE_TOKEN_TYPES');
+    expect(indexSource).not.toContain('SCALAR_TOKEN_TYPES');
+    expect(indexSource).not.toContain('generateSemanticVariables');
+    expect(indexSource).toContain('tokenPathToVariableName');
+    expect(indexSource).toContain('compileResolvedTheme');
   });
 });

@@ -67,7 +67,10 @@ export const DEFAULT_TAILWIND_BRIDGE: Readonly<TailwindBridgeRegistry> = {
 export function generateTailwindBridge(
   registry: TailwindBridgeRegistry = DEFAULT_TAILWIND_BRIDGE,
 ): string {
-  const lines = ['/* Celestial Tailwind v4 bridge — @celestial-ui/styles/tailwind */', '@theme inline {'];
+  const lines = [
+    '/* Celestial Tailwind v4 bridge — @celestial-ui/styles/tailwind */',
+    '@theme inline {',
+  ];
   const sorted = Object.entries(registry).sort(([a], [b]) => a.localeCompare(b));
   for (const [twVar, cuiVar] of sorted) {
     lines.push(`  ${twVar}: ${cuiVar};`);

@@ -56,11 +56,10 @@ function validateRequest(request: Readonly<IconRequest>): void {
   if (request.provider !== undefined && !isValidProviderId(request.provider)) {
     throw new IconResolutionError(
       `Invalid explicit provider id '${request.provider}'.`,
-      iconError(
-        'INVALID_PROVIDER_ID',
-        `Provider id '${request.provider}' is invalid.`,
-        { layer: 'request', providerId: request.provider },
-      ),
+      iconError('INVALID_PROVIDER_ID', `Provider id '${request.provider}' is invalid.`, {
+        layer: 'request',
+        providerId: request.provider,
+      }),
     );
   }
 }
@@ -81,7 +80,10 @@ function applyMissingPolicy(
   if (policy.kind === 'error') {
     throw new IconResolutionError(
       `Icon '${canonicalName}' could not be resolved. ${diagnosticReason}`,
-      iconError('ALL_PROVIDERS_FAILED', diagnosticReason, { layer: 'provider', iconName: canonicalName }),
+      iconError('ALL_PROVIDERS_FAILED', diagnosticReason, {
+        layer: 'provider',
+        iconName: canonicalName,
+      }),
     );
   }
 
@@ -103,12 +105,7 @@ function applyMissingPolicy(
       };
     }
     // Recursive call with fallback icon name — depth is bounded by the guard above
-    return resolveIcon(
-      { name: policy.canonicalName },
-      config,
-      registry,
-      cRegistry,
-    );
+    return resolveIcon({ name: policy.canonicalName }, config, registry, cRegistry);
   }
 
   // Default: kind === 'empty'

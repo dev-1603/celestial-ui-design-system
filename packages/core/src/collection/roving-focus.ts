@@ -11,9 +11,7 @@ export interface RovingFocusController {
   destroy(): void;
 }
 
-export function createRovingFocus(
-  collection: CollectionController,
-): RovingFocusController {
+export function createRovingFocus(collection: CollectionController): RovingFocusController {
   return {
     getSnapshot() {
       return { activeId: collection.getSnapshot().activeId };
@@ -22,27 +20,20 @@ export function createRovingFocus(
       return collection.subscribe(listener);
     },
     handleKey(key, wrap = true) {
-      const direction =
-        key === 'ArrowDown' || key === 'ArrowRight'
-          ? 'next'
-          : key === 'ArrowUp' || key === 'ArrowLeft'
-            ? 'prev'
-            : key === 'Home'
-              ? 'next'
-              : key === 'End'
-                ? 'prev'
-                : null;
-      if (!direction) return;
       if (key === 'Home') {
-        const items = collection.getVisibleItems().filter((i) => !i.disabled);
-        collection.setActiveId(items[0]?.id ?? null);
+        const firstEnabled = collection.getVisibleItems().find((i) => !i.disabled);
+        collection.setActiveId(firstEnabled?.id ?? null);
         return;
       }
       if (key === 'End') {
-        const items = collection.getVisibleItems().filter((i) => !i.disabled);
-        collection.setActiveId(items[items.length - 1]?.id ?? null);
+        const enabled = collection.getVisibleItems().filter((i) => !i.disabled);
+        collection.setActiveId(enabled.at(-1)?.id ?? null);
         return;
       }
+      let direction: 'next' | 'prev' | null = null;
+      if (key === 'ArrowDown' || key === 'ArrowRight') direction = 'next';
+      else if (key === 'ArrowUp' || key === 'ArrowLeft') direction = 'prev';
+      if (!direction) return;
       const nextId = collection.getNextActiveId(direction, wrap);
       if (nextId) collection.setActiveId(nextId);
     },

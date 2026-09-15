@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  buildScopeSelector,
-  getThemeAttributes,
-  applyThemeAttributes,
-  getScopeKey,
-} from './scope';
+import { buildScopeSelector, getThemeAttributes, applyThemeAttributes, getScopeKey } from './scope';
 
 describe('scope', () => {
   it('builds document selector with compatibility classes', () => {

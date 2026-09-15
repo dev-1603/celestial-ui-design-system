@@ -30,9 +30,6 @@ export function createSelection<T = string>(
     value: options.value,
     defaultValue: options.defaultValue ?? [],
     isControlled: options.value !== undefined,
-    onChange: (selected, _prev) => {
-      // onSelect called from select()
-    },
   });
 
   return {

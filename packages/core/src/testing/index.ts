@@ -12,10 +12,7 @@ export type {
   ConformanceHarness,
   ConformanceImplementationSnapshot,
 } from '../conformance/harness';
-export {
-  createConformanceHarness,
-  runConformanceChecks,
-} from '../conformance/harness';
+export { createConformanceHarness, runConformanceChecks } from '../conformance/harness';
 
 export function assertSpecValid(spec: ComponentSpec): void {
   const report = validateComponentSpec(spec);
@@ -38,10 +35,7 @@ export function createContractHarness(spec: ComponentSpec): ContractHarness {
   };
 }
 
-export function assertA11yProps(
-  actual: A11ySnapshot,
-  expected: Partial<A11ySnapshot>,
-): void {
+export function assertA11yProps(actual: A11ySnapshot, expected: Partial<A11ySnapshot>): void {
   for (const [key, value] of Object.entries(expected)) {
     const k = key as keyof A11ySnapshot;
     if (actual[k] !== value) {

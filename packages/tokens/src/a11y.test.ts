@@ -17,7 +17,7 @@ describe('Accessibility Contrast Checking', () => {
   it('should calculate contrast ratio correctly', () => {
     const ratioWhiteBlack = getContrastRatio('#FFFFFF', '#000000');
     expect(ratioWhiteBlack).toBeCloseTo(21.0, 1);
-    
+
     // Very dark gray and black
     const ratioDark = getContrastRatio('#111111', '#000000');
     expect(ratioDark).toBeLessThan(4.5);

@@ -5,6 +5,8 @@
  *
  * Peers (optional): `@fortawesome/fontawesome-svg-core` plus
  * `@fortawesome/free-solid-svg-icons` and/or `@fortawesome/free-regular-svg-icons`.
+ * Each is loaded with a static `require('…')` so bundlers can see the specifier.
+ * This adapter does not import `../peers`.
  *
  * Resolution looks up the pack export (`faMagnifyingGlass`) and calls `icon(def)`.
  * It does not rely on a previously populated `library` singleton.
@@ -22,7 +24,6 @@ import type {
 } from '../types';
 import { PROVIDER_CONTRACT_VERSION } from '../version';
 import { createNativeNameLookup } from '../mapping';
-import { loadOptionalPeer, readPeerPackageVersion } from '../peers';
 import { toFontAwesomeExportName } from '../names';
 import faCatalogue from '../data/mappings/fa.json';
 
@@ -44,15 +45,44 @@ interface FaCore {
   icon: (def: unknown) => { html?: string[] };
 }
 
+function loadFaCore(): FaCore | undefined {
+  try {
+    return require('@fortawesome/fontawesome-svg-core') as FaCore;
+  } catch {
+    return undefined;
+  }
+}
+
+function loadFaSolid(): FaIconPack | undefined {
+  try {
+    return require('@fortawesome/free-solid-svg-icons') as FaIconPack;
+  } catch {
+    return undefined;
+  }
+}
+
+function loadFaRegular(): FaIconPack | undefined {
+  try {
+    return require('@fortawesome/free-regular-svg-icons') as FaIconPack;
+  } catch {
+    return undefined;
+  }
+}
+
+function readFaCoreVersion(): string {
+  try {
+    const pkg = require('@fortawesome/fontawesome-svg-core/package.json') as { version?: unknown };
+    return typeof pkg.version === 'string' ? pkg.version : 'installed';
+  } catch {
+    return loadFaCore() ? 'installed' : 'uninstalled';
+  }
+}
+
 function loadFaSvg(nativeName: string, style: string): string | undefined {
-  const core = loadOptionalPeer<FaCore>('@fortawesome/fontawesome-svg-core');
+  const core = loadFaCore();
   if (!core?.icon) return undefined;
 
-  const packName =
-    style === 'regular'
-      ? '@fortawesome/free-regular-svg-icons'
-      : '@fortawesome/free-solid-svg-icons';
-  const pack = loadOptionalPeer<FaIconPack>(packName);
+  const pack = style === 'regular' ? loadFaRegular() : loadFaSolid();
   if (!pack) return undefined;
 
   const def = pack[toFontAwesomeExportName(nativeName)];
@@ -65,7 +95,7 @@ function loadFaSvg(nativeName: string, style: string): string | undefined {
 export const FontAwesomeAdapter: IconProviderAdapter = {
   id: 'fa',
   displayName: 'Font Awesome Free',
-  version: readPeerPackageVersion('@fortawesome/fontawesome-svg-core') ?? 'uninstalled',
+  version: readFaCoreVersion(),
   catalogueSchemaVersion: PROVIDER_CONTRACT_VERSION,
   capabilities: FA_CAPABILITIES,
 

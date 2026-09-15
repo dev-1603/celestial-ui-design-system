@@ -1,6 +1,7 @@
 import { createEnvironment } from '../environment/environment';
 import { CoreRuntimeError, coreError } from '../diagnostics/errors';
 import { createId } from '../ids';
+import { PLUGIN_CONTRACT_VERSION } from '../version';
 import type {
   CelestialPlugin,
   CelestialPluginContext,
@@ -12,9 +13,11 @@ import type {
 
 let defaultRuntime: CelestialRuntime | null = null;
 
-export function createCelestialRuntime(
-  options: CreateRuntimeOptions = {},
-): CelestialRuntime {
+function ignoreCleanupError(): void {
+  // Plugin dispose() must not fail destroy(); cleanup is best-effort.
+}
+
+export function createCelestialRuntime(options: CreateRuntimeOptions = {}): CelestialRuntime {
   const services = new Map<string, unknown>();
   const installedPlugins: string[] = [];
   const disposers: Array<() => void> = [];
@@ -31,16 +34,14 @@ export function createCelestialRuntime(
   const environment = options.environment ?? createEnvironment();
 
   const pluginContext: CelestialPluginContext = {
-    pluginContractVersion: '1.0.0',
+    pluginContractVersion: PLUGIN_CONTRACT_VERSION,
     registerService(id, service) {
       if (destroyed) return;
       services.set(id, service);
     },
-    registerDefaultProps(componentId, props) {
+    registerDefaultProps(_componentId, _props) {
       if (destroyed) return;
-      // stored in config.defaultProps via plugin — immutable after create
-      void componentId;
-      void props;
+      // Reserved: default-prop merge is an adapter concern in v0.1.
     },
     registerDiagnosticSink(sink) {
       if (destroyed) return;
@@ -73,11 +74,9 @@ export function createCelestialRuntime(
       throw new CoreRuntimeError(
         'PLUGIN_INSTALL_FAILED',
         `Plugin "${plugin.id}" failed to install.`,
-        coreError(
-          'PLUGIN_INSTALL_FAILED',
-          err instanceof Error ? err.message : String(err),
-          { layer: 'plugin' },
-        ),
+        coreError('PLUGIN_INSTALL_FAILED', err instanceof Error ? err.message : String(err), {
+          layer: 'plugin',
+        }),
       );
     }
   }
@@ -110,7 +109,7 @@ export function createCelestialRuntime(
         try {
           dispose();
         } catch {
-          // ignore cleanup errors
+          ignoreCleanupError();
         }
       }
       services.clear();
@@ -126,9 +125,7 @@ export function createCelestialRuntime(
  * prefer explicit `createCelestialRuntime()` per app or request.
  */
 export function getDefaultRuntime(): CelestialRuntime {
-  if (!defaultRuntime) {
-    defaultRuntime = createCelestialRuntime();
-  }
+  defaultRuntime ??= createCelestialRuntime();
   return defaultRuntime;
 }
 

@@ -18,10 +18,7 @@ export interface MessageResolverOptions {
   readonly componentId?: string;
 }
 
-export function resolveMessage(
-  key: LocalizationKey,
-  options: MessageResolverOptions = {},
-): string {
+export function resolveMessage(key: LocalizationKey, options: MessageResolverOptions = {}): string {
   const value = options.messages?.[key];
   if (value !== undefined) return value;
   if (typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production') {

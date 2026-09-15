@@ -1,16 +1,12 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import {
-  createThemeRegistry,
-  resolveTheme,
-  CELESTIAL_THEME,
-} from '@celestial-ui/theme';
+import { createThemeRegistry, resolveTheme, CELESTIAL_THEME } from '@celestial-ui/theme';
 import { compileThemeSet } from '../compiler';
 import { generateBaseCss } from '../base';
 import { generateTailwindBridge } from '../tailwind';
 import { generateShadcnAdapter } from '../shadcn';
 
-const distCssDir = path.join(__dirname, '..', 'css');
+const distCssDir = path.join(__dirname, '..', '..', 'css');
 
 function ensureDir(dir: string): void {
   if (!fs.existsSync(dir)) {

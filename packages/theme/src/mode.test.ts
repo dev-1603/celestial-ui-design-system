@@ -12,9 +12,9 @@ describe('Mode resolution', () => {
   });
 
   it('explicit mode wins over modePreference', () => {
-    expect(
-      resolveAppearanceMode(CELESTIAL_THEME, { mode: 'dark', modePreference: 'light' }),
-    ).toBe('dark');
+    expect(resolveAppearanceMode(CELESTIAL_THEME, { mode: 'dark', modePreference: 'light' })).toBe(
+      'dark',
+    );
   });
 
   it('uses modePreference light', () => {

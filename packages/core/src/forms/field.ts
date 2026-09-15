@@ -1,3 +1,5 @@
+import { createId } from '../ids';
+
 export interface FormFieldSnapshot<T = unknown> {
   readonly name?: string;
   readonly value: T;
@@ -43,7 +45,7 @@ export function createFormFieldState<T = unknown>(
   let touched = false;
   let dirty = false;
   let destroyed = false;
-  const controlId = `cui-field-${Math.random().toString(36).slice(2, 9)}`;
+  const controlId = createId('cui-field');
   const labelId = `${controlId}-label`;
   const descriptionId = `${controlId}-description`;
   const errorId = `${controlId}-error`;

@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  createThemeRegistry,
-  resolveTheme,
-  CELESTIAL_THEME,
-  THEME_SCHEMA_VERSION,
-} from './index';
+import { createThemeRegistry, resolveTheme, CELESTIAL_THEME, THEME_SCHEMA_VERSION } from './index';
 import { ACME_THEME } from './fixtures';
 
 /**

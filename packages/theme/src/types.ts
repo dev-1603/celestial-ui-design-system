@@ -1,4 +1,9 @@
-import type { FlatTokenMap, OverridePolicy, TokenType, ValidationReport } from '@celestial-ui/tokens';
+import type {
+  FlatTokenMap,
+  OverridePolicy,
+  TokenType,
+  ValidationReport,
+} from '@celestial-ui/tokens';
 import type { IconProviderConfig } from './icons';
 import type { ThemeError } from './errors';
 

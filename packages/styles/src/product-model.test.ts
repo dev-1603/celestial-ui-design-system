@@ -2,11 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { compileResolvedTheme, compileThemeSet } from './compiler';
 import { createThemeStyleManager } from './runtime';
 import { applyThemeAttributes, clearScopeRegistry } from './scope';
-import {
-  resolveCelestialLight,
-  resolveCelestialDark,
-  resolveAcmeDark,
-} from './test/fixtures';
+import { resolveCelestialLight, resolveCelestialDark, resolveAcmeDark } from './test/fixtures';
 
 describe('product model — one visual language', () => {
   let doc: Document;
@@ -21,10 +17,9 @@ describe('product model — one visual language', () => {
   });
 
   it('normal MFEs inherit host theme/mode without their own scope attributes', () => {
-    const compiled = compileThemeSet(
-      [resolveCelestialLight(), resolveCelestialDark()],
-      { scope: { kind: 'document' } },
-    );
+    const compiled = compileThemeSet([resolveCelestialLight(), resolveCelestialDark()], {
+      scope: { kind: 'document' },
+    });
     const manager = createThemeStyleManager({ document: doc });
     manager.attach({ kind: 'document' }, compiled);
     applyThemeAttributes(doc.documentElement, {
@@ -50,10 +45,9 @@ describe('product model — one visual language', () => {
   });
 
   it('host mode change updates document state without a new stylesheet or MFE updates', () => {
-    const compiled = compileThemeSet(
-      [resolveCelestialLight(), resolveCelestialDark()],
-      { scope: { kind: 'document' } },
-    );
+    const compiled = compileThemeSet([resolveCelestialLight(), resolveCelestialDark()], {
+      scope: { kind: 'document' },
+    });
     const manager = createThemeStyleManager({ document: doc });
     const attachment = manager.attach({ kind: 'document' }, compiled);
     const cssBefore = attachment.styleElement.textContent;
@@ -74,10 +68,9 @@ describe('product model — one visual language', () => {
   });
 
   it('explicit sandbox isolates theme/mode from host and inheriting MFEs', () => {
-    const hostCss = compileThemeSet(
-      [resolveCelestialLight(), resolveCelestialDark()],
-      { scope: { kind: 'document' } },
-    );
+    const hostCss = compileThemeSet([resolveCelestialLight(), resolveCelestialDark()], {
+      scope: { kind: 'document' },
+    });
     const sandboxCss = compileResolvedTheme(resolveAcmeDark(), {
       scope: { kind: 'sandbox', id: 'preview' },
     });

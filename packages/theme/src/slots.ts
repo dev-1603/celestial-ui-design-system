@@ -44,14 +44,7 @@ export const THEME_SLOT_DEFINITIONS: Record<ThemeSlotId, ThemeSlotDefinition> = 
   color: {
     id: 'color',
     description: 'Semantic color tokens for actions, text, borders, and status.',
-    allowedTokenPaths: [
-      'action.',
-      'status.',
-      'text.',
-      'border.',
-      'icon.',
-      'selection.',
-    ],
+    allowedTokenPaths: ['action.', 'status.', 'text.', 'border.', 'icon.', 'selection.'],
     allowedOverridePolicies: ['tenantOverridable'],
   },
   surface: {
@@ -106,10 +99,7 @@ export function isPathInSlot(tokenPath: string, slotId: ThemeSlotId): boolean {
   return slot.allowedTokenPaths.some((prefix) => tokenPath.startsWith(prefix));
 }
 
-export function isPolicyAllowedInSlot(
-  policy: OverridePolicy,
-  slotId: ThemeSlotId,
-): boolean {
+export function isPolicyAllowedInSlot(policy: OverridePolicy, slotId: ThemeSlotId): boolean {
   return THEME_SLOT_DEFINITIONS[slotId].allowedOverridePolicies.includes(policy);
 }
 

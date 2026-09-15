@@ -21,33 +21,33 @@
 
 **Verification (latest run):**
 
-| Check | Result |
-|-------|--------|
-| `pnpm run build` | Pass |
-| `pnpm test` | **25 / 25** tests pass (10 files) |
-| Framework-agnostic gate | Pass (no React/Vue deps or imports) |
-| Runtime workspace deps | **None** (tokens/theme/styles/icons not required) |
-| Frozen packages modified | **None** |
+| Check                    | Result                                            |
+| ------------------------ | ------------------------------------------------- |
+| `pnpm run build`         | Pass                                              |
+| `pnpm test`              | **25 / 25** tests pass (10 files)                 |
+| Framework-agnostic gate  | Pass (no React/Vue deps or imports)               |
+| Runtime workspace deps   | **None** (tokens/theme/styles/icons not required) |
+| Frozen packages modified | **None**                                          |
 
 ---
 
 ## 2. Implementation Phases — Completion Status
 
-| Phase | Objective | Status |
-|-------|-----------|--------|
-| **0** | Package scaffold, tsc CJS, vitest, versions, framework gate | Complete |
-| **1** | Diagnostics, ids, environment, directionality, DOM naming | Complete |
-| **2** | ComponentContract + ComponentSpec define/validate/freeze | Complete |
-| **3** | State model, events, props, slots/parts | Complete |
-| **4** | Controllable state, disclosure, activation/dismissal | Complete |
-| **5** | Collection, selection, roving focus, typeahead, keyboard | Complete |
-| **6** | Accessibility maps, focus manager | Complete |
-| **7** | Form-field contract | Complete |
-| **8** | Overlay controller + LIFO stack | Complete |
-| **9** | CelestialRuntime + plugins | Complete |
-| **10** | `as` polymorphism, prop forwarding, ref contract | Complete |
-| **11** | Localization keys contract | Complete |
-| **12** | Testing subpath, export tests, README, plan copy | Complete |
+| Phase  | Objective                                                   | Status   |
+| ------ | ----------------------------------------------------------- | -------- |
+| **0**  | Package scaffold, tsc CJS, vitest, versions, framework gate | Complete |
+| **1**  | Diagnostics, ids, environment, directionality, DOM naming   | Complete |
+| **2**  | ComponentContract + ComponentSpec define/validate/freeze    | Complete |
+| **3**  | State model, events, props, slots/parts                     | Complete |
+| **4**  | Controllable state, disclosure, activation/dismissal        | Complete |
+| **5**  | Collection, selection, roving focus, typeahead, keyboard    | Complete |
+| **6**  | Accessibility maps, focus manager                           | Complete |
+| **7**  | Form-field contract                                         | Complete |
+| **8**  | Overlay controller + LIFO stack                             | Complete |
+| **9**  | CelestialRuntime + plugins                                  | Complete |
+| **10** | `as` polymorphism, prop forwarding, ref contract            | Complete |
+| **11** | Localization keys contract                                  | Complete |
+| **12** | Testing subpath, export tests, README, plan copy            | Complete |
 
 ---
 
@@ -98,15 +98,15 @@ Curated exports for adapters and application authors. Does **not** re-export `./
 
 ### Capability subpaths
 
-| Subpath | Contents |
-|---------|----------|
-| `@celestial-ui/core/contracts` | Contract/spec types, `defineComponentSpec`, validators |
-| `@celestial-ui/core/behavior` | `createControllableState`, `createDisclosure` |
-| `@celestial-ui/core/accessibility` | `buildAriaProps`, `createFocusManager` |
-| `@celestial-ui/core/collection` | `createCollection`, `createSelection`, `createRovingFocus` |
-| `@celestial-ui/core/overlay` | `createOverlayController`, `getTopOverlay` |
-| `@celestial-ui/core/runtime` | `createCelestialRuntime` |
-| `@celestial-ui/core/testing` | `createContractHarness`, `assertA11yProps`, `assertKeyboardIntent` |
+| Subpath                            | Contents                                                           |
+| ---------------------------------- | ------------------------------------------------------------------ |
+| `@celestial-ui/core/contracts`     | Contract/spec types, `defineComponentSpec`, validators             |
+| `@celestial-ui/core/behavior`      | `createControllableState`, `createDisclosure`                      |
+| `@celestial-ui/core/accessibility` | `buildAriaProps`, `createFocusManager`                             |
+| `@celestial-ui/core/collection`    | `createCollection`, `createSelection`, `createRovingFocus`         |
+| `@celestial-ui/core/overlay`       | `createOverlayController`, `getTopOverlay`                         |
+| `@celestial-ui/core/runtime`       | `createCelestialRuntime`                                           |
+| `@celestial-ui/core/testing`       | `createContractHarness`, `assertA11yProps`, `assertKeyboardIntent` |
 
 `sideEffects: false` — tree-shakeable by subpath.
 
@@ -169,13 +169,13 @@ Curated exports for adapters and application authors. Does **not** re-export `./
 
 ### 5.9 DOM Conventions
 
-| Attribute | Owner | Purpose |
-|-----------|-------|---------|
-| `data-cui-theme`, `data-cui-mode`, … | **styles** (reserved) | Theme scoping |
-| `data-cui-component` | **core** | Component id |
-| `data-cui-part` | **core** | Structural part (kebab) |
-| `data-cui-state` | **core** | Semantic state tokens |
-| `data-cui-variant`, `data-cui-size` | **core** | Variant/size |
+| Attribute                            | Owner                 | Purpose                 |
+| ------------------------------------ | --------------------- | ----------------------- |
+| `data-cui-theme`, `data-cui-mode`, … | **styles** (reserved) | Theme scoping           |
+| `data-cui-component`                 | **core**              | Component id            |
+| `data-cui-part`                      | **core**              | Structural part (kebab) |
+| `data-cui-state`                     | **core**              | Semantic state tokens   |
+| `data-cui-variant`, `data-cui-size`  | **core**              | Variant/size            |
 
 ### 5.10 Polymorphism, Forwarding, Refs
 
@@ -217,30 +217,30 @@ Frozen foundation packages were **not modified**.
 
 ## 7. Test Coverage Summary
 
-| Test file | Focus | Tests |
-|-----------|-------|-------|
-| `framework-agnostic.test.ts` | No React/Vue deps or imports | 3 |
-| `published-exports.test.ts` | Export map, testing isolation | 2 |
-| `spec/spec.test.ts` | Spec, state, collection, runtime | 8 |
-| `environment/environment.test.ts` | SSR-safe null env | 2 |
-| `overlay/overlay.test.ts` | Nested stack LIFO | 1 |
-| `runtime/runtime.test.ts` | Plugin duplicate + rollback | 2 |
-| `localization/messages.test.ts` | Message resolution | 2 |
-| `polymorphism/polymorphism.test.ts` | `as` + prop filter | 2 |
-| `forwarding/merge.test.ts` | Prop precedence | 1 |
-| `testing/testing.test.ts` | Contract harness | 2 |
-| **Total** | | **25** |
+| Test file                           | Focus                            | Tests  |
+| ----------------------------------- | -------------------------------- | ------ |
+| `framework-agnostic.test.ts`        | No React/Vue deps or imports     | 3      |
+| `published-exports.test.ts`         | Export map, testing isolation    | 2      |
+| `spec/spec.test.ts`                 | Spec, state, collection, runtime | 8      |
+| `environment/environment.test.ts`   | SSR-safe null env                | 2      |
+| `overlay/overlay.test.ts`           | Nested stack LIFO                | 1      |
+| `runtime/runtime.test.ts`           | Plugin duplicate + rollback      | 2      |
+| `localization/messages.test.ts`     | Message resolution               | 2      |
+| `polymorphism/polymorphism.test.ts` | `as` + prop filter               | 2      |
+| `forwarding/merge.test.ts`          | Prop precedence                  | 1      |
+| `testing/testing.test.ts`           | Contract harness                 | 2      |
+| **Total**                           |                                  | **25** |
 
 ---
 
 ## 8. Documentation Delivered
 
-| Document | Location |
-|----------|----------|
-| Package README | [`README.md`](./README.md) |
-| Full architecture plan | [`CORE_IMPLEMENTATION_PLAN.md`](./CORE_IMPLEMENTATION_PLAN.md) |
-| This report | [`CORE_IMPLEMENTATION_REPORT.md`](./CORE_IMPLEMENTATION_REPORT.md) |
-| Monorepo package index | [`packages/README.md`](../README.md) (updated) |
+| Document               | Location                                                           |
+| ---------------------- | ------------------------------------------------------------------ |
+| Package README         | [`README.md`](./README.md)                                         |
+| Full architecture plan | [`CORE_IMPLEMENTATION_PLAN.md`](./CORE_IMPLEMENTATION_PLAN.md)     |
+| This report            | [`CORE_IMPLEMENTATION_REPORT.md`](./CORE_IMPLEMENTATION_REPORT.md) |
+| Monorepo package index | [`packages/README.md`](../README.md) (updated)                     |
 
 ---
 
@@ -278,25 +278,25 @@ Frozen foundation packages were **not modified**.
 
 These are **intentional V1 scope boundaries**, not bugs:
 
-| Item | Notes |
-|------|-------|
-| No official component spec registry | Specs ship with react/vue adapters later |
-| Overlay positioning | Adapters use CSS / Floating UI; Core provides stack + dismiss only |
-| Tree keyboard depth | V1: visible-list next/prev; full tree keyboard deferred |
-| `getDefaultRuntime()` | CSR convenience only; SSR must use explicit `createCelestialRuntime()` |
-| Plugin `registerDefaultProps` | Context hook present; full default-props merge is adapter concern |
-| ESM output | Monorepo uses CJS `tsc` like other foundation packages |
+| Item                                | Notes                                                                  |
+| ----------------------------------- | ---------------------------------------------------------------------- |
+| No official component spec registry | Specs ship with react/vue adapters later                               |
+| Overlay positioning                 | Adapters use CSS / Floating UI; Core provides stack + dismiss only     |
+| Tree keyboard depth                 | V1: visible-list next/prev; full tree keyboard deferred                |
+| `getDefaultRuntime()`               | CSR convenience only; SSR must use explicit `createCelestialRuntime()` |
+| Plugin `registerDefaultProps`       | Context hook present; full default-props merge is adapter concern      |
+| ESM output                          | Monorepo uses CJS `tsc` like other foundation packages                 |
 
 ---
 
 ## 12. Open Decisions (Unchanged from Plan)
 
-| Decision | Recommendation (as built) | Blocks consumers? |
-|----------|---------------------------|-------------------|
-| Diagnostic ids vs codes | **Both** (`CUI-CORE-001` + `INVALID_CONTRACT`) | No |
-| Overlay z-index | **Stack index only** (no numeric z hints) | No |
-| Default CSR runtime | **Opt-in `getDefaultRuntime()`** | No |
-| `asChild` | **Not V1** — needs approval | No |
+| Decision                | Recommendation (as built)                      | Blocks consumers? |
+| ----------------------- | ---------------------------------------------- | ----------------- |
+| Diagnostic ids vs codes | **Both** (`CUI-CORE-001` + `INVALID_CONTRACT`) | No                |
+| Overlay z-index         | **Stack index only** (no numeric z hints)      | No                |
+| Default CSR runtime     | **Opt-in `getDefaultRuntime()`**               | No                |
+| `asChild`               | **Not V1** — needs approval                    | No                |
 
 ---
 

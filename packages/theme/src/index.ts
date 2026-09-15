@@ -19,12 +19,9 @@ export type {
   TokenProvenance,
 } from './types';
 
-export {
-  THEME_SCHEMA_VERSION,
-  SLOT_SCHEMA_VERSION,
-} from './types';
+export { THEME_SCHEMA_VERSION, SLOT_SCHEMA_VERSION } from './types';
 
-export type { IconProvider, IconProviderConfig } from './icons';
+export type { IconProvider, IconProviderConfig, KnownThemeIconProvider } from './icons';
 
 export {
   THEME_SLOT_DEFINITIONS,
@@ -35,22 +32,11 @@ export {
   isPolicyAllowedInSlot,
 } from './slots';
 
-export {
-  getEffectivePolicy,
-  canThemeOverride,
-  canTenantOverride,
-} from './policy';
+export { getEffectivePolicy, canThemeOverride, canTenantOverride } from './policy';
 
-export {
-  ThemeRegistry,
-  createThemeRegistry,
-  defineTheme,
-} from './registry';
+export { ThemeRegistry, createThemeRegistry, defineTheme } from './registry';
 
-export {
-  validateThemeConfig,
-  validateTenantThemeProfile,
-} from './validate';
+export { validateThemeConfig, validateTenantThemeProfile } from './validate';
 
 export { resolveTheme } from './resolve';
 export { resolveAppearanceMode } from './mode';

@@ -6,10 +6,7 @@ const TAG_PROPS: Record<string, readonly string[]> = {
   input: ['type', 'name', 'value', 'placeholder', 'autoComplete'],
 };
 
-export function resolvePolymorphicTag(
-  contract: PolymorphismContract,
-  as?: string,
-): string {
+export function resolvePolymorphicTag(contract: PolymorphismContract, as?: string): string {
   if (!as) return contract.nativeTag;
   const allowed = contract.allowedAs ?? [contract.nativeTag];
   if (!allowed.includes(as)) {
@@ -23,15 +20,7 @@ export function filterPropsForTag(
   props: Record<string, unknown>,
 ): Record<string, unknown> {
   const allowed = TAG_PROPS[tag];
-  const reserved = new Set([
-    'as',
-    'children',
-    'className',
-    'style',
-    'ref',
-    'slot',
-    'part',
-  ]);
+  const reserved = new Set(['as', 'children', 'className', 'style', 'ref', 'slot', 'part']);
   const result: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(props)) {
     if (reserved.has(key)) continue;

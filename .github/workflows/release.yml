@@ -1,0 +1,182 @@
+name: Release
+
+on:
+  push:
+    branches: ['release/**']
+  workflow_dispatch:
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+# Trusted Publisher on npmjs.com must match this filename exactly: release.yml
+# Environment name on npmjs.com must match the publish job: npm
+
+jobs:
+  select-mode:
+    if: startsWith(github.ref, 'refs/heads/release/')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      mode: ${{ steps.select-mode.outputs.mode }}
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Select Changesets mode
+        id: select-mode
+        uses: changesets/action/select-mode@v2
+
+  version:
+    if: needs.select-mode.outputs.mode == 'version'
+    needs: select-mode
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Create or update Version Packages PR
+        uses: changesets/action/version@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: pnpm version-packages
+          commit-message: 'chore: version packages'
+          pr-title: 'chore: version packages'
+          pr-base-branch: ${{ github.ref_name }}
+
+  # Releasability gate for the exact publish SHA.
+  # PR CI proves the commit (format/lint/typecheck/test/build/shake/consumers).
+  # Release does not wait on that workflow and can also run via workflow_dispatch,
+  # so this job re-runs build + package-validate + tree-shake + consumers rather
+  # than assuming CI already passed.
+  validate:
+    if: needs.select-mode.outputs.mode == 'publish'
+    needs: select-mode
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build package-validate tooling
+        run: pnpm --filter @celestial-ui/package-validate build
+
+      - name: Build
+        run: pnpm build
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Test
+        run: pnpm test
+
+      - name: Validate packages and documentation
+        run: node tooling/package-validate/dist/cli.js
+
+      - name: Tree-shaking budgets
+        run: pnpm shake:test
+
+      - name: Consumer tests (pnpm)
+        run: pnpm consumer:test
+
+      - name: Consumer tests (independent link/portal)
+        run: pnpm consumer:test:portal
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.1.20'
+
+      - name: Consumer tests (Bun)
+        run: pnpm consumer:test:bun
+
+  publish:
+    if: needs.select-mode.outputs.mode == 'publish'
+    needs: [select-mode, validate]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: npm
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22.14'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install npm CLI for OIDC
+        run: npm install -g npm@^11.5.1
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Publish to npm
+        uses: changesets/action/publish@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: pnpm release
+          create-github-releases: true

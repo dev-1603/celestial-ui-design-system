@@ -7,12 +7,7 @@ import { CoreContractError, coreError } from '../diagnostics/errors';
 import type { CoreError } from '../diagnostics/errors';
 import { SPEC_SCHEMA_VERSION, isSchemaCompatible } from '../version';
 import type { ComponentCapability } from '../capabilities/types';
-import type {
-  ComponentMetadata,
-  ComponentMetadataStatus,
-  ComponentTaxonomy,
-  EngineeringFamily,
-} from '../catalog/types';
+import type { ComponentMetadata } from '../catalog/types';
 import { validateAnatomy } from './anatomy';
 import { validateCapabilitiesAgainstContract } from '../capabilities/validate';
 import type { EnvironmentRequirements } from '../conformance/types';
@@ -69,6 +64,55 @@ function validateSizeDefault(
   }
 }
 
+function validateMetadata(metadata: unknown, errors: CoreError[]): void {
+  if (!isPlainObject(metadata)) {
+    errors.push(coreError('INVALID_CONTRACT', 'metadata is required.', { layer: 'contract' }));
+    return;
+  }
+  const meta = metadata as { displayName?: unknown; status?: unknown };
+  if (typeof meta.displayName !== 'string' || !meta.displayName) {
+    errors.push(
+      coreError('INVALID_CONTRACT', 'metadata.displayName is required.', {
+        layer: 'contract',
+      }),
+    );
+  }
+  const validStatus = ['stable', 'preview', 'deprecated', 'draft'];
+  if (!validStatus.includes(String(meta.status))) {
+    errors.push(
+      coreError(
+        'INVALID_CONTRACT',
+        'metadata.status must be stable, preview, deprecated, or draft.',
+        { layer: 'contract' },
+      ),
+    );
+  }
+}
+
+function validateSpecCapabilities(
+  spec: Record<string, unknown>,
+  contract: ComponentContract,
+  errors: CoreError[],
+): void {
+  const capabilities = (spec.metadata as { capabilities?: ComponentCapability[] } | undefined)
+    ?.capabilities;
+  if (!capabilities?.length) {
+    return;
+  }
+  const capFailures = validateCapabilitiesAgainstContract(
+    capabilities,
+    contract as unknown as Record<string, unknown>,
+  );
+  for (const failure of capFailures) {
+    errors.push(
+      coreError('INVALID_CONTRACT', failure.message, {
+        layer: 'contract',
+        componentId: contract.id,
+      }),
+    );
+  }
+}
+
 export function validateComponentSpec(spec: unknown): SpecValidationReport {
   const errors: CoreError[] = [];
 
@@ -92,28 +136,7 @@ export function validateComponentSpec(spec: unknown): SpecValidationReport {
     );
   }
 
-  if (!isPlainObject(spec.metadata)) {
-    errors.push(coreError('INVALID_CONTRACT', 'metadata is required.', { layer: 'contract' }));
-  } else {
-    const meta = spec.metadata as { displayName?: unknown; status?: unknown };
-    if (typeof meta.displayName !== 'string' || !meta.displayName) {
-      errors.push(
-        coreError('INVALID_CONTRACT', 'metadata.displayName is required.', {
-          layer: 'contract',
-        }),
-      );
-    }
-    const validStatus = ['stable', 'preview', 'deprecated', 'draft'];
-    if (!validStatus.includes(String(meta.status))) {
-      errors.push(
-        coreError(
-          'INVALID_CONTRACT',
-          'metadata.status must be stable, preview, deprecated, or draft.',
-          { layer: 'contract' },
-        ),
-      );
-    }
-  }
+  validateMetadata(spec.metadata, errors);
 
   const contractResult = validateComponentContract(spec.contract);
   errors.push(...contractResult.errors);
@@ -128,22 +151,7 @@ export function validateComponentSpec(spec: unknown): SpecValidationReport {
       refs: contract.refs,
     });
     errors.push(...anatomy.errors);
-
-    const capabilities = (spec.metadata as { capabilities?: ComponentCapability[] })?.capabilities;
-    if (capabilities?.length) {
-      const capFailures = validateCapabilitiesAgainstContract(
-        capabilities,
-        contract as unknown as Record<string, unknown>,
-      );
-      for (const failure of capFailures) {
-        errors.push(
-          coreError('INVALID_CONTRACT', failure.message, {
-            layer: 'contract',
-            componentId: contract.id,
-          }),
-        );
-      }
-    }
+    validateSpecCapabilities(spec, contract, errors);
   }
 
   return { isValid: errors.length === 0, errors };

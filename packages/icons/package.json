@@ -2,49 +2,122 @@
   "name": "@celestial-ui/icons",
   "version": "0.1.0",
   "description": "Provider-neutral icon system for the Celestial Nexus ecosystem — canonical registry, resolution engine, fallback, and provider adapters.",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/cjs/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      },
+      "default": "./dist/cjs/index.js"
     },
     "./providers/lucide": {
-      "types": "./dist/providers/lucide.d.ts",
-      "default": "./dist/providers/lucide.js"
+      "import": {
+        "types": "./dist/esm/providers/lucide.d.ts",
+        "default": "./dist/esm/providers/lucide.js"
+      },
+      "require": {
+        "types": "./dist/cjs/providers/lucide.d.ts",
+        "default": "./dist/cjs/providers/lucide.js"
+      },
+      "default": "./dist/cjs/providers/lucide.js"
     },
     "./providers/font-awesome": {
-      "types": "./dist/providers/font-awesome.d.ts",
-      "default": "./dist/providers/font-awesome.js"
+      "import": {
+        "types": "./dist/esm/providers/font-awesome.d.ts",
+        "default": "./dist/esm/providers/font-awesome.js"
+      },
+      "require": {
+        "types": "./dist/cjs/providers/font-awesome.d.ts",
+        "default": "./dist/cjs/providers/font-awesome.js"
+      },
+      "default": "./dist/cjs/providers/font-awesome.js"
     },
     "./providers/material": {
-      "types": "./dist/providers/material.d.ts",
-      "default": "./dist/providers/material.js"
+      "import": {
+        "types": "./dist/esm/providers/material.d.ts",
+        "default": "./dist/esm/providers/material.js"
+      },
+      "require": {
+        "types": "./dist/cjs/providers/material.d.ts",
+        "default": "./dist/cjs/providers/material.js"
+      },
+      "default": "./dist/cjs/providers/material.js"
     },
     "./providers/heroicons": {
-      "types": "./dist/providers/heroicons.d.ts",
-      "default": "./dist/providers/heroicons.js"
+      "import": {
+        "types": "./dist/esm/providers/heroicons.d.ts",
+        "default": "./dist/esm/providers/heroicons.js"
+      },
+      "require": {
+        "types": "./dist/cjs/providers/heroicons.d.ts",
+        "default": "./dist/cjs/providers/heroicons.js"
+      },
+      "default": "./dist/cjs/providers/heroicons.js"
     },
     "./providers/phosphor": {
-      "types": "./dist/providers/phosphor.d.ts",
-      "default": "./dist/providers/phosphor.js"
+      "import": {
+        "types": "./dist/esm/providers/phosphor.d.ts",
+        "default": "./dist/esm/providers/phosphor.js"
+      },
+      "require": {
+        "types": "./dist/cjs/providers/phosphor.d.ts",
+        "default": "./dist/cjs/providers/phosphor.js"
+      },
+      "default": "./dist/cjs/providers/phosphor.js"
     },
     "./providers/iconify": {
-      "types": "./dist/providers/iconify.d.ts",
-      "default": "./dist/providers/iconify.js"
+      "import": {
+        "types": "./dist/esm/providers/iconify.d.ts",
+        "default": "./dist/esm/providers/iconify.js"
+      },
+      "require": {
+        "types": "./dist/cjs/providers/iconify.d.ts",
+        "default": "./dist/cjs/providers/iconify.js"
+      },
+      "default": "./dist/cjs/providers/iconify.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "providers/lucide": [
+        "./dist/cjs/providers/lucide.d.ts"
+      ],
+      "providers/font-awesome": [
+        "./dist/cjs/providers/font-awesome.d.ts"
+      ],
+      "providers/material": [
+        "./dist/cjs/providers/material.d.ts"
+      ],
+      "providers/heroicons": [
+        "./dist/cjs/providers/heroicons.d.ts"
+      ],
+      "providers/phosphor": [
+        "./dist/cjs/providers/phosphor.d.ts"
+      ],
+      "providers/iconify": [
+        "./dist/cjs/providers/iconify.d.ts"
+      ]
     }
   },
   "scripts": {
-    "build": "tsc",
+    "generate": "node ./scripts/generate-provider-maps.mjs",
+    "build": "node ./scripts/generate-provider-maps.mjs && rm -rf dist && tsc && tsc -p tsconfig.esm.json && node ../../tooling/write-dual-package-json.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit",
-    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.esm.json",
+    "lint": "tsc --noEmit && tsc --noEmit -p tsconfig.esm.json",
     "clean": "rm -rf dist"
   },
   "files": [
     "dist"
   ],
+  "sideEffects": false,
   "keywords": [
     "design-system",
     "icons",
@@ -53,6 +126,11 @@
   ],
   "author": "Celestial Team",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dev-1603/celestial-ui-design-system.git",
+    "directory": "packages/icons"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -67,14 +145,30 @@
     "heroicons": ">=2.0.0"
   },
   "peerDependenciesMeta": {
-    "lucide-static": { "optional": true },
-    "@fortawesome/fontawesome-svg-core": { "optional": true },
-    "@fortawesome/free-solid-svg-icons": { "optional": true },
-    "@fortawesome/free-regular-svg-icons": { "optional": true },
-    "@phosphor-icons/core": { "optional": true },
-    "@iconify/utils": { "optional": true },
-    "@iconify-json/ph": { "optional": true },
-    "heroicons": { "optional": true }
+    "lucide-static": {
+      "optional": true
+    },
+    "@fortawesome/fontawesome-svg-core": {
+      "optional": true
+    },
+    "@fortawesome/free-solid-svg-icons": {
+      "optional": true
+    },
+    "@fortawesome/free-regular-svg-icons": {
+      "optional": true
+    },
+    "@phosphor-icons/core": {
+      "optional": true
+    },
+    "@iconify/utils": {
+      "optional": true
+    },
+    "@iconify-json/ph": {
+      "optional": true
+    },
+    "heroicons": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.3.1",
@@ -88,5 +182,9 @@
     "lucide-static": "^1.40.0",
     "typescript": "^5.4.0",
     "vitest": "^1.4.0"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "bun": ">=1.1.0"
   }
 }

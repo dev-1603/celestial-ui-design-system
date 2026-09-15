@@ -51,16 +51,16 @@ There is no `createTheme({ name, tokens: { colors: { primary } } })` API.
 
 ## Package independence
 
-| Scenario                         | Supported?  | Notes                                                                                       |
-| -------------------------------- | ----------- | ------------------------------------------------------------------------------------------- |
-| Package alone                    | No          | Requires `@celestial-ui/tokens`                                                             |
-| With other Celestial UI packages | Yes         | tokens required; styles optional consumer of `ResolvedTheme`                                |
-| Existing application             | Yes         | Resolve in Node/build, or consume tokens CSS without this package                           |
-| In-house component/UI library    | Yes         | Libraries should consume resolved CSS variables, not call `resolveTheme()` per component    |
-| React                            | Current     | Use the JS API from any app; no React wrapper exists here                                   |
-| Vue                              | Current     | Same                                                                                        |
-| Svelte                           | Current     | Same                                                                                        |
-| SSR                              | Conditional | `resolveTheme()` loads the token catalog with Node `fs`. Verified in Node consumer fixtures |
+| Scenario                         | Supported? | Notes                                                                                     |
+| -------------------------------- | ---------- | ----------------------------------------------------------------------------------------- |
+| Package alone                    | No         | Requires `@celestial-ui/tokens`                                                           |
+| With other Celestial UI packages | Yes        | tokens required; styles optional consumer of `ResolvedTheme`                              |
+| Existing application             | Yes        | Resolve in Node/build, or consume tokens CSS without this package                         |
+| In-house component/UI library    | Yes        | Libraries should consume resolved CSS variables, not call `resolveTheme()` per component  |
+| React                            | Current    | Use the JS API from any app; no React wrapper exists here                                 |
+| Vue                              | Current    | Same                                                                                      |
+| Svelte                           | Current    | Same                                                                                      |
+| SSR                              | Yes        | `resolveTheme()` loads the embedded token catalog. Verified in Node/Bun consumer fixtures |
 
 ## Installation
 
@@ -161,11 +161,19 @@ Single entry: `@celestial-ui/theme`.
 
 ## Entry Points
 
-| Import path           | Purpose         | Use when                                |
-| --------------------- | --------------- | --------------------------------------- |
-| `@celestial-ui/theme` | All public APIs | Theme registration and `resolveTheme()` |
+Keep the Quick Start import of `resolveTheme` from `@celestial-ui/theme`. Prefer subpaths in application bundles:
 
-No CSS or provider subpaths.
+| Import path                            | Purpose                         | Environment                                                                |
+| -------------------------------------- | ------------------------------- | -------------------------------------------------------------------------- |
+| `@celestial-ui/theme`                  | All public APIs, `resolveTheme` | Node/build Quick Start; unused `CELESTIAL_THEME` from root is browser-safe |
+| `@celestial-ui/theme/themes/celestial` | `CELESTIAL_THEME` identity      | **Browser-safe** preset (no token catalog / `fs`)                          |
+| `@celestial-ui/theme/resolve`          | `resolveTheme()` engine         | Loads embedded catalog JSON; prefer CSS in the client                      |
+| `@celestial-ui/theme/registry`         | `createThemeRegistry`           | Registration without resolving                                             |
+| `@celestial-ui/theme/mode`             | `resolveAppearanceMode`         | Mode preference helpers                                                    |
+
+Policy, errors, and version helpers stay on the root — there are no `./policy`, `./errors`, or `./version` subpaths.
+
+Apps should **not** call `resolveTheme()` in the browser. Resolve in Node/build (or consume a `ResolvedTheme` your shell already produced) and ship **CSS** (`@celestial-ui/styles/css` or `@celestial-ui/tokens/css`) to the client.
 
 ## Common Usage
 
@@ -330,22 +338,24 @@ Future framework integration is expected to consume this package through a frame
 
 ## SSR / Browser / Runtime
 
-`resolveTheme()` calls `getCanonicalTokenSources()` from `@celestial-ui/tokens`, which reads JSON with Node `fs`. Node consumer fixtures verify this path.
+`resolveTheme()` (root or `@celestial-ui/theme/resolve`) loads the embedded token catalog from `@celestial-ui/tokens`. Node and Bun consumer fixtures verify this path. The catalog no longer reads `data/` with `fs` at runtime.
 
-Browser bundling of `resolveTheme()` is **not** a verified public contract. For the client, prefer:
+`@celestial-ui/theme/themes/celestial` is the browser-safe identity leaf (`CELESTIAL_THEME` only). Importing unused `CELESTIAL_THEME` from the package root must not pull Node `fs`. Calling `resolveTheme()` (root or `@celestial-ui/theme/resolve`) embeds the token catalog JSON — prefer prebuilt CSS in the client.
+
+In the browser, consume **CSS** or an already-built `ResolvedTheme` — do not call `resolveTheme()` on the client. Prefer:
 
 - Precompiled CSS from `@celestial-ui/styles/css`, or
 - CSS from `@celestial-ui/tokens/css`
 
 Resolved objects are plain data (no DOM). Hydration concerns belong to `@celestial-ui/styles`.
 
-v0.1.0 ships **CommonJS**. Bun 1.1.20 consumed that CJS output (`resolveTheme` included). Deno: partial CJS interop.
+v0.1.0 ships **dual CJS and ESM**. Bun 1.1.20 consumed both the CJS `require` path and ESM `import` path (`resolveTheme` included). Deno: partial CJS interop.
 
 ## Tree-shaking / Bundle Usage
 
-There is one root CJS entry. Import only the names you need; do not assume full tree-shaking.
+There is one dual CJS/ESM entry. Import only the names you need from granular subpaths (`./themes/celestial`, `./resolve`) rather than assuming the root barrel tree-shakes in every bundler.
 
-Do not put `resolveTheme()` in a per-component client module if your bundler cannot provide `fs` + the tokens `data/` files.
+Do not put `resolveTheme()` in a per-component client module — it embeds the catalog JSON. Prefer prebuilt CSS for apps.
 
 ## Troubleshooting
 
@@ -357,7 +367,7 @@ Do not put `resolveTheme()` in a per-component client module if your bundler can
 | `Override of '…' is not permitted by policy` | Check `overridePolicy` / slot `allowedTokenPaths`                      |
 | Expecting CSS from this package              | Use `@celestial-ui/styles` or `@celestial-ui/tokens/css`               |
 | `createTheme` is not exported                | Use `defineTheme` + `createThemeRegistry` + `resolveTheme`             |
-| `fs` / catalog errors in the browser         | Resolve on the server/build, or use prebuilt CSS                       |
+| Catalog JSON is in a client bundle           | Import `CELESTIAL_THEME` only, or use prebuilt CSS                     |
 
 ## Related Packages
 
@@ -370,7 +380,7 @@ Do not put `resolveTheme()` in a per-component client module if your bundler can
 
 ## Documentation
 
-- [Package usage](../../docs/package-usage.md)
+- [Package usage](../../docs/package-usage.md) — identity subpath vs `resolveTheme`, exclusive CSS stacks
 - [Package selection](../../docs/package-selection-guide.md)
 - [Architecture for consumers](../../docs/architecture-for-consumers.md)
 - [Package combinations](../../docs/package-combination-matrix.md)

@@ -1,6 +1,11 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import { TokenConfig } from './types';
+import type { TokenConfig } from './types';
+import {
+  CANONICAL_COMPONENTS,
+  CANONICAL_DARK,
+  CANONICAL_FOUNDATIONS,
+  CANONICAL_LIGHT,
+  CANONICAL_PRIMITIVES,
+} from './generated/canonical-sources';
 
 export interface CanonicalTokenSources {
   primitives: TokenConfig;
@@ -12,27 +17,19 @@ export interface CanonicalTokenSources {
   };
 }
 
-function getDataDir(): string {
-  return path.resolve(__dirname, '../data');
-}
-
-function readJsonConfig(relativePath: string): TokenConfig {
-  const filePath = path.join(getDataDir(), relativePath);
-  return JSON.parse(fs.readFileSync(filePath, 'utf8')) as TokenConfig;
-}
-
 /**
- * Loads the unresolved canonical token catalog from package data files.
- * Intended for Node/build usage (same source as the tokens build script).
+ * Returns the unresolved canonical token catalog (same layers as `data/`).
+ * Safe to call from Node, Bun, and SSR. Browser bundles should still prefer
+ * CSS exports; importing this name embeds the catalog JSON.
  */
 export function getCanonicalTokenSources(): CanonicalTokenSources {
   return {
-    primitives: readJsonConfig('primitives.json'),
-    foundations: readJsonConfig('foundations.json'),
-    components: readJsonConfig('components.json'),
+    primitives: CANONICAL_PRIMITIVES,
+    foundations: CANONICAL_FOUNDATIONS,
+    components: CANONICAL_COMPONENTS,
     modes: {
-      light: readJsonConfig('themes/celestial/light.json'),
-      dark: readJsonConfig('themes/celestial/dark.json'),
+      light: CANONICAL_LIGHT,
+      dark: CANONICAL_DARK,
     },
   };
 }

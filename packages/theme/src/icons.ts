@@ -23,13 +23,14 @@
  */
 
 /**
- * Stable provider identifier string.
- *
- * The canonical set of built-in provider IDs is defined in
- * `@celestial-ui/icons` as `BuiltInProviderId`. Theme accepts any string
- * here to remain decoupled from the icons package.
+ * Built-in provider ids documented by `@celestial-ui/icons`, plus any custom
+ * tenant/application id. Theme stays decoupled from the icons package: custom
+ * ids are `string & {}` so the known union is not collapsed to `string`.
  */
-export type IconProvider = string;
+export type KnownThemeIconProvider =
+  'lucide' | 'fa' | 'material' | 'heroicons' | 'phosphor' | 'iconify';
+
+export type IconProvider = KnownThemeIconProvider | (string & {});
 
 export interface IconProviderConfig {
   provider: IconProvider;

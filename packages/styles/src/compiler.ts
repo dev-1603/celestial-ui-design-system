@@ -3,7 +3,7 @@ import type { Token } from '@celestial-ui/tokens';
 import { styleError, StyleCompilationError } from './errors';
 import type { StyleError } from './errors';
 import { formatTokenDeclarations } from './format-value';
-import { computeContentHash } from './hash';
+import { compareUtf16, computeContentHash } from './hash';
 import { SEMANTIC_CSS_REGISTRY } from './semantic-registry';
 import { buildMetadataComment, serializeLayeredCss } from './serializer';
 import { buildScopeSelector, getScopeKey } from './scope';
@@ -69,7 +69,7 @@ function compileDeclarations(
   const includeSemantic = options.includeSemanticVariables !== false;
   const formattedByPath = new Map<string, Array<readonly [string, string]>>();
 
-  const sortedPaths = Object.keys(theme.tokens).sort();
+  const sortedPaths = Object.keys(theme.tokens).sort(compareUtf16);
 
   for (const path of sortedPaths) {
     const token = theme.tokens[path];
@@ -110,9 +110,13 @@ function compileDeclarations(
 
       if (resolvedValue === undefined) {
         errors.push(
-          styleError('SEMANTIC_TOKEN_MISSING', `Semantic target is not a scalar CSS value: ${tokenPath}`, {
-            path: tokenPath,
-          }),
+          styleError(
+            'SEMANTIC_TOKEN_MISSING',
+            `Semantic target is not a scalar CSS value: ${tokenPath}`,
+            {
+              path: tokenPath,
+            },
+          ),
         );
         continue;
       }
@@ -226,7 +230,10 @@ export function compileThemeSet(
   const selector = blocks.length === 1 ? primary!.selector : `:where(/* multi-mode */)`;
   const hashMeta: Record<string, string> = {
     themeId: metadata.themeId,
-    modes: themes.map((t) => t.mode).sort().join(','),
+    modes: themes
+      .map((t) => t.mode)
+      .sort(compareUtf16)
+      .join(','),
     semanticCssApiVersion: metadata.semanticCssApiVersion,
   };
   const contentHash = computeContentHash(mergedVariables, selector, hashMeta);
@@ -247,9 +254,7 @@ export function compileThemeSet(
 }
 
 /** @internal Generate semantic-only declarations from a resolved theme. */
-export function generateSemanticVariables(
-  theme: Readonly<ResolvedTheme>,
-): Record<string, string> {
+export function generateSemanticVariables(theme: Readonly<ResolvedTheme>): Record<string, string> {
   const { variables, errors } = compileDeclarations(theme, {
     scope: { kind: 'document' },
     includeCompatibilityVariables: false,

@@ -2,25 +2,36 @@ name: CI
 
 on:
   push:
-    branches: ['main']
+    branches: ['develop', 'master', 'release/**']
   pull_request:
+    branches: ['develop', 'master', 'release/**']
+
+permissions:
+  contents: read
 
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      # checkout does not fetch other branch tips; Changesets needs origin/develop
+      - name: Fetch Changesets base branch
+        run: git fetch --no-tags origin develop:refs/remotes/origin/develop
+
+      # pnpm must be on PATH before setup-node@v5 (auto packageManager cache)
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 10
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -43,11 +54,25 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Tree-shaking budgets
+        run: pnpm shake:test
+
+      - name: Changeset Validation
+        run: pnpm changeset status --since=origin/develop
+
       - name: Validate packages and documentation
         run: node tooling/package-validate/dist/cli.js
 
       - name: Consumer tests (pnpm)
         run: pnpm consumer:test
+
+      - name: Consumer tests (npm)
+        run: pnpm consumer:test:npm
+
+      # Required: pnpm link: to package directories (not dist). Yarn Berry portal: is
+      # optional inside the runner and reports NOT TESTED when Yarn 2+ is absent.
+      - name: Consumer tests (independent link/portal)
+        run: pnpm consumer:test:portal
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -59,7 +84,8 @@ jobs:
 
       - name: Upload validation report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: validation-report
           path: reports/
+          if-no-files-found: ignore

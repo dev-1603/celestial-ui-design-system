@@ -6,6 +6,7 @@
 export function toAssetStem(nativeName: string): string {
   if (/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(nativeName)) return nativeName;
   return nativeName
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
     .replace(/([a-z])([A-Z])/g, '$1-$2')
     .replace(/([A-Za-z])(\d)/g, '$1-$2')
     .replace(/(\d)([A-Z])/g, '$1-$2')

@@ -4,11 +4,11 @@
 
 ## Core defines WHAT — not HOW
 
-| Layer | Responsibility |
-|---|---|
-| **Core** | What a component *is*: contracts, specs, behavior semantics, accessibility, interaction |
-| **Framework adapter** | How framework mechanics map to Core contracts |
-| **Component library** | How the framework *renders* the component |
+| Layer                 | Responsibility                                                                          |
+| --------------------- | --------------------------------------------------------------------------------------- |
+| **Core**              | What a component _is_: contracts, specs, behavior semantics, accessibility, interaction |
+| **Framework adapter** | How framework mechanics map to Core contracts                                           |
+| **Component library** | How the framework _renders_ the component                                               |
 
 Core must **never** import React, Vue, Svelte, Angular, CSS engines, token catalogs, icon catalogs, or i18n runtimes.
 
@@ -111,7 +111,7 @@ import { defineComponentSpec } from '@celestial-ui/core/contracts';
 import { createConformanceHarness } from '@celestial-ui/core/testing';
 ```
 
-The root export remains for convenience. **CJS output (v0.1.x)** limits dead-code elimination — ESM dual-publish is documented future work.
+The root export remains for convenience. **Dual CJS + ESM (v0.1.x)** — bundlers resolve `import` to `dist/esm`; Node `require` keeps CJS. Prefer granular subpaths so unused specs stay out of application bundles.
 
 ## Adapter boundary
 

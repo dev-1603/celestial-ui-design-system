@@ -1,4 +1,3 @@
-import { PLUGIN_CONTRACT_VERSION } from '../version';
 import type { Environment } from '../environment/environment';
 import type { Direction } from '../directionality/direction';
 import type { ComponentId } from '../ids';
@@ -12,6 +11,11 @@ export interface CelestialPlugin {
 export interface CelestialPluginContext {
   readonly pluginContractVersion: string;
   registerService<T>(id: string, service: T): void;
+  /**
+   * Reserved plugin hook. v0.1 does not merge these props into component
+   * defaults — adapters own default-prop application. Calls are accepted and
+   * ignored so plugins can install without throwing.
+   */
   registerDefaultProps(componentId: ComponentId, props: Record<string, unknown>): void;
   registerDiagnosticSink(sink: (message: string) => void): void;
 }

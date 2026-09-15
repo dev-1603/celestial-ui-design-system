@@ -3,10 +3,7 @@
  * These match the JSON structures in src/data/.
  */
 
-import type {
-  CanonicalCatalogueFile,
-  ProviderCatalogueFile,
-} from '../types';
+import type { CanonicalCatalogueFile, ProviderCatalogueFile } from '../types';
 
 export type { CanonicalCatalogueFile, ProviderCatalogueFile };
 

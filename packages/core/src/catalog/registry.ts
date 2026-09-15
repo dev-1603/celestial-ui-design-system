@@ -3,12 +3,7 @@ import { assertComponentId } from '../ids';
 import type { CatalogEntry } from './types';
 import { CONTRACT_SCHEMA_VERSION, SPEC_SCHEMA_VERSION } from '../version';
 import { REFERENCE_SPEC_VERSION } from './specs/_shared';
-import {
-  GENERIC_COMPONENT_INVENTORY,
-  GENERIC_COMPONENT_IDS,
-  REFERENCE_COMPONENT_IDS,
-  type ReferenceComponentId,
-} from './spec-factory';
+import { GENERIC_COMPONENT_INVENTORY } from './spec-factory';
 import type { ComponentCapability } from '../capabilities/types';
 import { SPEC_PROFILES } from './spec-profiles';
 
@@ -61,5 +56,5 @@ export function assertUniqueCatalogIds(): void {
 
 assertUniqueCatalogIds();
 
-export { GENERIC_COMPONENT_IDS, REFERENCE_COMPONENT_IDS };
-export type { ReferenceComponentId };
+export { GENERIC_COMPONENT_IDS, REFERENCE_COMPONENT_IDS } from './spec-factory';
+export type { ReferenceComponentId } from './spec-factory';

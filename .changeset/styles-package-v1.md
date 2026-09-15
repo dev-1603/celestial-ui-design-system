@@ -1,5 +1,5 @@
 ---
-"@celestial-ui/styles": minor
+'@celestial-ui/styles': minor
 ---
 
 Add `@celestial-ui/styles` V1 — framework-neutral CSS delivery layer over `ResolvedTheme`.

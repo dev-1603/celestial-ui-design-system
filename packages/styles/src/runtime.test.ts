@@ -68,9 +68,9 @@ describe('runtime', () => {
   });
 
   it('rejects invalid nonce', () => {
-    expect(() =>
-      createThemeStyleManager({ document: doc, nonce: 'bad nonce!' }),
-    ).toThrow(StyleRuntimeError);
+    expect(() => createThemeStyleManager({ document: doc, nonce: 'bad nonce!' })).toThrow(
+      StyleRuntimeError,
+    );
   });
 
   it('updates an existing application attachment in place instead of duplicating', () => {
@@ -161,7 +161,9 @@ describe('runtime', () => {
   });
 
   it('theme/value change reuses the style node and replaces CSS text', () => {
-    const celestial = compileResolvedTheme(resolveCelestialLight(), { scope: { kind: 'document' } });
+    const celestial = compileResolvedTheme(resolveCelestialLight(), {
+      scope: { kind: 'document' },
+    });
     const acme = compileResolvedTheme(resolveAcmeLight(), { scope: { kind: 'document' } });
     const manager = createThemeStyleManager({ document: doc });
     const first = manager.attach({ kind: 'document' }, celestial);

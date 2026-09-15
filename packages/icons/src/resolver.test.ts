@@ -25,7 +25,11 @@ const TEST_CANONICAL: CanonicalCatalogueFile = {
   ],
 };
 
-function makeAdapter(id: string, iconMap: Record<string, string>, styles: string[] = ['outline']): IconProviderAdapter {
+function makeAdapter(
+  id: string,
+  iconMap: Record<string, string>,
+  styles: string[] = ['outline'],
+): IconProviderAdapter {
   return {
     id,
     displayName: `Mock ${id}`,
@@ -45,7 +49,10 @@ function makeAdapter(id: string, iconMap: Record<string, string>, styles: string
       if (variant.style && !styles.includes(variant.style)) return false;
       return true;
     },
-    resolve(nativeName: string, _v: Readonly<IconVariantRequest> | undefined): NormalizedIconPayload {
+    resolve(
+      nativeName: string,
+      _v: Readonly<IconVariantRequest> | undefined,
+    ): NormalizedIconPayload {
       return { kind: 'svg-string', data: `<svg>${nativeName}</svg>`, nativeName };
     },
   };
@@ -101,7 +108,12 @@ describe('[Unit] resolveIcon — happy path', () => {
     const explicit = makeAdapter('phosphor', { search: 'MagnifyingGlass' });
     const { registry, canonical, config } = setup([primary, explicit]);
 
-    const result = resolveIcon({ name: 'search', provider: 'phosphor' }, config, registry, canonical);
+    const result = resolveIcon(
+      { name: 'search', provider: 'phosphor' },
+      config,
+      registry,
+      canonical,
+    );
 
     expect(result.status).toBe('resolved');
     expect(result.resolvedProviderId).toBe('phosphor');
@@ -229,7 +241,12 @@ describe('[Unit] resolveIcon — explicit provider failure', () => {
       explicitProviderPolicy: 'apply-missing-policy',
     });
 
-    const result = resolveIcon({ name: 'search', provider: 'phosphor' }, config, registry, canonical);
+    const result = resolveIcon(
+      { name: 'search', provider: 'phosphor' },
+      config,
+      registry,
+      canonical,
+    );
 
     // Should NOT fall through to lucide even though lucide is in fallback
     expect(result.status).toBe('missing');
@@ -245,7 +262,12 @@ describe('[Unit] resolveIcon — explicit provider failure', () => {
       explicitProviderPolicy: 'allow-fallback',
     });
 
-    const result = resolveIcon({ name: 'search', provider: 'phosphor' }, config, registry, canonical);
+    const result = resolveIcon(
+      { name: 'search', provider: 'phosphor' },
+      config,
+      registry,
+      canonical,
+    );
 
     expect(result.status).toBe('resolved-via-fallback');
     expect(result.resolvedProviderId).toBe('lucide');
@@ -255,7 +277,12 @@ describe('[Unit] resolveIcon — explicit provider failure', () => {
     const primary = makeAdapter('lucide', { search: 'Search' });
     const { registry, canonical, config } = setup([primary]);
 
-    const result = resolveIcon({ name: 'search', provider: 'unregistered' }, config, registry, canonical);
+    const result = resolveIcon(
+      { name: 'search', provider: 'unregistered' },
+      config,
+      registry,
+      canonical,
+    );
 
     expect(result.status).toBe('missing');
   });

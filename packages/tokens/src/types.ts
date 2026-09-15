@@ -1,30 +1,26 @@
 export type TokenLayer = 'primitive' | 'foundation' | 'semantic' | 'component';
 
-export type OverridePolicy =
-  | 'locked'
-  | 'themeable'
-  | 'tenantOverridable'
-  | 'componentOverridable';
+export type OverridePolicy = 'locked' | 'themeable' | 'tenantOverridable' | 'componentOverridable';
 
 /** Version of the canonical token system (package version). */
 export const TOKEN_SYSTEM_VERSION = '0.1.0';
 
-export type TokenType = 
-  | 'color' 
-  | 'dimension' 
-  | 'fontFamily' 
+export type TokenType =
+  | 'color'
+  | 'dimension'
+  | 'fontFamily'
   | 'fontWeight'
   | 'lineHeight'
   | 'letterSpacing'
-  | 'duration' 
-  | 'cubicBezier' 
-  | 'number' 
-  | 'strokeStyle' 
-  | 'border' 
-  | 'stroke' 
-  | 'shadow' 
-  | 'gradient' 
-  | 'transition' 
+  | 'duration'
+  | 'cubicBezier'
+  | 'number'
+  | 'strokeStyle'
+  | 'border'
+  | 'stroke'
+  | 'shadow'
+  | 'gradient'
+  | 'transition'
   | 'typography';
 
 export interface CelestialExtensions {
@@ -67,32 +63,31 @@ export interface ShadowValue {
   inset?: boolean;
 }
 
-export type TokenValue = 
-  | string 
-  | number 
-  | TypographyValue 
-  | BorderValue 
-  | ShadowValue 
-  | ShadowValue[];
+export type TokenValue =
+  string | number | TypographyValue | BorderValue | ShadowValue | ShadowValue[];
+
+export type VendorExtensionMap = Record<string, unknown>;
+
+export type TokenExtensions = {
+  celestial?: CelestialExtensions;
+} & VendorExtensionMap;
+
+export type TokenGroupExtensions = {
+  celestial?: Partial<CelestialExtensions>;
+} & VendorExtensionMap;
 
 export interface Token<TValue = TokenValue> {
   $type: TokenType;
   $value: TValue;
   $description?: string;
-  $extensions?: {
-    celestial?: CelestialExtensions;
-    [key: string]: any;
-  };
+  $extensions?: TokenExtensions;
 }
 
 export interface TokenGroup {
   $type?: TokenType;
   $description?: string;
-  $extensions?: {
-    celestial?: Partial<CelestialExtensions>;
-    [key: string]: any;
-  };
-  [key: string]: Token | TokenGroup | any; // 'any' for $type/$description
+  $extensions?: TokenGroupExtensions;
+  [key: string]: unknown;
 }
 
 export interface TokenConfig {

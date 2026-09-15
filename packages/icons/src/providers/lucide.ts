@@ -3,11 +3,14 @@
  *
  * Tree-shakeable: import this file explicitly, do NOT import from the barrel.
  *
- * Peer: `lucide-static` (optional). V1 loads the package once (fixed specifier)
- * and indexes the PascalCase native name from the mapping catalogue. That is
- * the API lucide-static 1.x actually ships (named SVG strings). Per-icon
- * tree-shaking is not available at the resolver layer because the canonical
- * name is chosen at runtime.
+ * Catalogue SVG strings are generated at `@celestial-ui/icons` build time from
+ * the canonical natives in `lucide.json` (sourced from `lucide-static`). This
+ * adapter does not import `../peers` and does not load the full Lucide CJS pack
+ * at runtime, so the optional peer stays optional and browser bundles stay
+ * catalogue-sized.
+ *
+ * Importing the adapter still ships every **catalogue** glyph. Runtime
+ * `resolveIcon()` name lookup cannot per-call DCE unused icons.
  *
  * SVG Safety: `kind: 'svg-string'`. Framework adapters MUST sanitize before DOM injection.
  */
@@ -20,8 +23,11 @@ import type {
 } from '../types';
 import { PROVIDER_CONTRACT_VERSION } from '../version';
 import { createNativeNameLookup } from '../mapping';
-import { loadOptionalPeer, readPeerPackageVersion } from '../peers';
 import lucideCatalogue from '../data/mappings/lucide.json';
+import {
+  LUCIDE_CATALOGUE_VERSION,
+  LUCIDE_SVG_BY_NATIVE_NAME,
+} from './generated/lucide-catalogue-svgs';
 
 const LUCIDE_CAPABILITIES: ProviderCapabilities = {
   styles: ['outline'],
@@ -33,21 +39,14 @@ const LUCIDE_CAPABILITIES: ProviderCapabilities = {
 
 const lookup = createNativeNameLookup(lucideCatalogue);
 
-function loadLucideSvg(nativeName: string): string | undefined {
-  const pack = loadOptionalPeer<Record<string, unknown>>('lucide-static');
-  if (!pack) return undefined;
-  const svg = pack[nativeName];
-  return typeof svg === 'string' && svg.includes('<svg') ? svg : undefined;
-}
-
 export const LucideAdapter: IconProviderAdapter = {
   id: 'lucide',
   displayName: 'Lucide',
   /**
-   * Installed `lucide-static` version when the peer is present.
+   * Catalogue generation source version (`lucide.json` / `lucide-static`).
    * Describes the supported provider package, not `@celestial-ui/icons`.
    */
-  version: readPeerPackageVersion('lucide-static') ?? 'uninstalled',
+  version: LUCIDE_CATALOGUE_VERSION,
   catalogueSchemaVersion: PROVIDER_CONTRACT_VERSION,
   capabilities: LUCIDE_CAPABILITIES,
 
@@ -66,8 +65,8 @@ export const LucideAdapter: IconProviderAdapter = {
     nativeName: string,
     _variant: Readonly<IconVariantRequest> | undefined,
   ): NormalizedIconPayload | undefined {
-    const svgString = loadLucideSvg(nativeName);
-    if (!svgString) return undefined;
+    const svgString = LUCIDE_SVG_BY_NATIVE_NAME[nativeName];
+    if (typeof svgString !== 'string' || !svgString.includes('<svg')) return undefined;
 
     return {
       kind: 'svg-string',
@@ -77,3 +76,6 @@ export const LucideAdapter: IconProviderAdapter = {
     };
   },
 };
+
+/** Alias of {@link LucideAdapter}. Same object, same `IconProviderAdapter` contract. */
+export const lucide = LucideAdapter;

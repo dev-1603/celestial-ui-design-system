@@ -69,10 +69,8 @@ function getStack(): OverlayController[] {
   return stack;
 }
 
-export function createOverlayController(
-  options: OverlayOptions = {},
-): OverlayController {
-  let phase: OverlayPhase = options.open ?? options.defaultOpen ? 'open' : 'closed';
+export function createOverlayController(options: OverlayOptions = {}): OverlayController {
+  let phase: OverlayPhase = (options.open ?? options.defaultOpen) ? 'open' : 'closed';
   let open = phase === 'open';
   const listeners = new Set<() => void>();
   let destroyed = false;
@@ -128,7 +126,7 @@ export function createOverlayController(
     },
     requestDismiss(reason) {
       if (destroyed || !open) return false;
-      const top = stack[stack.length - 1];
+      const top = stack.at(-1);
       if (top !== controller) return false;
       if (reason === 'escape' && options.dismissOnEscape === false) return false;
       if (reason === 'outside' && options.dismissOnOutside === false) return false;
@@ -150,5 +148,5 @@ export function createOverlayController(
 
 export function getTopOverlay(): OverlayController | null {
   const stack = getStack();
-  return stack[stack.length - 1] ?? null;
+  return stack.at(-1) ?? null;
 }

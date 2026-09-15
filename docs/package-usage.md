@@ -1,6 +1,6 @@
 # Celestial UI — Package Usage Guide
 
-Developer-facing guide for consuming the Celestial UI foundation packages from npm or GitHub Packages.
+Developer-facing guide for consuming the Celestial UI foundation packages from npm.
 
 ## 1. What is Celestial UI?
 
@@ -106,6 +106,90 @@ yarn add @celestial-ui/core
 yarn add @celestial-ui/styles @celestial-ui/theme
 ```
 
+## 8a. Local development (independent Component Library)
+
+An independent Component Library repository should consume **built packages**, not `src/`. Point the package manager at each **package directory**. That directory's `package.json` `exports` map selects `dist/esm` or `dist/cjs`.
+
+Do **not** use `workspace:*` from a separate repository. Do **not** point `portal:` / `link:` / `file:` at `packages/<name>/dist`. Do **not** import `packages/<name>/src`.
+
+This repository uses **pnpm** internally. That is not a public contract. Published packages are standard npm-compatible tarballs (`exports` + `dist`).
+
+After editing foundation source, run a build in this repository, then rebuild or re-run the Component Library. Dist updates in place; this is **not** hot reload.
+
+### Package-manager matrix
+
+| Manager      | Published              | Independent local (package dir, not dist) |
+| ------------ | ---------------------- | ----------------------------------------- |
+| npm          | registry / `file:.tgz` | `file:` to package directory              |
+| pnpm         | registry / `file:.tgz` | `link:` to package directory              |
+| Yarn Classic | registry / `file:`     | `file:` / `link:` as supported            |
+| Yarn Berry   | registry               | `portal:` to package directory            |
+| Bun          | registry / `file:.tgz` | Bun’s supported `file:` / `link:`         |
+
+Unpublished workspace `package.json` files may still contain `workspace:*` edges (theme → tokens, styles → theme/tokens). Packed tarballs rewrite those for publish. Local `file:` of a package directory can fail on that protocol unless the manager follows the target package’s own `node_modules` (pnpm `link:`) or you also portal/file every package in the chain (Yarn Berry).
+
+### pnpm (`link:`)
+
+```json
+{
+  "dependencies": {
+    "@celestial-ui/core": "link:../celestial-ui-design-system/packages/core",
+    "@celestial-ui/tokens": "link:../celestial-ui-design-system/packages/tokens",
+    "@celestial-ui/theme": "link:../celestial-ui-design-system/packages/theme",
+    "@celestial-ui/styles": "link:../celestial-ui-design-system/packages/styles",
+    "@celestial-ui/icons": "link:../celestial-ui-design-system/packages/icons"
+  }
+}
+```
+
+Link every package you import. Theme and styles still declare `workspace:*` in unpublished `package.json`; pnpm `link:` uses the foundation package's own `node_modules` for those edges.
+
+### Yarn Berry (`portal:`)
+
+```json
+{
+  "dependencies": {
+    "@celestial-ui/core": "portal:../celestial-ui-design-system/packages/core",
+    "@celestial-ui/tokens": "portal:../celestial-ui-design-system/packages/tokens",
+    "@celestial-ui/theme": "portal:../celestial-ui-design-system/packages/theme",
+    "@celestial-ui/styles": "portal:../celestial-ui-design-system/packages/styles",
+    "@celestial-ui/icons": "portal:../celestial-ui-design-system/packages/icons"
+  }
+}
+```
+
+Portal every package in the chain. Yarn Berry `portal:` reads the target `package.json` and will not resolve `workspace:*` unless those packages are also portaled.
+
+### npm (`file:` to the package directory)
+
+```json
+{
+  "dependencies": {
+    "@celestial-ui/core": "file:../celestial-ui-design-system/packages/core",
+    "@celestial-ui/tokens": "file:../celestial-ui-design-system/packages/tokens",
+    "@celestial-ui/theme": "file:../celestial-ui-design-system/packages/theme",
+    "@celestial-ui/styles": "file:../celestial-ui-design-system/packages/styles",
+    "@celestial-ui/icons": "file:../celestial-ui-design-system/packages/icons"
+  }
+}
+```
+
+Prefer packed `file:.tgz` (or the registry) for npm. Unpublished `workspace:*` inside theme/styles can block `file:` of a package directory.
+
+### Yarn Classic (`file:` / `link:`)
+
+Yarn 1 accepts `file:` to the package directory (or `link:`). Packed tarballs remain the publish-identical path.
+
+### Published vs local vs packed
+
+| Mode               | How                                     | What the consumer sees                               |
+| ------------------ | --------------------------------------- | ---------------------------------------------------- |
+| Local development  | `link:` / `portal:` → package directory | Live `dist` after `pnpm build`                       |
+| Package validation | `pnpm pack` → `.tgz` → `file:`          | Publish-identical artifact (`workspace:*` rewritten) |
+| Public consumption | npm registry                            | Same exports map as packed tarballs                  |
+
+Packed tarballs are verified in CI by `pnpm consumer:test` / `consumer:test:npm` / `consumer:test:bun` (`consumer:test:yarn` locally). Independent-repo directory linking is verified by `pnpm consumer:test:portal` in CI and release (required baseline: pnpm `link:` to package directories, not `dist`). Yarn Berry `portal:` and other local-dir managers report **NOT TESTED** when unavailable — never treated as PASS.
+
 ### Bun
 
 ```bash
@@ -127,32 +211,20 @@ Deno support is **best-effort** for CJS packages. See [compatibility matrix](./c
 
 ## 9–12. Package manager usage
 
-All foundation packages publish **CommonJS** (`require` / `import` via bundlers). Node.js **>= 22** is required. Bun 1.1.20 consumes the same CJS artifacts.
+All foundation packages publish **dual CJS and ESM**. Bundlers resolve the `import` condition (`dist/esm`). Node.js **>= 22** `require` and `main` keep CJS (`dist/cjs`). Bun 1.1.20 consumes the same artifacts.
 
 - **npm / pnpm / Yarn / Bun:** full support for all five packages (packed tarball fixtures)
 - **Deno:** partial; CSS imports and Node `fs`-based catalog APIs may not work
 
-## 13–14. Registries
+## 13–15. Registries
 
-Packages publish to:
+Packages publish to the **npm Registry** (`https://registry.npmjs.org`). No extra `.npmrc` is required for public installs.
 
-1. **npm Registry** — `https://registry.npmjs.org`
-2. **GitHub Packages** — `https://npm.pkg.github.com`
-
-See [registries.md](./registries.md) for consumer `.npmrc` configuration.
-
-## 15. GitHub Packages configuration
-
-```ini
-@celestial-ui:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
-```
-
-Use a GitHub personal access token with `read:packages` scope.
+GitHub Releases record tags and changelogs after publish. GitHub Packages is not a live install path. See [registries.md](./registries.md) and [release.md](./release.md).
 
 ## 16. Basic application setup
 
-Host application (product shell) resolves theme and CSS once:
+Host application (product shell) resolves theme and CSS once. `resolveTheme` from the package root remains the documented Quick Start (Node/build). `@celestial-ui/theme/themes/celestial` is browser-safe identity; `@celestial-ui/theme/resolve` is Node/build-time. Apps should consume CSS or an already-built `ResolvedTheme` in the browser — do not call `resolveTheme()` on the client.
 
 ```ts
 import { CELESTIAL_THEME, createThemeRegistry, resolveTheme } from '@celestial-ui/theme';
@@ -248,13 +320,39 @@ import { LucideAdapter } from '@celestial-ui/icons/providers/lucide';
 
 ## 32. Package exports
 
-| Package | Subpaths                                                                                                   |
-| ------- | ---------------------------------------------------------------------------------------------------------- |
-| tokens  | `.`, `./css`, `./tailwind`, `./shadcn`                                                                     |
-| theme   | `.`                                                                                                        |
-| styles  | `.`, `./css`, `./base`, `./tailwind`, `./shadcn`                                                           |
-| icons   | `.`, `./providers/*`                                                                                       |
-| core    | `.`, `./contracts`, `./behavior`, `./accessibility`, `./collection`, `./overlay`, `./runtime`, `./testing` |
+Root barrels remain convenience entries. Prefer granular subpaths in application bundles. Bundlers resolve ESM via `import`; `require` keeps CJS.
+
+| Package | Subpaths                                                                                                                                         |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| tokens  | `.`, `./css`, `./tailwind`, `./shadcn`, `./types`, `./resolve`, `./catalog`, `./a11y`, `./validation`, `./generators`                            |
+| theme   | `.`, `./themes/celestial`, `./mode`, `./registry`, `./resolve`, `./slots`, `./validate`                                                          |
+| styles  | `.`, `./css`, `./base`, `./tailwind`, `./shadcn`, `./runtime`, `./ssr`, `./compiler`, `./bridges/tailwind`, `./bridges/shadcn`, `./bridges/base` |
+| icons   | `.`, `./providers/*`                                                                                                                             |
+| core    | `.`, `./contracts`, `./behavior`, `./accessibility`, `./collection`, `./overlay`, `./runtime`, `./catalog`, `./testing`, `./specs/<id>`          |
+
+## 32a. Import strategy and exclusive CSS stacks
+
+v0.1.x ships dual CJS+ESM: bundlers use `import` (`dist/esm`); Node `require` keeps CJS. Prefer granular subpaths in application bundles. Root imports keep working.
+
+| Job                                    | Import                                                                                                                                           |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Token CSS in the browser               | `@celestial-ui/tokens/css` (not the JS root unless you only need tree-shaken helpers)                                                            |
+| Flatten / resolve aliases in a bundler | `@celestial-ui/tokens/resolve` (or unused-safe root `flattenTokens`)                                                                             |
+| Load the JSON catalog                  | `@celestial-ui/tokens/catalog` — embedded catalog JSON (no Node `fs`)                                                                            |
+| Theme identity in the client           | `@celestial-ui/theme/themes/celestial` (browser-safe preset; unused root `CELESTIAL_THEME` is too)                                               |
+| `resolveTheme()`                       | `@celestial-ui/theme` (Quick Start) or `./resolve` — embeds catalog JSON; prefer CSS in the client                                               |
+| Theme CSS / `ResolvedTheme` in the app | Prebuilt `@celestial-ui/styles/css` (or tokens CSS), or a `ResolvedTheme` produced at build time                                                 |
+| Styles runtime / SSR / compiler        | `@celestial-ui/styles/runtime`, `./ssr`, `./compiler` (not the JS root unless you need all three)                                                |
+| Styles JS bridges                      | `@celestial-ui/styles/bridges/tailwind`, `./bridges/shadcn`, `./bridges/base` — CSS stays on `./tailwind` / `./shadcn` / `./base`                |
+| Core controllers                       | `@celestial-ui/core/behavior`, `./runtime`, `./overlay`, … — not the root barrel                                                                 |
+| One icon provider                      | `@celestial-ui/icons` + **one** `./providers/<id>`. Lucide/Heroicons/Material are browser-safe. Phosphor and extra Iconify collections are Node. |
+
+**Pick one static CSS stack — never both:**
+
+- **Styles stack:** `@celestial-ui/styles/css` plus optional `/base`, `/tailwind` (v4), `/shadcn`
+- **Tokens stack:** `@celestial-ui/tokens/css` plus optional `/shadcn` and `/tailwind` (v3 JS preset)
+
+Do not import `styles/css` together with `tokens/css`. Do not import both shadcn adapters (`styles/shadcn` and `tokens/shadcn`): they share 20 CSS names with different mappings; last stylesheet wins.
 
 ## 33. Versioning
 
@@ -285,5 +383,5 @@ See [compatibility-matrix.md](./compatibility-matrix.md).
 - [Repository README](../README.md)
 - [Build and validation](./build-and-validate.md)
 - [Registry configuration](./registries.md)
+- [Release process](./release.md)
 - npm (after publish): `https://www.npmjs.com/package/@celestial-ui/<package>`
-- GitHub Packages: configure per [registries.md](./registries.md)

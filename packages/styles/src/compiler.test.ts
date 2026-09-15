@@ -142,10 +142,10 @@ describe('compiler', () => {
   });
 
   it('emits a single metadata comment for a multi-mode set', () => {
-    const compiled = compileThemeSet(
-      [resolveCelestialLight(), resolveCelestialDark()],
-      { ...defaultOptions, includeMetadataComment: true },
-    );
+    const compiled = compileThemeSet([resolveCelestialLight(), resolveCelestialDark()], {
+      ...defaultOptions,
+      includeMetadataComment: true,
+    });
     const headers = compiled.cssText.match(/\/\* Celestial Styles /g) ?? [];
     expect(headers).toHaveLength(1);
     expect(compiled.cssText).toContain('modes=dark,light');
@@ -154,10 +154,7 @@ describe('compiler', () => {
   it('treats compileThemeSet.variables as last-mode-wins convenience', () => {
     const light = compileResolvedTheme(resolveCelestialLight(), defaultOptions);
     const dark = compileResolvedTheme(resolveCelestialDark(), defaultOptions);
-    const set = compileThemeSet(
-      [resolveCelestialLight(), resolveCelestialDark()],
-      defaultOptions,
-    );
+    const set = compileThemeSet([resolveCelestialLight(), resolveCelestialDark()], defaultOptions);
     expect(set.cssText).toContain('data-cui-mode="light"');
     expect(set.cssText).toContain('data-cui-mode="dark"');
     expect(set.variables['--cui-surface-canvas']).toBe(dark.variables['--cui-surface-canvas']);

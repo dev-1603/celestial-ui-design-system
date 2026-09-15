@@ -2,154 +2,107 @@ import { describe, it, expect } from 'vitest';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
-function resolveExportTarget(pkgRoot: string, exportValue: unknown): string | null {
-  if (typeof exportValue === 'string') {
-    return path.join(pkgRoot, exportValue);
+const IMPORT_FROM = /(?:^|\n)(?:export|import)(\s+type)?\s+[\s\S]*?\sfrom\s+['"]([^'"]+)['"]/g;
+const SIDE_EFFECT_IMPORT = /(?:^|\n)import\s+['"]([^'"]+)['"]/g;
+
+function collectRelativeSpecifiers(source: string): string[] {
+  const specifiers: string[] = [];
+  IMPORT_FROM.lastIndex = 0;
+  let match: RegExpExecArray | null;
+  while ((match = IMPORT_FROM.exec(source))) {
+    if (match[1]) continue;
+    const specifier = match[2];
+    if (specifier?.startsWith('.')) specifiers.push(specifier);
   }
-  if (exportValue && typeof exportValue === 'object' && 'default' in exportValue) {
-    const def = (exportValue as { default: string }).default;
-    return path.join(pkgRoot, def);
+  SIDE_EFFECT_IMPORT.lastIndex = 0;
+  while ((match = SIDE_EFFECT_IMPORT.exec(source))) {
+    const specifier = match[1];
+    if (specifier?.startsWith('.')) specifiers.push(specifier);
   }
-  return null;
+  return specifiers;
+}
+
+function resolveImport(fromFile: string, specifier: string): string {
+  const base = path.resolve(path.dirname(fromFile), specifier);
+  const candidates = [
+    base,
+    `${base}.ts`,
+    `${base}.tsx`,
+    `${base}.js`,
+    `${base}.json`,
+    path.join(base, 'index.ts'),
+  ];
+  const resolved = candidates.find((candidate) => {
+    try {
+      return fs.statSync(candidate).isFile();
+    } catch {
+      return false;
+    }
+  });
+  if (!resolved) {
+    throw new Error(`Unable to resolve "${specifier}" from ${fromFile}`);
+  }
+  return resolved;
+}
+
+function collectModuleGraph(entryFile: string): string[] {
+  const visited = new Set<string>();
+  const queue = [path.resolve(entryFile)];
+
+  while (queue.length > 0) {
+    const current = queue.pop();
+    if (!current || visited.has(current)) continue;
+    visited.add(current);
+    if (!current.endsWith('.ts') && !current.endsWith('.js')) continue;
+
+    const source = fs.readFileSync(current, 'utf8');
+    for (const specifier of collectRelativeSpecifiers(source)) {
+      queue.push(resolveImport(current, specifier));
+    }
+  }
+
+  return [...visited];
 }
 
 describe('published export map', () => {
   const pkgRoot = path.join(__dirname, '..');
-  const pkg = JSON.parse(fs.readFileSync(path.join(pkgRoot, 'package.json'), 'utf8')) as {
-    exports: Record<string, { default: string }>;
-  };
 
-  const expectedSubpaths = [
-    '.',
-    './contracts',
-    './behavior',
-    './accessibility',
-    './collection',
-    './overlay',
-    './runtime',
-    './catalog',
-    './testing',
-    './specs/accordion',
-    './specs/action-bar',
-    './specs/alert',
-    './specs/alert-dialog',
-    './specs/app-shell',
-    './specs/aspect-ratio',
-    './specs/avatar',
-    './specs/badge',
-    './specs/banner',
-    './specs/blockquote',
-    './specs/box',
-    './specs/breadcrumb',
-    './specs/button',
-    './specs/calendar',
-    './specs/callout',
-    './specs/card',
-    './specs/carousel',
-    './specs/center',
-    './specs/chart',
-    './specs/checkbox',
-    './specs/chip',
-    './specs/code',
-    './specs/collapsible',
-    './specs/color-picker',
-    './specs/combobox',
-    './specs/command',
-    './specs/container',
-    './specs/context-menu',
-    './specs/data-table',
-    './specs/date-picker',
-    './specs/date-range-picker',
-    './specs/dialog',
-    './specs/divider',
-    './specs/drawer',
-    './specs/dropdown-menu',
-    './specs/dropzone',
-    './specs/empty-state',
-    './specs/figure',
-    './specs/file-upload',
-    './specs/flex',
-    './specs/form',
-    './specs/grid',
-    './specs/heading',
-    './specs/hero',
-    './specs/hover-card',
-    './specs/icon',
-    './specs/image',
-    './specs/input',
-    './specs/input-otp',
-    './specs/kbd',
-    './specs/label',
-    './specs/link',
-    './specs/list',
-    './specs/list-item',
-    './specs/menubar',
-    './specs/meter',
-    './specs/navigation-menu',
-    './specs/notice',
-    './specs/number-input',
-    './specs/page-header',
-    './specs/page-layout',
-    './specs/pagination',
-    './specs/panel',
-    './specs/password-input',
-    './specs/phone-input',
-    './specs/pin-input',
-    './specs/popover',
-    './specs/progress',
-    './specs/radio-group',
-    './specs/rating',
-    './specs/resizable',
-    './specs/scroll-area',
-    './specs/search-input',
-    './specs/segmented-control',
-    './specs/select',
-    './specs/separator',
-    './specs/sheet',
-    './specs/sidebar',
-    './specs/skeleton',
-    './specs/slider',
-    './specs/sonner',
-    './specs/spacer',
-    './specs/spinner',
-    './specs/stack',
-    './specs/stat',
-    './specs/stepper',
-    './specs/switch',
-    './specs/table',
-    './specs/tabs',
-    './specs/tag',
-    './specs/text',
-    './specs/textarea',
-    './specs/time-picker',
-    './specs/timeline',
-    './specs/toast',
-    './specs/toggle',
-    './specs/toggle-group',
-    './specs/toolbar',
-    './specs/tooltip',
-    './specs/transfer-list',
-    './specs/tree',
-    './specs/tree-view',
-    './specs/video',
-  ];
-
-  it('declares all capability subpaths', () => {
-    for (const subpath of expectedSubpaths) {
-      expect(pkg.exports[subpath]).toBeDefined();
-    }
-  });
-
-  it('does not export testing from root barrel source', () => {
+  it('does not export testing, catalog, or specs from root barrel source', () => {
     const rootSource = fs.readFileSync(path.join(pkgRoot, 'src/index.ts'), 'utf8');
     expect(rootSource).not.toContain('./testing');
+    expect(rootSource).not.toContain('./catalog');
+    expect(rootSource).not.toContain('./specs/');
   });
 
-  it('resolves every export target on disk after build', () => {
-    for (const [subpath, value] of Object.entries(pkg.exports)) {
-      const target = resolveExportTarget(pkgRoot, value);
-      expect(target, `missing target for ${subpath}`).not.toBeNull();
-      expect(fs.existsSync(target!), `${subpath} -> ${target}`).toBe(true);
-    }
+  it("accordion's module graph does not include dialog.js or the spec hub", () => {
+    const accordionSource = path.join(pkgRoot, 'src/catalog/specs/accordion.ts');
+    const graph = collectModuleGraph(accordionSource);
+    const rel = graph
+      .map((file) => path.relative(path.join(pkgRoot, 'src'), file).replaceAll('\\', '/'))
+      .sort();
+
+    expect(rel).toContain('catalog/specs/accordion.ts');
+    expect(rel).toContain('catalog/specs/spec-lookup.ts');
+    expect(rel).not.toContain('catalog/specs/registry.ts');
+    expect(rel).not.toContain('catalog/specs/dialog.ts');
+    expect(rel).not.toContain('catalog/specs/button.ts');
+    expect(rel).not.toContain('catalog/specs/input.ts');
+    expect(rel).not.toContain('catalog/specs/checkbox.ts');
+    expect(rel).not.toContain('catalog/specs/select.ts');
+    expect(rel).not.toContain('catalog/specs/table.ts');
+    expect(rel).not.toContain('catalog/spec-factory.ts');
+    expect(rel).not.toContain('catalog/data/generic-component-inventory.json');
+
+    const compiledNames = rel.map((file) => file.replace(/\.ts$/, '.js'));
+    expect(compiledNames).not.toContain('catalog/specs/dialog.js');
+    expect(compiledNames).not.toContain('catalog/specs/registry.js');
+  });
+
+  it('emitted ESM relative specifiers include .js extensions', () => {
+    const esmIndex = fs.readFileSync(path.join(pkgRoot, 'dist/esm/index.js'), 'utf8');
+    expect(esmIndex).toMatch(/from ['"]\.\/version\.js['"]/);
+    expect(esmIndex).not.toMatch(/from ['"]\.\/version['"]/);
+    const esmDts = fs.readFileSync(path.join(pkgRoot, 'dist/esm/index.d.ts'), 'utf8');
+    expect(esmDts).toMatch(/from ['"]\.\/version\.js['"]/);
   });
 });
