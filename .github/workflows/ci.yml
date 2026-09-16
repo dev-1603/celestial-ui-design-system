@@ -66,6 +66,14 @@ jobs:
       - name: Consumer tests (pnpm)
         run: pnpm consumer:test
 
+      - name: Consumer tests (npm)
+        run: pnpm consumer:test:npm
+
+      # Required: pnpm link: to package directories (not dist). Yarn Berry portal: is
+      # optional inside the runner and reports NOT TESTED when Yarn 2+ is absent.
+      - name: Consumer tests (independent link/portal)
+        run: pnpm consumer:test:portal
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:

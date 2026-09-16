@@ -57,6 +57,42 @@ export interface BuildAriaPropsInput {
   readonly componentId?: string;
 }
 
+function assignAriaFlag(
+  props: Record<string, string | undefined>,
+  name: keyof A11ySnapshot,
+  enabled: boolean | undefined,
+): void {
+  if (enabled) {
+    props[name] = 'true';
+  }
+}
+
+function assignAriaTrueFalse(
+  props: Record<string, string | undefined>,
+  name: keyof A11ySnapshot,
+  value: boolean | undefined,
+): void {
+  if (value !== undefined) {
+    props[name] = value ? 'true' : 'false';
+  }
+}
+
+function assignRelationshipProps(
+  props: Record<string, string | undefined>,
+  relationships: AccessibilityContract['relationships'],
+): void {
+  if (!relationships) {
+    return;
+  }
+  if (relationships.controls) props['aria-controls'] = relationships.controls;
+  if (relationships.owns) props['aria-owns'] = relationships.owns;
+  if (relationships.activedescendant) {
+    props['aria-activedescendant'] = relationships.activedescendant;
+  }
+  if (relationships.labelledby) props['aria-labelledby'] = relationships.labelledby;
+  if (relationships.describedby) props['aria-describedby'] = relationships.describedby;
+}
+
 export function buildAriaProps(input: BuildAriaPropsInput): A11ySnapshot {
   const props: Record<string, string | undefined> = {};
   if (input.contract?.role) {
@@ -71,34 +107,15 @@ export function buildAriaProps(input: BuildAriaPropsInput): A11ySnapshot {
   if (input.describedBy) {
     props['aria-describedby'] = input.describedBy;
   }
-  if (input.disabled) {
-    props['aria-disabled'] = 'true';
-  }
-  if (input.readonly) {
-    props['aria-readonly'] = 'true';
-  }
-  if (input.busy) {
-    props['aria-busy'] = 'true';
-  }
-  if (input.invalid !== undefined) {
-    props['aria-invalid'] = input.invalid ? 'true' : 'false';
-  }
-  if (input.expanded !== undefined) {
-    props['aria-expanded'] = input.expanded ? 'true' : 'false';
-  }
-  if (input.selected) {
-    props['aria-selected'] = 'true';
-  }
+  assignAriaFlag(props, 'aria-disabled', input.disabled);
+  assignAriaFlag(props, 'aria-readonly', input.readonly);
+  assignAriaFlag(props, 'aria-busy', input.busy);
+  assignAriaTrueFalse(props, 'aria-invalid', input.invalid);
+  assignAriaTrueFalse(props, 'aria-expanded', input.expanded);
+  assignAriaFlag(props, 'aria-selected', input.selected);
   if (input.checked !== undefined) {
     props['aria-checked'] = input.checked;
   }
-  if (input.contract?.relationships) {
-    const rel = input.contract.relationships;
-    if (rel.controls) props['aria-controls'] = rel.controls;
-    if (rel.owns) props['aria-owns'] = rel.owns;
-    if (rel.activedescendant) props['aria-activedescendant'] = rel.activedescendant;
-    if (rel.labelledby) props['aria-labelledby'] = rel.labelledby;
-    if (rel.describedby) props['aria-describedby'] = rel.describedby;
-  }
+  assignRelationshipProps(props, input.contract?.relationships);
   return props as A11ySnapshot;
 }

@@ -5,28 +5,12 @@
  * No implementation logic lives here.
  *
  * Naming convention:
- *  - `CanonicalIconName` — a Celestial-owned stable name (e.g. "search")
- *  - `ProviderId`        — a registered provider identifier (e.g. "lucide", "fa")
- *  - `NativeName`        — a provider-native icon name (e.g. "Search", "magnifying-glass")
+ *  - canonical icon name — Celestial-owned stable name (e.g. "search")
+ *  - provider id         — registered provider identifier (e.g. "lucide", "fa")
+ *  - native name         — provider-native icon name (e.g. "Search", "magnifying-glass")
  */
 
 // ─── Provider Identity ────────────────────────────────────────────────────────
-
-/**
- * Stable Celestial canonical icon name.
- * Never a provider-native name. Owned and versioned by the Celestial team.
- * Example: "search", "calendar", "user"
- */
-export type CanonicalIconName = string;
-
-/**
- * Registered provider identifier.
- * Must match the `id` property on the corresponding `IconProviderAdapter`.
- */
-export type ProviderId = string;
-
-/** Provider-native icon name (provider-specific naming convention). */
-export type NativeName = string;
 
 /**
  * The canonical set of built-in provider IDs shipped with this package.
@@ -77,13 +61,13 @@ export interface IconVariantRequest {
  */
 export interface IconRequest {
   /** Celestial canonical icon name. */
-  name: CanonicalIconName;
+  name: string;
   /**
    * Explicit provider override.
    * When set, resolution starts at this provider, not at the application default.
    * Failure semantics are governed by `IconConfig.explicitProviderPolicy`.
    */
-  provider?: ProviderId;
+  provider?: string;
   /** Requested visual variant. */
   variant?: IconVariantRequest;
 }
@@ -139,7 +123,7 @@ export interface NormalizedIconPayload {
   /** Resolved variant. May differ from the requested variant if the provider coerced it. */
   readonly resolvedVariant?: Readonly<IconVariantRequest>;
   /** Provider-native name of the resolved icon. */
-  readonly nativeName: NativeName;
+  readonly nativeName: string;
 }
 
 // ─── Provider Adapter Contract ────────────────────────────────────────────────
@@ -155,8 +139,8 @@ export interface NormalizedIconPayload {
  * - Providers must NOT call back into the core resolver (no circular calls).
  */
 export interface IconProviderAdapter {
-  /** Unique, stable provider identifier. Must match a registered `ProviderId`. */
-  readonly id: ProviderId;
+  /** Unique, stable provider identifier. Must match a registered provider id. */
+  readonly id: string;
   /** Human-readable display label. */
   readonly displayName: string;
   /** Version of the underlying icon library (for diagnostics and catalogue generation). */
@@ -170,7 +154,7 @@ export interface IconProviderAdapter {
    * Returns the provider-native icon name for the given Celestial canonical name.
    * Returns `undefined` if the provider does not have this icon.
    */
-  resolveNativeName(canonicalName: CanonicalIconName): NativeName | undefined;
+  resolveNativeName(canonicalName: string): string | undefined;
 
   /**
    * Returns `true` if this provider can satisfy the requested variant.
@@ -185,7 +169,7 @@ export interface IconProviderAdapter {
    * have already confirmed availability — implementations may assert on these.
    */
   resolve(
-    nativeName: NativeName,
+    nativeName: string,
     variant: Readonly<IconVariantRequest> | undefined,
   ): NormalizedIconPayload | undefined;
 }
@@ -194,7 +178,7 @@ export interface IconProviderAdapter {
 
 /** A single entry in the Celestial canonical icon catalogue. */
 export interface CanonicalCatalogueEntry {
-  readonly name: CanonicalIconName;
+  readonly name: string;
   readonly description?: string;
   readonly aliases?: readonly string[];
   readonly category?: string;
@@ -205,8 +189,8 @@ export interface CanonicalCatalogueEntry {
 
 /** A single entry mapping a canonical name to a provider-native name. */
 export interface ProviderMappingEntry {
-  readonly canonicalName: CanonicalIconName;
-  readonly nativeName: NativeName;
+  readonly canonicalName: string;
+  readonly nativeName: string;
   readonly aliases?: readonly string[];
   readonly availableStyles?: readonly string[];
   readonly availableWeights?: readonly string[];
@@ -214,7 +198,7 @@ export interface ProviderMappingEntry {
 
 /** The full JSON structure of a provider mapping catalogue file. */
 export interface ProviderCatalogueFile {
-  readonly providerId: ProviderId;
+  readonly providerId: string;
   /** Version of the icon library this catalogue was generated from. */
   readonly providerVersion: string;
   readonly catalogueSchemaVersion: string;
@@ -239,7 +223,7 @@ export interface CanonicalCatalogueFile {
  */
 export type MissingIconPolicy =
   | { readonly kind: 'empty' }
-  | { readonly kind: 'fallback-icon'; readonly canonicalName: CanonicalIconName }
+  | { readonly kind: 'fallback-icon'; readonly canonicalName: string }
   | { readonly kind: 'error' };
 
 /**
@@ -255,12 +239,12 @@ export type ExplicitProviderPolicy = 'apply-missing-policy' | 'allow-fallback';
  */
 export interface IconConfig {
   /** Default provider ID. Used when `IconRequest.provider` is not set. */
-  readonly provider: ProviderId;
+  readonly provider: string;
   /**
    * Ordered list of fallback providers.
    * Evaluated in declared order when the primary provider cannot satisfy a request.
    */
-  readonly fallback?: readonly ProviderId[];
+  readonly fallback?: readonly string[];
   /**
    * Behaviour when no provider can satisfy the request.
    * Defaults to `{ kind: 'empty' }`.
@@ -304,7 +288,7 @@ export type ResolutionStatus = 'resolved' | 'resolved-via-fallback' | 'missing' 
  */
 export interface ResolutionDiagnostics {
   /** Providers that were tried, in the order they were evaluated. */
-  readonly triedProviders: readonly ProviderId[];
+  readonly triedProviders: readonly string[];
   /** Human-readable reason the resolution fell short of a primary hit. */
   readonly reason: string;
 }
@@ -320,11 +304,11 @@ export interface IconResolution {
    * The resolved canonical name.
    * May differ from `request.name` if an alias was used as input.
    */
-  readonly canonicalName: CanonicalIconName;
+  readonly canonicalName: string;
   /** The provider that ultimately served the icon. `null` on `missing` or `error` status. */
-  readonly resolvedProviderId: ProviderId | null;
+  readonly resolvedProviderId: string | null;
   /** The provider-native icon name. `null` on `missing` or `error` status. */
-  readonly nativeName: NativeName | null;
+  readonly nativeName: string | null;
   /** `true` when a fallback provider was used instead of the primary. */
   readonly fallbackOccurred: boolean;
   /** The normalized payload for rendering. `null` on `missing` or `error` status. */

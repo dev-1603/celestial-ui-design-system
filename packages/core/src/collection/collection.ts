@@ -20,6 +20,32 @@ export interface CollectionController {
   destroy(): void;
 }
 
+function nextEnabledIndex(
+  length: number,
+  currentIdx: number,
+  direction: 'next' | 'prev',
+  wrap: boolean,
+): number {
+  if (currentIdx === -1) {
+    if (direction === 'next') {
+      return 0;
+    }
+    return length - 1;
+  }
+  if (direction === 'next') {
+    const nextIdx = currentIdx + 1;
+    if (nextIdx >= length) {
+      return wrap ? 0 : currentIdx;
+    }
+    return nextIdx;
+  }
+  const prevIdx = currentIdx - 1;
+  if (prevIdx < 0) {
+    return wrap ? length - 1 : currentIdx;
+  }
+  return prevIdx;
+}
+
 export function createCollection(): CollectionController {
   const items: CollectionItem[] = [];
   let activeId: string | null = null;
@@ -57,7 +83,7 @@ export function createCollection(): CollectionController {
         if (idx !== -1) {
           items.splice(idx, 1);
           if (activeId === item.id) {
-            activeId = getEnabledItems()[0]?.id ?? null;
+            activeId = getEnabledItems().at(0)?.id ?? null;
           }
           notify();
         }
@@ -71,21 +97,8 @@ export function createCollection(): CollectionController {
       const enabled = getEnabledItems();
       if (enabled.length === 0) return null;
       const currentIdx = activeId ? enabled.findIndex((i) => i.id === activeId) : -1;
-      let nextIdx: number;
-      if (currentIdx === -1) {
-        nextIdx = direction === 'next' ? 0 : enabled.length - 1;
-      } else if (direction === 'next') {
-        nextIdx = currentIdx + 1;
-        if (nextIdx >= enabled.length) {
-          nextIdx = wrap ? 0 : currentIdx;
-        }
-      } else {
-        nextIdx = currentIdx - 1;
-        if (nextIdx < 0) {
-          nextIdx = wrap ? enabled.length - 1 : currentIdx;
-        }
-      }
-      return enabled[nextIdx]?.id ?? null;
+      const nextIdx = nextEnabledIndex(enabled.length, currentIdx, direction, wrap);
+      return enabled.at(nextIdx)?.id ?? null;
     },
     getVisibleItems,
     destroy() {

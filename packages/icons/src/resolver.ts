@@ -17,13 +17,7 @@
  * - Deterministic: same inputs → same output.
  * - Single entry point: `resolveIcon()`.
  */
-import type {
-  IconRequest,
-  IconConfig,
-  IconResolution,
-  CanonicalIconName,
-  ProviderId,
-} from './types';
+import type { IconRequest, IconConfig, IconResolution } from './types';
 import type { IconProviderRegistry } from './provider-registry';
 import type { CanonicalRegistry } from './canonical-registry';
 import { IconResolutionError, iconError } from './errors';
@@ -68,10 +62,10 @@ function validateRequest(request: Readonly<IconRequest>): void {
 
 function applyMissingPolicy(
   request: Readonly<IconRequest>,
-  canonicalName: CanonicalIconName,
+  canonicalName: string,
   config: Readonly<IconConfig>,
   diagnosticReason: string,
-  triedProviders: readonly ProviderId[],
+  triedProviders: readonly string[],
   registry: IconProviderRegistry,
   cRegistry: CanonicalRegistry,
 ): IconResolution {
@@ -140,115 +134,110 @@ function isProviderRegistry(value: unknown): value is IconProviderRegistry {
   );
 }
 
-/**
- * Resolve an icon request to a normalized payload.
- *
- * Pass `IconConfig` as the second argument in SSR so per-request config
- * does not use the process-wide singleton.
- *
- * The third argument may be an `IconProviderRegistry` (existing call sites)
- * or `ResolveIconOptions`.
- */
-export function resolveIcon(
-  request: Readonly<IconRequest>,
-  config: Readonly<IconConfig> = getIconConfig(),
-  registryOrOptions: IconProviderRegistry | ResolveIconOptions = defaultIconProviderRegistry,
-  cRegistry: CanonicalRegistry = defaultCanonicalRegistry,
-): IconResolution {
-  const registry = isProviderRegistry(registryOrOptions)
-    ? registryOrOptions
-    : (registryOrOptions.registry ?? defaultIconProviderRegistry);
-  const canonicalReg = isProviderRegistry(registryOrOptions)
-    ? cRegistry
-    : (registryOrOptions.canonicalRegistry ?? cRegistry);
-
-  validateRequest(request);
-
-  const unknownReason = `'${request.name}' is not a known canonical icon name or alias.`;
-  const resolved = canonicalReg.resolve(request.name);
-  if (!resolved) {
-    return applyMissingPolicy(
-      request,
-      request.name,
-      config,
-      unknownReason,
-      [],
-      registry,
-      canonicalReg,
-    );
+function resolveRegistries(
+  registryOrOptions: IconProviderRegistry | ResolveIconOptions,
+  cRegistry: CanonicalRegistry,
+): { registry: IconProviderRegistry; canonicalReg: CanonicalRegistry } {
+  if (isProviderRegistry(registryOrOptions)) {
+    return { registry: registryOrOptions, canonicalReg: cRegistry };
   }
-  const canonicalName = resolved;
+  return {
+    registry: registryOrOptions.registry ?? defaultIconProviderRegistry,
+    canonicalReg: registryOrOptions.canonicalRegistry ?? cRegistry,
+  };
+}
 
-  const triedProviders: ProviderId[] = [];
+function resolvedHit(
+  request: Readonly<IconRequest>,
+  canonicalName: string,
+  hit: NonNullable<ReturnType<typeof tryProvider>>,
+  triedProviders: readonly string[],
+  reason: string,
+  config: Readonly<IconConfig>,
+): IconResolution {
+  return {
+    request,
+    canonicalName,
+    resolvedProviderId: hit.providerId,
+    nativeName: hit.nativeName,
+    fallbackOccurred: false,
+    payload: hit.payload,
+    status: 'resolved',
+    diagnostics: config.diagnostics ? { triedProviders, reason } : undefined,
+  };
+}
 
-  const hasExplicitProvider = request.provider !== undefined;
-  const explicitProviderPolicy = config.explicitProviderPolicy ?? 'apply-missing-policy';
-
-  if (hasExplicitProvider) {
-    const explicitId = request.provider!;
-    const hit = tryProvider(request, canonicalName, explicitId, registry, config, triedProviders);
-
-    if (hit) {
-      return {
-        request,
-        canonicalName,
-        resolvedProviderId: hit.providerId,
-        nativeName: hit.nativeName,
-        fallbackOccurred: false,
-        payload: hit.payload,
-        status: 'resolved',
-        diagnostics: config.diagnostics
-          ? { triedProviders, reason: 'Resolved via explicit provider.' }
-          : undefined,
-      };
-    }
-
-    if (explicitProviderPolicy === 'allow-fallback' && config.fallback?.length) {
-      const fallbackResult = evaluateFallbackChain(
-        request,
-        canonicalName,
-        config.fallback,
-        registry,
-        config,
-        triedProviders,
-      );
-      if (fallbackResult) return fallbackResult.resolution;
-    }
-
-    return applyMissingPolicy(
+function resolveWithExplicitProvider(
+  request: Readonly<IconRequest>,
+  canonicalName: string,
+  config: Readonly<IconConfig>,
+  registry: IconProviderRegistry,
+  canonicalReg: CanonicalRegistry,
+  triedProviders: string[],
+): IconResolution {
+  const explicitId = request.provider!;
+  const hit = tryProvider(request, canonicalName, explicitId, registry, config, triedProviders);
+  if (hit) {
+    return resolvedHit(
       request,
       canonicalName,
-      config,
-      `Explicit provider '${explicitId}' failed to resolve '${canonicalName}'.`,
+      hit,
       triedProviders,
-      registry,
-      canonicalReg,
+      'Resolved via explicit provider.',
+      config,
     );
   }
 
-  const primaryId = config.provider;
+  const allowFallback =
+    (config.explicitProviderPolicy ?? 'apply-missing-policy') === 'allow-fallback';
+  if (allowFallback && config.fallback?.length) {
+    const fallbackResult = evaluateFallbackChain(
+      request,
+      canonicalName,
+      config.fallback,
+      registry,
+      config,
+      triedProviders,
+    );
+    if (fallbackResult) return fallbackResult.resolution;
+  }
+
+  return applyMissingPolicy(
+    request,
+    canonicalName,
+    config,
+    `Explicit provider '${explicitId}' failed to resolve '${canonicalName}'.`,
+    triedProviders,
+    registry,
+    canonicalReg,
+  );
+}
+
+function resolveWithConfiguredProviders(
+  request: Readonly<IconRequest>,
+  canonicalName: string,
+  config: Readonly<IconConfig>,
+  registry: IconProviderRegistry,
+  canonicalReg: CanonicalRegistry,
+  triedProviders: string[],
+): IconResolution {
   const primaryHit = tryProvider(
     request,
     canonicalName,
-    primaryId,
+    config.provider,
     registry,
     config,
     triedProviders,
   );
-
   if (primaryHit) {
-    return {
+    return resolvedHit(
       request,
       canonicalName,
-      resolvedProviderId: primaryHit.providerId,
-      nativeName: primaryHit.nativeName,
-      fallbackOccurred: false,
-      payload: primaryHit.payload,
-      status: 'resolved',
-      diagnostics: config.diagnostics
-        ? { triedProviders, reason: 'Resolved via primary provider.' }
-        : undefined,
-    };
+      primaryHit,
+      triedProviders,
+      'Resolved via primary provider.',
+      config,
+    );
   }
 
   if (config.fallback?.length) {
@@ -271,5 +260,59 @@ export function resolveIcon(
     triedProviders,
     registry,
     canonicalReg,
+  );
+}
+
+/**
+ * Resolve an icon request to a normalized payload.
+ *
+ * Pass `IconConfig` as the second argument in SSR so per-request config
+ * does not use the process-wide singleton.
+ *
+ * The third argument may be an `IconProviderRegistry` (existing call sites)
+ * or `ResolveIconOptions`.
+ */
+export function resolveIcon(
+  request: Readonly<IconRequest>,
+  config: Readonly<IconConfig> = getIconConfig(),
+  registryOrOptions: IconProviderRegistry | ResolveIconOptions = defaultIconProviderRegistry,
+  cRegistry: CanonicalRegistry = defaultCanonicalRegistry,
+): IconResolution {
+  const { registry, canonicalReg } = resolveRegistries(registryOrOptions, cRegistry);
+
+  validateRequest(request);
+
+  const resolved = canonicalReg.resolve(request.name);
+  if (!resolved) {
+    return applyMissingPolicy(
+      request,
+      request.name,
+      config,
+      `'${request.name}' is not a known canonical icon name or alias.`,
+      [],
+      registry,
+      canonicalReg,
+    );
+  }
+
+  const triedProviders: string[] = [];
+  if (request.provider !== undefined) {
+    return resolveWithExplicitProvider(
+      request,
+      resolved,
+      config,
+      registry,
+      canonicalReg,
+      triedProviders,
+    );
+  }
+
+  return resolveWithConfiguredProviders(
+    request,
+    resolved,
+    config,
+    registry,
+    canonicalReg,
+    triedProviders,
   );
 }

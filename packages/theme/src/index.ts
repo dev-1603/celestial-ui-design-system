@@ -21,7 +21,7 @@ export type {
 
 export { THEME_SCHEMA_VERSION, SLOT_SCHEMA_VERSION } from './types';
 
-export type { IconProvider, IconProviderConfig } from './icons';
+export type { IconProvider, IconProviderConfig, KnownThemeIconProvider } from './icons';
 
 export {
   THEME_SLOT_DEFINITIONS,

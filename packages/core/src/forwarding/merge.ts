@@ -12,26 +12,20 @@ export interface ForwardedPropsInput {
 export function mergeForwardedProps(input: ForwardedPropsInput): Record<string, unknown> {
   const result: Record<string, unknown> = {};
 
-  function merge(source: Record<string, unknown> | undefined, priority: number): void {
+  // Later merge() calls overwrite earlier keys. Call order is the priority.
+  function merge(source: Record<string, unknown> | undefined): void {
     if (!source) return;
     for (const [key, value] of Object.entries(source)) {
       if (FORBIDDEN_FORWARD.has(key)) continue;
       if (value === undefined) continue;
-      const existing = result[key];
-      if (existing === undefined) {
-        result[key] = value;
-        return;
-      }
-      // Higher priority overwrites — order applied below
-      void priority;
       result[key] = value;
     }
   }
 
-  merge(input.nativeProps, 1);
-  merge(input.componentProps, 2);
-  merge(input.generatedState, 3);
-  merge(input.generatedA11y, 4);
+  merge(input.nativeProps);
+  merge(input.componentProps);
+  merge(input.generatedState);
+  merge(input.generatedA11y);
 
   // aria-label: consumer wins if non-empty
   const consumerLabel = input.nativeProps?.['aria-label'] ?? input.componentProps?.['aria-label'];

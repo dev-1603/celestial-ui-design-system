@@ -121,60 +121,86 @@ function validateThemeOverrides(
     return;
   }
 
+  const validationContext: OverrideValidationContext = {
+    catalogFlat,
+    report,
+    layer,
+    context,
+    allowFn,
+    slotId,
+  };
   for (const [path, override] of Object.entries(overrides)) {
-    if (override === null || override === undefined) {
-      report.errors.push(
-        themeError(
-          'INVALID_OVERRIDE_VALUE',
-          `${context}: override for '${path}' cannot be null or undefined — omit the key instead.`,
-          { path, layer },
-        ),
-      );
-      report.isValid = false;
-      continue;
-    }
+    validateThemeOverride(path, override, validationContext);
+  }
+}
 
-    const catalogToken = catalogFlat[path];
-    if (!catalogToken) {
-      report.errors.push(
-        themeError(
-          'UNKNOWN_TOKEN_PATH',
-          `${context}: token path '${path}' does not exist in the canonical catalog.`,
-          { path, layer },
-        ),
-      );
-      report.isValid = false;
-      continue;
-    }
+interface OverrideValidationContext {
+  catalogFlat: Record<string, Token>;
+  report: ThemeValidationReport;
+  layer: 'theme' | 'tenant';
+  context: string;
+  allowFn: (path: string, token: Token, slotId?: ThemeSlotId) => boolean;
+  slotId?: ThemeSlotId;
+}
 
-    if (!allowFn(path, catalogToken, slotId)) {
-      report.errors.push(
-        themeError(
-          'OVERRIDE_FORBIDDEN',
-          `${context}: override of '${path}' is not permitted by policy.`,
-          { path, layer },
-        ),
-      );
-      report.isValid = false;
-      continue;
-    }
+function validateThemeOverride(
+  path: string,
+  override: TokenOverride | TokenOverrideValue,
+  validationContext: OverrideValidationContext,
+): void {
+  const { catalogFlat, report, layer, context, allowFn, slotId } = validationContext;
+  if (override === null || override === undefined) {
+    report.errors.push(
+      themeError(
+        'INVALID_OVERRIDE_VALUE',
+        `${context}: override for '${path}' cannot be null or undefined — omit the key instead.`,
+        { path, layer },
+      ),
+    );
+    report.isValid = false;
+    return;
+  }
 
-    const value = normalizeOverrideValue(override);
-    if (typeof value === 'string' && value.includes('{')) {
-      continue;
-    }
+  const catalogToken = catalogFlat[path];
+  if (!catalogToken) {
+    report.errors.push(
+      themeError(
+        'UNKNOWN_TOKEN_PATH',
+        `${context}: token path '${path}' does not exist in the canonical catalog.`,
+        { path, layer },
+      ),
+    );
+    report.isValid = false;
+    return;
+  }
 
-    const explicitType = isTokenOverride(override) ? override.$type : undefined;
-    if (explicitType && explicitType !== catalogToken.$type) {
-      report.errors.push(
-        themeError(
-          'INVALID_TOKEN_TYPE',
-          `${context}: token '${path}' type mismatch — expected '${catalogToken.$type}', got '${explicitType}'.`,
-          { path, layer },
-        ),
-      );
-      report.isValid = false;
-    }
+  if (!allowFn(path, catalogToken, slotId)) {
+    report.errors.push(
+      themeError(
+        'OVERRIDE_FORBIDDEN',
+        `${context}: override of '${path}' is not permitted by policy.`,
+        { path, layer },
+      ),
+    );
+    report.isValid = false;
+    return;
+  }
+
+  const value = normalizeOverrideValue(override);
+  if (typeof value === 'string' && value.includes('{')) {
+    return;
+  }
+
+  const explicitType = isTokenOverride(override) ? override.$type : undefined;
+  if (explicitType && explicitType !== catalogToken.$type) {
+    report.errors.push(
+      themeError(
+        'INVALID_TOKEN_TYPE',
+        `${context}: token '${path}' type mismatch — expected '${catalogToken.$type}', got '${explicitType}'.`,
+        { path, layer },
+      ),
+    );
+    report.isValid = false;
   }
 }
 
@@ -249,17 +275,11 @@ export function validateThemeConfig(
   return report;
 }
 
-export function validateTenantThemeProfile(
-  registry: ThemeRegistry,
+function validateTenantIdentity(
   profile: TenantThemeProfile,
-  catalogFlat: Record<string, Token>,
-): ThemeValidationReport {
-  const report: ThemeValidationReport = {
-    isValid: true,
-    errors: [],
-    warnings: [],
-  };
-
+  registry: ThemeRegistry,
+  report: ThemeValidationReport,
+): void {
   if (!profile.tenantId?.trim()) {
     report.errors.push(
       themeError('TENANT_ID_REQUIRED', 'Tenant profile tenantId is required.', {
@@ -306,8 +326,16 @@ export function validateTenantThemeProfile(
     );
     report.isValid = false;
   }
+}
+
+function validateTenantModePreference(
+  profile: TenantThemeProfile,
+  report: ThemeValidationReport,
+): void {
+  if (!profile.modePreference) {
+    return;
+  }
   if (
-    profile.modePreference &&
     profile.modePreference !== 'light' &&
     profile.modePreference !== 'dark' &&
     profile.modePreference !== 'system'
@@ -320,39 +348,62 @@ export function validateTenantThemeProfile(
     );
     report.isValid = false;
   }
+}
 
-  if (profile.slots) {
-    for (const [slotId, overrides] of Object.entries(profile.slots)) {
-      if (!THEME_SLOT_IDS.includes(slotId as ThemeSlotId)) {
-        report.errors.push(
-          themeError('UNKNOWN_SLOT', `Tenant profile references unknown slot '${slotId}'.`, {
-            field: 'slots',
-            layer: 'tenant',
-          }),
-        );
-        report.isValid = false;
-        continue;
-      }
-      if (!overrides) {
-        continue;
-      }
-      validateThemeOverrides(
-        overrides,
-        catalogFlat,
-        report,
-        'tenant',
-        `Tenant '${profile.tenantId}' slot '${slotId}'`,
-        (path, token, declaredSlot) =>
-          canTenantOverride(
-            path,
-            token,
-            isPathInSlot(path, declaredSlot!),
-            isPolicyAllowedInSlot(getEffectivePolicy(path, token), declaredSlot!),
-          ),
-        slotId as ThemeSlotId,
-      );
-    }
+function validateTenantSlots(
+  profile: TenantThemeProfile,
+  catalogFlat: Record<string, Token>,
+  report: ThemeValidationReport,
+): void {
+  if (!profile.slots) {
+    return;
   }
+  for (const [slotId, overrides] of Object.entries(profile.slots)) {
+    if (!THEME_SLOT_IDS.includes(slotId as ThemeSlotId)) {
+      report.errors.push(
+        themeError('UNKNOWN_SLOT', `Tenant profile references unknown slot '${slotId}'.`, {
+          field: 'slots',
+          layer: 'tenant',
+        }),
+      );
+      report.isValid = false;
+      continue;
+    }
+    if (!overrides) {
+      continue;
+    }
+    validateThemeOverrides(
+      overrides,
+      catalogFlat,
+      report,
+      'tenant',
+      `Tenant '${profile.tenantId}' slot '${slotId}'`,
+      (path, token, declaredSlot) =>
+        canTenantOverride(
+          path,
+          token,
+          isPathInSlot(path, declaredSlot!),
+          isPolicyAllowedInSlot(getEffectivePolicy(path, token), declaredSlot!),
+        ),
+      slotId as ThemeSlotId,
+    );
+  }
+}
+
+export function validateTenantThemeProfile(
+  registry: ThemeRegistry,
+  profile: TenantThemeProfile,
+  catalogFlat: Record<string, Token>,
+): ThemeValidationReport {
+  const report: ThemeValidationReport = {
+    isValid: true,
+    errors: [],
+    warnings: [],
+  };
+
+  validateTenantIdentity(profile, registry, report);
+  validateTenantModePreference(profile, report);
+  validateTenantSlots(profile, catalogFlat, report);
 
   return report;
 }

@@ -31,6 +31,44 @@ import { ThemeResolutionError, themeError } from './errors';
  *
  * After all patches: flatten → resolveAliases → validateTokens (tokens package).
  */
+function resolveOverrideToken(
+  path: string,
+  override: ThemeOverrides[string],
+  catalogFlat: ReturnType<typeof getCatalogFlatForMode>,
+  allow: (path: string) => boolean,
+  source: ProvenanceSource,
+) {
+  const layer = source === 'tenant' ? 'tenant' : 'theme';
+  if (override === null || override === undefined) {
+    throw new ThemeResolutionError('Theme resolution failed.', [
+      themeError('INVALID_OVERRIDE_VALUE', `Override for '${path}' cannot be null or undefined.`, {
+        path,
+        layer,
+      }),
+    ]);
+  }
+
+  const catalogToken = catalogFlat[path];
+  if (!catalogToken) {
+    throw new ThemeResolutionError('Theme resolution failed.', [
+      themeError('UNKNOWN_TOKEN_PATH', `Cannot override unknown token path '${path}'.`, {
+        path,
+        layer,
+      }),
+    ]);
+  }
+  if (!allow(path)) {
+    throw new ThemeResolutionError('Theme resolution failed.', [
+      themeError('OVERRIDE_FORBIDDEN', `Override of '${path}' is not permitted by policy.`, {
+        path,
+        layer,
+      }),
+    ]);
+  }
+
+  return overrideToToken(override, catalogToken);
+}
+
 function applyOverrides(
   config: ReturnType<typeof buildTokenConfigForMode>,
   catalogFlat: ReturnType<typeof getCatalogFlatForMode>,
@@ -48,35 +86,7 @@ function applyOverrides(
   const nextFlat = { ...catalogFlat };
 
   for (const [path, override] of Object.entries(overrides)) {
-    if (override === null || override === undefined) {
-      throw new ThemeResolutionError('Theme resolution failed.', [
-        themeError(
-          'INVALID_OVERRIDE_VALUE',
-          `Override for '${path}' cannot be null or undefined.`,
-          { path, layer: source === 'tenant' ? 'tenant' : 'theme' },
-        ),
-      ]);
-    }
-
-    const catalogToken = nextFlat[path];
-    if (!catalogToken) {
-      throw new ThemeResolutionError('Theme resolution failed.', [
-        themeError('UNKNOWN_TOKEN_PATH', `Cannot override unknown token path '${path}'.`, {
-          path,
-          layer: source === 'tenant' ? 'tenant' : 'theme',
-        }),
-      ]);
-    }
-    if (!allow(path)) {
-      throw new ThemeResolutionError('Theme resolution failed.', [
-        themeError('OVERRIDE_FORBIDDEN', `Override of '${path}' is not permitted by policy.`, {
-          path,
-          layer: source === 'tenant' ? 'tenant' : 'theme',
-        }),
-      ]);
-    }
-
-    const token = overrideToToken(path, override, catalogToken);
+    const token = resolveOverrideToken(path, override, nextFlat, allow, source);
     nextConfig = setTokenAtPath(nextConfig, path, token);
     nextFlat[path] = token;
 
@@ -97,6 +107,75 @@ function initProvenance(
     provenance[path] = { source: 'mode', sourceId: mode };
   }
   return provenance;
+}
+
+type TokenConfigForMode = ReturnType<typeof buildTokenConfigForMode>;
+type CatalogFlat = ReturnType<typeof getCatalogFlatForMode>;
+
+function applyThemeInheritance(
+  registry: ThemeRegistry,
+  themeId: string,
+  config: TokenConfigForMode,
+  catalogFlat: CatalogFlat,
+  provenance: Record<string, TokenProvenance> | undefined,
+): { config: TokenConfigForMode; catalogFlat: CatalogFlat } {
+  let nextConfig = config;
+  let nextFlat = catalogFlat;
+  for (const layer of registry.getInheritanceChain(themeId)) {
+    nextConfig = applyOverrides(
+      nextConfig,
+      nextFlat,
+      layer.overrides,
+      (path) => {
+        const token = nextFlat[path];
+        return token ? canThemeOverride(path, token) : false;
+      },
+      provenance,
+      'theme',
+      layer.id,
+    );
+    nextFlat = getCatalogFlatForMode(nextConfig);
+  }
+  return { config: nextConfig, catalogFlat: nextFlat };
+}
+
+function applyTenantSlotOverrides(
+  tenantId: string,
+  slots: NonNullable<ResolveThemeOptions['tenantProfile']>['slots'],
+  config: TokenConfigForMode,
+  catalogFlat: CatalogFlat,
+  provenance: Record<string, TokenProvenance> | undefined,
+): { config: TokenConfigForMode; catalogFlat: CatalogFlat } {
+  if (!slots) {
+    return { config, catalogFlat };
+  }
+  let nextConfig = config;
+  let nextFlat = catalogFlat;
+  for (const [slotId, slotOverrides] of Object.entries(slots)) {
+    nextConfig = applyOverrides(
+      nextConfig,
+      nextFlat,
+      slotOverrides,
+      (path) => {
+        const token = nextFlat[path];
+        if (!token) {
+          return false;
+        }
+        const policy = getEffectivePolicy(path, token);
+        return canTenantOverride(
+          path,
+          token,
+          isPathInSlot(path, slotId as ThemeSlotId),
+          isPolicyAllowedInSlot(policy, slotId as ThemeSlotId),
+        );
+      },
+      provenance,
+      'tenant',
+      tenantId,
+    );
+    nextFlat = getCatalogFlatForMode(nextConfig);
+  }
+  return { config: nextConfig, catalogFlat: nextFlat };
 }
 
 export function resolveTheme(registry: ThemeRegistry, options: ResolveThemeOptions): ResolvedTheme {
@@ -133,50 +212,28 @@ export function resolveTheme(registry: ThemeRegistry, options: ResolveThemeOptio
     }
   }
 
-  const chain = registry.getInheritanceChain(options.themeId);
-  const resolvedTheme = chain[chain.length - 1]!;
+  const inherited = applyThemeInheritance(
+    registry,
+    options.themeId,
+    config,
+    catalogFlat,
+    provenance,
+  );
+  config = inherited.config;
+  catalogFlat = inherited.catalogFlat;
 
-  for (const layer of chain) {
-    config = applyOverrides(
+  const chain = registry.getInheritanceChain(options.themeId);
+  const resolvedTheme = chain.at(-1)!;
+
+  if (options.tenantProfile) {
+    const tenanted = applyTenantSlotOverrides(
+      options.tenantProfile.tenantId,
+      options.tenantProfile.slots,
       config,
       catalogFlat,
-      layer.overrides,
-      (path) => {
-        const token = catalogFlat[path];
-        return token ? canThemeOverride(path, token) : false;
-      },
       provenance,
-      'theme',
-      layer.id,
     );
-    catalogFlat = getCatalogFlatForMode(config);
-  }
-
-  if (options.tenantProfile?.slots) {
-    for (const [slotId, slotOverrides] of Object.entries(options.tenantProfile.slots)) {
-      config = applyOverrides(
-        config,
-        catalogFlat,
-        slotOverrides,
-        (path) => {
-          const token = catalogFlat[path];
-          if (!token) {
-            return false;
-          }
-          const policy = getEffectivePolicy(path, token);
-          return canTenantOverride(
-            path,
-            token,
-            isPathInSlot(path, slotId as ThemeSlotId),
-            isPolicyAllowedInSlot(policy, slotId as ThemeSlotId),
-          );
-        },
-        provenance,
-        'tenant',
-        options.tenantProfile.tenantId,
-      );
-      catalogFlat = getCatalogFlatForMode(config);
-    }
+    config = tenanted.config;
   }
 
   const validation = validateTokens(config);

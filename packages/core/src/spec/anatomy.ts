@@ -22,6 +22,56 @@ function validateUniqueNames(names: readonly string[], label: string, errors: Co
   }
 }
 
+function validateNamedEntries(
+  entries: Record<string, { name: string }>,
+  label: 'part' | 'slot',
+  errors: CoreError[],
+): void {
+  validateUniqueNames(
+    Object.values(entries).map((entry) => entry.name),
+    label,
+    errors,
+  );
+  for (const [key, entry] of Object.entries(entries)) {
+    if (key !== entry.name) {
+      const kind = label === 'part' ? 'Part' : 'Slot';
+      errors.push(
+        coreError(
+          'INVALID_CONTRACT',
+          `${kind} key "${key}" must match ${label}.name "${entry.name}".`,
+          { layer: 'contract' },
+        ),
+      );
+    }
+  }
+}
+
+function validateRefTargets(
+  refs: RefContract,
+  parts: PartsContract | undefined,
+  errors: CoreError[],
+): void {
+  for (const [targetName, target] of Object.entries(refs.targets ?? {})) {
+    const partName = target.part;
+    if (parts && !parts.parts[partName]) {
+      errors.push(
+        coreError(
+          'INVALID_CONTRACT',
+          `Ref target "${targetName}" references unknown part "${partName}".`,
+          { layer: 'contract' },
+        ),
+      );
+    }
+  }
+  if (refs.primary && parts && !parts.parts[refs.primary]) {
+    errors.push(
+      coreError('INVALID_CONTRACT', `Primary ref "${refs.primary}" is not a declared part.`, {
+        layer: 'contract',
+      }),
+    );
+  }
+}
+
 export function validateAnatomy(input: {
   parts?: PartsContract;
   slots?: SlotsContract;
@@ -31,65 +81,14 @@ export function validateAnatomy(input: {
   const errors: CoreError[] = [];
 
   if (input.parts) {
-    const partEntries = Object.values(input.parts.parts);
-    validateUniqueNames(
-      partEntries.map((p) => p.name),
-      'part',
-      errors,
-    );
-    for (const [key, part] of Object.entries(input.parts.parts)) {
-      if (key !== part.name) {
-        errors.push(
-          coreError('INVALID_CONTRACT', `Part key "${key}" must match part.name "${part.name}".`, {
-            layer: 'contract',
-          }),
-        );
-      }
-    }
+    validateNamedEntries(input.parts.parts, 'part', errors);
   }
-
   if (input.slots) {
-    const slotEntries = Object.values(input.slots.slots);
-    validateUniqueNames(
-      slotEntries.map((s) => s.name),
-      'slot',
-      errors,
-    );
-    for (const [key, slot] of Object.entries(input.slots.slots)) {
-      if (key !== slot.name) {
-        errors.push(
-          coreError('INVALID_CONTRACT', `Slot key "${key}" must match slot.name "${slot.name}".`, {
-            layer: 'contract',
-          }),
-        );
-      }
-    }
+    validateNamedEntries(input.slots.slots, 'slot', errors);
   }
-
   if (input.refs?.targets) {
-    for (const [targetName, target] of Object.entries(input.refs.targets)) {
-      const partName = target.part;
-      if (input.parts && !input.parts.parts[partName]) {
-        errors.push(
-          coreError(
-            'INVALID_CONTRACT',
-            `Ref target "${targetName}" references unknown part "${partName}".`,
-            { layer: 'contract' },
-          ),
-        );
-      }
-    }
-    if (input.refs.primary && input.parts && !input.parts.parts[input.refs.primary]) {
-      errors.push(
-        coreError(
-          'INVALID_CONTRACT',
-          `Primary ref "${input.refs.primary}" is not a declared part.`,
-          { layer: 'contract' },
-        ),
-      );
-    }
+    validateRefTargets(input.refs, input.parts, errors);
   }
-
   if (input.composition?.allowedChildren?.length) {
     validateUniqueNames([...input.composition.allowedChildren], 'composition child', errors);
   }

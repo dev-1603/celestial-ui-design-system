@@ -11,4 +11,11 @@ describe('published export map', () => {
   it('limits published files to dist', () => {
     expect(pkg.files).toEqual(['dist']);
   });
+
+  it('declares sideEffects false for tree-shaking', () => {
+    const pkgJson = JSON.parse(fs.readFileSync(path.join(pkgRoot, 'package.json'), 'utf8')) as {
+      sideEffects?: unknown;
+    };
+    expect(pkgJson.sideEffects).toBe(false);
+  });
 });

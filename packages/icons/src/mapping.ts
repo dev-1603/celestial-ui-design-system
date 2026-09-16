@@ -9,16 +9,16 @@
  * - No network I/O. Catalogues are bundled JSON imported by the adapter.
  * - A missing entry is `undefined`, not an error. The resolver handles fallback.
  */
-import type { CanonicalIconName, NativeName, ProviderCatalogueFile } from './types';
+import type { ProviderCatalogueFile } from './types';
 import { iconError, IconResolutionError } from './errors';
 import { validateProviderCatalogue } from './catalogue/validate';
 import { isCatalogueCompatible } from './version';
 
-export type NativeNameLookup = (canonicalName: CanonicalIconName) => NativeName | undefined;
+export type NativeNameLookup = (canonicalName: string) => string | undefined;
 
 export function createNativeNameLookup(data: unknown): NativeNameLookup {
   const catalogue = loadValidatedCatalogue(data);
-  const map = new Map<CanonicalIconName, NativeName>();
+  const map = new Map<string, string>();
   for (const entry of catalogue.entries) {
     map.set(entry.canonicalName, entry.nativeName);
   }

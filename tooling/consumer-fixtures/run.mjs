@@ -28,16 +28,26 @@ function runCheck(projectDir, manager) {
   run('node --import tsx check.ts', projectDir);
 }
 
+function runNativeEsm(projectDir, packageNames) {
+  const imports = packageNames.map((name) => `await import(${JSON.stringify(name)});`).join('\n');
+  fs.writeFileSync(
+    path.join(projectDir, '_native-esm.mjs'),
+    `${imports}
+console.log('native esm OK');
+`,
+  );
+  run('node _native-esm.mjs', projectDir);
+}
+
 function runCjsSmoke(projectDir, packageNames, manager) {
   if (manager !== 'bun') {
     return;
   }
   const requires = packageNames
     .map((name, i) => {
-      const moduleName = JSON.stringify(name);
-      const emptyError = JSON.stringify('CJS require(' + name + ') returned empty');
-      return `const m${i} = require(${moduleName});
-if (!m${i}) throw new Error(${emptyError});`;
+      const emptyMessage = `CJS require(${name}) returned empty`;
+      return `const m${i} = require(${JSON.stringify(name)});
+if (!m${i}) throw new Error(${JSON.stringify(emptyMessage)});`;
     })
     .join('\n');
   fs.writeFileSync(
@@ -58,6 +68,7 @@ function runFixture(fixtureName, packageNames, tarballs, manager) {
   console.log(`\n=== Consumer test: ${fixtureName} (${manager}) ===`);
   installTarballs(tempDir, packageNames, tarballs, manager);
   runCheck(tempDir, manager);
+  runNativeEsm(tempDir, packageNames);
   runCjsSmoke(tempDir, packageNames, manager);
   fs.rmSync(tempDir, { recursive: true, force: true });
 }

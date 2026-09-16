@@ -12,7 +12,6 @@
  */
 import type {
   IconProviderAdapter,
-  CanonicalIconName,
   IconVariantRequest,
   NormalizedIconPayload,
   ProviderCapabilities,
@@ -49,7 +48,7 @@ export const MaterialSymbolsAdapter: IconProviderAdapter = {
   catalogueSchemaVersion: PROVIDER_CONTRACT_VERSION,
   capabilities: MATERIAL_CAPABILITIES,
 
-  resolveNativeName(canonicalName: CanonicalIconName): string | undefined {
+  resolveNativeName(canonicalName: string): string | undefined {
     return lookup(canonicalName);
   },
 

@@ -25,32 +25,11 @@ export type {
 export type { StyleError, StyleErrorCode } from './errors';
 export { StyleCompilationError, StyleRuntimeError, styleError } from './errors';
 
-export {
-  SEMANTIC_CSS_REGISTRY,
-  /** @internal */
-  getSemanticRegistryEntries,
-  /** @internal */
-  validateSemanticRegistry,
-} from './semantic-registry';
+export { SEMANTIC_CSS_REGISTRY } from './semantic-registry';
 
-export {
-  tokenPathToVariableName,
-  /** @internal */
-  tokenSubPathToVariableName,
-  /** @internal */
-  isValidTokenPath,
-  /** @internal */
-  COMPOSITE_TOKEN_TYPES,
-  /** @internal */
-  SCALAR_TOKEN_TYPES,
-} from './variable-registry';
+export { tokenPathToVariableName } from './variable-registry';
 
-export {
-  compileResolvedTheme,
-  compileThemeSet,
-  /** @internal */
-  generateSemanticVariables,
-} from './compiler';
+export { compileResolvedTheme, compileThemeSet } from './compiler';
 
 export {
   getScopeKey,

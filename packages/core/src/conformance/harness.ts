@@ -1,8 +1,6 @@
 import type { ComponentSpec } from '../spec/spec';
-import type { ComponentCapability } from '../capabilities/types';
 import { validateCapabilitiesAgainstContract } from '../capabilities/validate';
 import type { CoreError } from '../diagnostics/errors';
-import { coreError } from '../diagnostics/errors';
 import { validateComponentSpec } from '../spec/spec';
 import { validateAnatomy } from '../spec/anatomy';
 import type { ConformanceArea } from '../conformance/types';
@@ -43,6 +41,73 @@ function reportFromErrors(
   return errors.map((e) => ({ area, message: e.reason }));
 }
 
+function validateImplementationRole(
+  spec: ComponentSpec,
+  snapshot: ConformanceImplementationSnapshot,
+  failures: ConformanceFailure[],
+): void {
+  const expected = spec.contract.accessibility?.role;
+  const actual = snapshot.aria?.role;
+  if (expected && actual && actual !== expected) {
+    failures.push({
+      area: 'accessibility',
+      message: `Expected role ${expected}, got ${actual}`,
+    });
+  }
+}
+
+function validateImplementationSize(
+  spec: ComponentSpec,
+  snapshot: ConformanceImplementationSnapshot,
+  failures: ConformanceFailure[],
+): void {
+  const sizes = spec.contract.sizes;
+  if (sizes && snapshot.size && !sizes.sizes.includes(snapshot.size)) {
+    failures.push({
+      area: 'sizes',
+      message: `Invalid size "${snapshot.size}" for component ${spec.contract.id}`,
+    });
+  }
+}
+
+function validateImplementationStates(
+  spec: ComponentSpec,
+  snapshot: ConformanceImplementationSnapshot,
+  failures: ConformanceFailure[],
+): void {
+  const allowed = spec.contract.states?.allowed;
+  if (!allowed || !snapshot.states) {
+    return;
+  }
+  for (const state of snapshot.states) {
+    if (!allowed.includes(state)) {
+      failures.push({
+        area: 'states',
+        message: `State "${state}" is not allowed for ${spec.contract.id}`,
+      });
+    }
+  }
+}
+
+function validateImplementationParts(
+  spec: ComponentSpec,
+  snapshot: ConformanceImplementationSnapshot,
+  failures: ConformanceFailure[],
+): void {
+  if (!spec.contract.parts || !snapshot.parts) {
+    return;
+  }
+  const allowed = new Set(Object.keys(spec.contract.parts.parts));
+  for (const part of snapshot.parts) {
+    if (!allowed.has(part)) {
+      failures.push({
+        area: 'parts',
+        message: `Unknown part "${part}" on ${spec.contract.id}`,
+      });
+    }
+  }
+}
+
 export function createConformanceHarness(spec: ComponentSpec): ConformanceHarness {
   return {
     spec,
@@ -77,49 +142,10 @@ export function createConformanceHarness(spec: ComponentSpec): ConformanceHarnes
     },
     validateImplementation(snapshot) {
       const failures: ConformanceFailure[] = [];
-      const contract = spec.contract;
-
-      if (contract.accessibility?.role && snapshot.aria?.role) {
-        if (snapshot.aria.role !== contract.accessibility.role) {
-          failures.push({
-            area: 'accessibility',
-            message: `Expected role ${contract.accessibility.role}, got ${snapshot.aria.role}`,
-          });
-        }
-      }
-
-      if (contract.sizes && snapshot.size) {
-        if (!contract.sizes.sizes.includes(snapshot.size)) {
-          failures.push({
-            area: 'sizes',
-            message: `Invalid size "${snapshot.size}" for component ${contract.id}`,
-          });
-        }
-      }
-
-      if (contract.states && snapshot.states) {
-        for (const state of snapshot.states) {
-          if (!contract.states.allowed.includes(state)) {
-            failures.push({
-              area: 'states',
-              message: `State "${state}" is not allowed for ${contract.id}`,
-            });
-          }
-        }
-      }
-
-      if (contract.parts && snapshot.parts) {
-        const allowed = new Set(Object.keys(contract.parts.parts));
-        for (const part of snapshot.parts) {
-          if (!allowed.has(part)) {
-            failures.push({
-              area: 'parts',
-              message: `Unknown part "${part}" on ${contract.id}`,
-            });
-          }
-        }
-      }
-
+      validateImplementationRole(spec, snapshot, failures);
+      validateImplementationSize(spec, snapshot, failures);
+      validateImplementationStates(spec, snapshot, failures);
+      validateImplementationParts(spec, snapshot, failures);
       return { passed: failures.length === 0, failures };
     },
     assertCompliant(snapshot) {

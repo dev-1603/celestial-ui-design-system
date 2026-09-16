@@ -6,18 +6,21 @@
  * `@iconify/utils`) must be loaded with a static `require('…')` **inside the
  * adapter file**. Bundlers (browser esbuild, webpack) can then resolve or
  * externalize them. Adapters that only need those JS peers must not import
- * this module — `createRequire` from `module` is not browser-safe.
+ * this module — `createRequire` from `node:module` is not browser-safe.
  *
- * File-based peers (Heroicons SVG, Phosphor SVG under `@phosphor-icons/core`)
- * and dynamic `@iconify-json/<prefix>` collection loads stay here. They use
- * Node `fs` / `createRequire` and are not a verified browser contract.
+ * File-based peers (Phosphor SVG under `@phosphor-icons/core`) and dynamic
+ * `@iconify-json/<prefix>` collection loads stay here. They use Node `fs` /
+ * `createRequire` and are not a verified browser contract.
+ *
+ * Lucide and Heroicons adapters must not import this module — their catalogue
+ * glyphs are generated at build time.
  *
  * Specifiers are allowlisted. Adapters never `require()` caller-controlled
  * paths.
  */
-import { createRequire } from 'module';
-import { readFileSync, existsSync } from 'fs';
-import { dirname, join, normalize, relative, sep } from 'path';
+import { createRequire } from 'node:module';
+import { readFileSync, existsSync } from 'node:fs';
+import { dirname, join, normalize, relative, sep } from 'node:path';
 
 const nodeRequire = createRequire(__filename);
 
@@ -65,7 +68,7 @@ export function readPeerPackageVersion(packageName: string): string | undefined 
  * Read a relative SVG (or other text) asset from an installed peer package.
  * Rejects path traversal and non-allowlisted package names.
  *
- * Node-only (`fs`). Heroicons and Phosphor adapters depend on this path.
+ * Node-only (`fs`). Phosphor adapters depend on this path.
  */
 export function readOptionalPeerAsset(
   packageName: string,

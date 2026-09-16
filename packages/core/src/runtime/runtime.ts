@@ -1,6 +1,7 @@
 import { createEnvironment } from '../environment/environment';
 import { CoreRuntimeError, coreError } from '../diagnostics/errors';
 import { createId } from '../ids';
+import { PLUGIN_CONTRACT_VERSION } from '../version';
 import type {
   CelestialPlugin,
   CelestialPluginContext,
@@ -11,6 +12,10 @@ import type {
 } from './types';
 
 let defaultRuntime: CelestialRuntime | null = null;
+
+function ignoreCleanupError(): void {
+  // Plugin dispose() must not fail destroy(); cleanup is best-effort.
+}
 
 export function createCelestialRuntime(options: CreateRuntimeOptions = {}): CelestialRuntime {
   const services = new Map<string, unknown>();
@@ -29,7 +34,7 @@ export function createCelestialRuntime(options: CreateRuntimeOptions = {}): Cele
   const environment = options.environment ?? createEnvironment();
 
   const pluginContext: CelestialPluginContext = {
-    pluginContractVersion: '1.0.0',
+    pluginContractVersion: PLUGIN_CONTRACT_VERSION,
     registerService(id, service) {
       if (destroyed) return;
       services.set(id, service);
@@ -105,7 +110,7 @@ export function createCelestialRuntime(options: CreateRuntimeOptions = {}): Cele
         try {
           dispose();
         } catch {
-          // ignore cleanup errors
+          ignoreCleanupError();
         }
       }
       services.clear();

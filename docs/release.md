@@ -14,6 +14,8 @@ Production publishing for `@celestial-ui/*` runs only from `release/**` branches
 
 `changeset status` in CI compares against `origin/develop` (Changesets `baseBranch`). The workflow fetches that remote-tracking ref before the check because `actions/checkout` only has the PR/push ref. Version PRs target `github.ref_name` (the triggering `release/*` branch).
 
+The publish-mode `validate` job rechecks the exact publish SHA. It builds, typechecks, tests, validates packed artifacts and documentation, enforces tree-shaking budgets, runs pnpm and Bun packed-tarball consumers, and verifies independent-repository pnpm `link:` consumption. This protects manual dispatches and avoids relying on a separate CI run.
+
 ## Packages that publish
 
 Only the five public foundation packages:

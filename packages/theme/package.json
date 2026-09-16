@@ -4,6 +4,7 @@
   "description": "Theme identity, modes, inheritance, tenant profiles, and resolution for the Celestial UI ecosystem.",
   "main": "./dist/cjs/index.js",
   "types": "./dist/cjs/index.d.ts",
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": {

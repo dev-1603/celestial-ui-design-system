@@ -82,8 +82,14 @@ export function removeState(snapshot: StateSetSnapshot, state: ComponentState): 
   return { states, payloads: snapshot.payloads };
 }
 
+function compareUtf16(a: string, b: string): number {
+  if (a < b) return -1;
+  if (a > b) return 1;
+  return 0;
+}
+
 export function serializeStates(states: ReadonlySet<ComponentState>): string {
-  const filtered = [...states].filter((s) => s !== 'idle').sort();
+  const filtered = [...states].filter((s) => s !== 'idle').sort(compareUtf16);
   return filtered.join(' ');
 }
 

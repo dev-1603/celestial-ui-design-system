@@ -66,24 +66,28 @@ export interface ShadowValue {
 export type TokenValue =
   string | number | TypographyValue | BorderValue | ShadowValue | ShadowValue[];
 
+export type VendorExtensionMap = Record<string, unknown>;
+
+export type TokenExtensions = {
+  celestial?: CelestialExtensions;
+} & VendorExtensionMap;
+
+export type TokenGroupExtensions = {
+  celestial?: Partial<CelestialExtensions>;
+} & VendorExtensionMap;
+
 export interface Token<TValue = TokenValue> {
   $type: TokenType;
   $value: TValue;
   $description?: string;
-  $extensions?: {
-    celestial?: CelestialExtensions;
-    [key: string]: any;
-  };
+  $extensions?: TokenExtensions;
 }
 
 export interface TokenGroup {
   $type?: TokenType;
   $description?: string;
-  $extensions?: {
-    celestial?: Partial<CelestialExtensions>;
-    [key: string]: any;
-  };
-  [key: string]: Token | TokenGroup | any; // 'any' for $type/$description
+  $extensions?: TokenGroupExtensions;
+  [key: string]: unknown;
 }
 
 export interface TokenConfig {

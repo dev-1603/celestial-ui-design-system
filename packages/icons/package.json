@@ -106,7 +106,8 @@
     }
   },
   "scripts": {
-    "build": "rm -rf dist && tsc && tsc -p tsconfig.esm.json && node ../../tooling/write-dual-package-json.mjs",
+    "generate": "node ./scripts/generate-provider-maps.mjs",
+    "build": "node ./scripts/generate-provider-maps.mjs && rm -rf dist && tsc && tsc -p tsconfig.esm.json && node ../../tooling/write-dual-package-json.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.esm.json",

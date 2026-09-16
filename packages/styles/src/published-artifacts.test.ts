@@ -162,4 +162,17 @@ describe('published artifacts', () => {
       expect(tw).toContain(cuiRef);
     }
   });
+
+  it('does not re-export @internal helpers from the root barrel', () => {
+    const indexSource = fs.readFileSync(path.join(__dirname, 'index.ts'), 'utf8');
+    expect(indexSource).not.toContain('getSemanticRegistryEntries');
+    expect(indexSource).not.toContain('validateSemanticRegistry');
+    expect(indexSource).not.toContain('tokenSubPathToVariableName');
+    expect(indexSource).not.toContain('isValidTokenPath');
+    expect(indexSource).not.toContain('COMPOSITE_TOKEN_TYPES');
+    expect(indexSource).not.toContain('SCALAR_TOKEN_TYPES');
+    expect(indexSource).not.toContain('generateSemanticVariables');
+    expect(indexSource).toContain('tokenPathToVariableName');
+    expect(indexSource).toContain('compileResolvedTheme');
+  });
 });

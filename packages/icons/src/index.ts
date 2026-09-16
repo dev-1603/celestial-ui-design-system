@@ -24,9 +24,6 @@
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 export type {
-  CanonicalIconName,
-  ProviderId,
-  NativeName,
   BuiltInProviderId,
   IconVariantRequest,
   IconRequest,

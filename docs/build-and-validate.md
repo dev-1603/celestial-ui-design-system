@@ -80,9 +80,12 @@ pnpm consumer:test:npm    # npm fixtures
 pnpm consumer:test:yarn   # Yarn Berry fixtures
 pnpm consumer:test:bun    # same fixtures as pnpm/npm/yarn, installed with Bun
 pnpm consumer:test:deno   # Deno best-effort (non-blocking)
+pnpm consumer:test:portal # independent-repo pnpm link: (Yarn Berry portal: when available)
 ```
 
 Fixtures live in `tooling/consumer-fixtures/fixtures/` (`foundation-node`, `core-node`, `icons-node`, `ssr-node`). All package managers run those same checks.
+
+`consumer:test:portal` creates a temporary directory **outside** the workspace, depends on each package **directory** (not `dist/`, not `src/`), asserts `import.meta.resolve` lands in `dist/`, typechecks with TypeScript `moduleResolution: Node16`, and proves a foundation rebuild updates the consumer. Its pnpm `link:` check is required in CI and release. Yarn Berry `portal:`, npm `file:`, Yarn Classic `file:`, and Bun `file:` are attempted when those binaries exist; otherwise they are recorded as **NOT TESTED**. Production consumers still install packed tarballs.
 
 ## Dry-run publish
 
@@ -94,9 +97,9 @@ Runs `pnpm publish --dry-run` for each public package. **Does not publish.**
 
 ## CI
 
-GitHub Actions runs the full gate on push/PR. After `pnpm build` it runs `pnpm shake:test` (gzip budgets and leak assertions via package exports). See `.github/workflows/ci.yml`.
+GitHub Actions CI runs format, lint, typecheck, tests, build, `pnpm shake:test`, pack/docs validation, packed-tarball consumers (pnpm, npm, Bun), and the required independent-repository pnpm `link:` check. See `.github/workflows/ci.yml`.
 
-Production publish is a separate workflow (`.github/workflows/release.yml`) on `release/**`. See [release.md](./release.md).
+Production publish is a separate workflow (`.github/workflows/release.yml`) on `release/**`. Its `validate` job rechecks the exact publish SHA with build, typecheck, tests, pack/docs inspection, tree-shaking budgets, pnpm and Bun tarball consumers, and the independent-repository pnpm `link:` baseline before OIDC publish. See [release.md](./release.md).
 
 ## Validation report
 

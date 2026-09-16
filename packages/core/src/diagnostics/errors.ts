@@ -60,14 +60,30 @@ export function coreError(
   };
 }
 
+function isErrorList(errors: CoreError | readonly CoreError[]): errors is readonly CoreError[] {
+  return Array.isArray(errors);
+}
+
+function normalizeCoreErrors(
+  errors: CoreError | readonly CoreError[] | undefined,
+  fallback: CoreError,
+): readonly CoreError[] {
+  if (errors === undefined) {
+    return [fallback];
+  }
+  if (isErrorList(errors)) {
+    return errors;
+  }
+  return [errors];
+}
+
 export class CoreContractError extends Error {
   readonly errors: readonly CoreError[];
 
   constructor(message: string, errors: CoreError | readonly CoreError[]) {
-    const list = Array.isArray(errors) ? errors : [errors];
     super(message);
     this.name = 'CoreContractError';
-    this.errors = list;
+    this.errors = normalizeCoreErrors(errors, coreError('INVALID_CONTRACT', message));
   }
 }
 
@@ -79,7 +95,7 @@ export class CoreRuntimeError extends Error {
     super(message);
     this.name = 'CoreRuntimeError';
     this.code = code;
-    this.errors = errors ? (Array.isArray(errors) ? errors : [errors]) : [coreError(code, message)];
+    this.errors = normalizeCoreErrors(errors, coreError(code, message));
   }
 }
 

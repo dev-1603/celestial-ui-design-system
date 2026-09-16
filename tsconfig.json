@@ -7,5 +7,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  // tooling/consumer-fixtures/portal-check.ts is a template copied into
+  // temporary npm/pnpm consumer projects by run-portal.mjs; it has its own
+  // scoped tsconfig.json (paths -> built package dist/ declarations) and is
+  // not resolvable against this root config, which has no node_modules
+  // symlinks for the published @celestial-ui/* packages.
+  "exclude": ["tooling/consumer-fixtures"]
 }

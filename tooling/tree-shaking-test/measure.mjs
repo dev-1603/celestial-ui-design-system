@@ -47,6 +47,12 @@ const cases = [
     informational: true,
   },
   {
+    name: 'core/behavior createDisclosure',
+    code: `import { createDisclosure } from '@celestial-ui/core/behavior';\nexport { createDisclosure };`,
+    platform: 'browser',
+    maxGzip: 3 * KB,
+  },
+  {
     name: 'core/specs/button',
     code: `import { buttonSpec } from '@celestial-ui/core/specs/button';\nexport { buttonSpec };`,
     platform: 'browser',
@@ -59,6 +65,13 @@ const cases = [
     maxGzip: 7 * KB,
   },
   {
+    name: 'core/catalog listCatalogEntries',
+    code: `import { listCatalogEntries } from '@celestial-ui/core/catalog';\nexport { listCatalogEntries };`,
+    platform: 'browser',
+    maxGzip: 16 * KB,
+    forbidText: ['buttonSpec', 'accordionSpec'],
+  },
+  {
     name: 'theme/themes/celestial',
     code: `import { CELESTIAL_THEME } from '@celestial-ui/theme/themes/celestial';\nexport { CELESTIAL_THEME };`,
     platform: 'browser',
@@ -69,7 +82,8 @@ const cases = [
     name: 'theme root CELESTIAL_THEME',
     code: `import { CELESTIAL_THEME } from '@celestial-ui/theme';\nexport { CELESTIAL_THEME };`,
     platform: 'browser',
-    informational: true,
+    maxGzip: 2 * KB,
+    forbidFs: true,
   },
   {
     name: 'tokens/resolve flattenTokens',
@@ -82,13 +96,21 @@ const cases = [
     name: 'tokens root flattenTokens',
     code: `import { flattenTokens } from '@celestial-ui/tokens';\nexport { flattenTokens };`,
     platform: 'browser',
-    informational: true,
+    maxGzip: 2 * KB,
+    forbidFs: true,
+  },
+  {
+    name: 'tokens/a11y getContrastRatio',
+    code: `import { getContrastRatio } from '@celestial-ui/tokens/a11y';\nexport { getContrastRatio };`,
+    platform: 'browser',
+    maxGzip: 2 * KB,
+    forbidFs: true,
   },
   {
     name: 'tokens root getCanonicalTokenSources',
     code: `import { getCanonicalTokenSources } from '@celestial-ui/tokens';\nexport { getCanonicalTokenSources };`,
-    platform: 'browser',
-    informational: true,
+    platform: 'node',
+    smoke: true,
   },
   {
     name: 'styles/runtime',
@@ -104,6 +126,30 @@ const cases = [
     informational: true,
   },
   {
+    name: 'styles/compiler compileThemeSet',
+    code: `import { compileThemeSet } from '@celestial-ui/styles/compiler';\nexport { compileThemeSet };`,
+    platform: 'browser',
+    maxGzip: 12 * KB,
+  },
+  {
+    name: 'styles/ssr renderThemeStyleTag',
+    code: `import { renderThemeStyleTag } from '@celestial-ui/styles/ssr';\nexport { renderThemeStyleTag };`,
+    platform: 'browser',
+    maxGzip: 12 * KB,
+  },
+  {
+    name: 'styles/bridges/tailwind',
+    code: `import { generateTailwindBridge } from '@celestial-ui/styles/bridges/tailwind';\nexport { generateTailwindBridge };`,
+    platform: 'browser',
+    maxGzip: 4 * KB,
+  },
+  {
+    name: 'styles/bridges/shadcn',
+    code: `import { generateShadcnAdapter } from '@celestial-ui/styles/bridges/shadcn';\nexport { generateShadcnAdapter };`,
+    platform: 'browser',
+    maxGzip: 4 * KB,
+  },
+  {
     name: 'icons resolveIcon',
     code: `import { resolveIcon } from '@celestial-ui/icons';\nexport { resolveIcon };`,
     platform: 'browser',
@@ -114,7 +160,17 @@ const cases = [
     name: 'icons/providers/lucide',
     code: `import { LucideAdapter } from '@celestial-ui/icons/providers/lucide';\nexport { LucideAdapter };`,
     platform: 'browser',
+    maxGzip: 12 * KB,
+    forbidFs: true,
     forbidProviders: ['fontawesome', 'material', 'heroicons', 'phosphor', 'iconify'],
+  },
+  {
+    name: 'icons/providers/heroicons',
+    code: `import { HeroiconsAdapter } from '@celestial-ui/icons/providers/heroicons';\nexport { HeroiconsAdapter };`,
+    platform: 'browser',
+    maxGzip: 50 * KB,
+    forbidFs: true,
+    forbidProviders: ['lucide', 'fontawesome', 'material', 'phosphor', 'iconify'],
   },
   {
     name: 'theme/resolve',
@@ -186,6 +242,7 @@ async function runCase(c) {
     });
     const buf = fs.readFileSync(outfile);
     const gzip = zlib.gzipSync(buf).length;
+    const brotli = zlib.brotliCompressSync(buf).length;
     const text = buf.toString('utf8');
     const inputs = Object.keys(Object.values(build.metafile.outputs)[0].inputs);
     const leaks = c.informational || c.smoke ? [] : collectLeaks(text, c);
@@ -204,7 +261,9 @@ async function runCase(c) {
       ok: failures.length === 0,
       informational: Boolean(c.informational),
       smoke: Boolean(c.smoke),
+      minified: buf.length,
       gzip,
+      brotli,
       maxGzip: c.maxGzip,
       modules: inputs.length,
       leaks,
@@ -244,25 +303,48 @@ for (const c of cases) {
 const gated = results.filter((r) => !r.informational);
 const failed = gated.filter((r) => !r.ok);
 
+/**
+ * @param {typeof results[number]} r
+ */
+function formatTag(r) {
+  if (r.informational) return 'INFO';
+  return r.ok ? 'PASS' : 'FAIL';
+}
+
+/**
+ * @param {typeof results[number]} r
+ */
+function formatSize(r) {
+  if (r.minified === undefined) {
+    return r.smoke ? 'compile-smoke' : '';
+  }
+  const limit = r.maxGzip !== undefined ? ` / ${formatBytes(r.maxGzip)}` : '';
+  return `min ${formatBytes(r.minified)} gzip ${formatBytes(r.gzip)}${limit} br ${formatBytes(r.brotli)}`;
+}
+
+/**
+ * @param {typeof results[number]} r
+ */
+function formatExtra(r) {
+  if (r.failures?.length) {
+    return ` — ${r.failures.join('; ')}`;
+  }
+  if (r.informational && r.hasFs) {
+    return ' — root+fs (not a CI blocker)';
+  }
+  if (r.informational && r.error) {
+    return ` — ${r.error}`;
+  }
+  if (r.smoke && r.ok) {
+    return ' — compile-smoke';
+  }
+  return '';
+}
+
 for (const r of results) {
-  const tag = r.informational ? 'INFO' : r.ok ? 'PASS' : 'FAIL';
-  const size =
-    r.gzip !== undefined
-      ? r.maxGzip !== undefined
-        ? `gzip ${formatBytes(r.gzip)} / ${formatBytes(r.maxGzip)}`
-        : `gzip ${formatBytes(r.gzip)}`
-      : r.smoke
-        ? 'compile-smoke'
-        : '';
-  const extra = r.failures?.length
-    ? ` — ${r.failures.join('; ')}`
-    : r.informational && r.hasFs
-      ? ' — root+fs (not a CI blocker)'
-      : r.informational && r.error
-        ? ` — ${r.error}`
-        : r.smoke && r.ok
-          ? ' — compile-smoke'
-          : '';
+  const tag = formatTag(r);
+  const size = formatSize(r);
+  const extra = formatExtra(r);
   console.log(`${tag.padEnd(4)} ${r.name.padEnd(42)} ${size}${extra}`);
 }
 

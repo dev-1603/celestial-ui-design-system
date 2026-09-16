@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { validateDocumentation } from './docs.js';
@@ -16,6 +16,29 @@ function parseArgs(argv: string[]): { skipPack: boolean; skipDocs: boolean } {
   };
 }
 
+/** Resolve pnpm by absolute path so the CLI never shells out via PATH. */
+function resolvePnpmExecutable(repoRoot: string): string | undefined {
+  const binName = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
+  const candidates = [
+    path.join(repoRoot, 'node_modules', '.bin', binName),
+    process.env.PNPM_HOME ? path.join(process.env.PNPM_HOME, binName) : undefined,
+    path.join(path.dirname(process.execPath), binName),
+  ];
+
+  for (const candidate of candidates) {
+    if (!candidate) continue;
+    try {
+      if (fs.existsSync(candidate)) {
+        return fs.realpathSync(candidate);
+      }
+    } catch {
+      continue;
+    }
+  }
+
+  return undefined;
+}
+
 async function main(): Promise<void> {
   const { skipPack, skipDocs } = parseArgs(process.argv.slice(2));
   const repoRoot = getRepoRoot();
@@ -26,8 +49,7 @@ async function main(): Promise<void> {
 
   const findings: ValidationFinding[] = [];
 
-  findings.push(...validateDependencyGraph(packages));
-  findings.push(...validateChangesetsAccess(repoRoot));
+  findings.push(...validateDependencyGraph(packages), ...validateChangesetsAccess(repoRoot));
 
   if (!skipDocs) {
     findings.push(...validateDocumentation(repoRoot, publicPackages));
@@ -35,23 +57,35 @@ async function main(): Promise<void> {
 
   if (!skipPack) {
     const artifactsDir = path.join(repoRoot, 'artifacts');
-    for (const pkg of publicPackages) {
-      try {
-        execSync('pnpm build', { cwd: pkg.directory, stdio: 'pipe' });
-      } catch (error) {
-        const err = error as { stderr?: string; message?: string };
-        findings.push({
-          package: pkg.name,
-          category: 'build',
-          severity: 'BLOCKER',
-          reason: `Build failed: ${err.stderr ?? err.message ?? 'unknown error'}`,
-          remediation: 'Fix build errors before packaging',
-        });
-        continue;
-      }
+    const pnpmBin = resolvePnpmExecutable(repoRoot);
+    if (!pnpmBin) {
+      findings.push({
+        package: 'workspace',
+        category: 'build',
+        severity: 'BLOCKER',
+        reason:
+          'Unable to resolve an absolute pnpm executable (workspace .bin, PNPM_HOME, or Node bindir)',
+        remediation: 'Install pnpm locally or set PNPM_HOME to a trusted directory',
+      });
+    } else {
+      for (const pkg of publicPackages) {
+        try {
+          execFileSync(pnpmBin, ['build'], { cwd: pkg.directory, stdio: 'pipe' });
+        } catch (error) {
+          const err = error as { stderr?: string; message?: string };
+          findings.push({
+            package: pkg.name,
+            category: 'build',
+            severity: 'BLOCKER',
+            reason: `Build failed: ${err.stderr ?? err.message ?? 'unknown error'}`,
+            remediation: 'Fix build errors before packaging',
+          });
+          continue;
+        }
 
-      const packFindings = await packAndValidatePackage(repoRoot, pkg, artifactsDir);
-      findings.push(...packFindings);
+        const packFindings = await packAndValidatePackage(repoRoot, pkg, artifactsDir);
+        findings.push(...packFindings);
+      }
     }
   }
 
@@ -75,7 +109,9 @@ async function main(): Promise<void> {
   }
 }
 
-main().catch((error) => {
+try {
+  await main();
+} catch (error) {
   console.error(error);
   process.exit(1);
-});
+}

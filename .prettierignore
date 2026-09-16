@@ -3,4 +3,6 @@ dist
 .turbo
 .next
 coverage
+packages/icons/src/providers/generated/
+packages/tokens/src/generated/
 pnpm-lock.yaml

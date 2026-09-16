@@ -66,11 +66,11 @@ export function createFocusManager(options: FocusManagerOptions): FocusManager {
     getNextTabbable(currentId, reverse = false) {
       if (tabbableIds.length === 0) return null;
       const idx = tabbableIds.indexOf(currentId);
-      if (idx === -1) return tabbableIds[0] ?? null;
+      if (idx === -1) return tabbableIds.at(0) ?? null;
       const nextIdx = reverse
         ? (idx - 1 + tabbableIds.length) % tabbableIds.length
         : (idx + 1) % tabbableIds.length;
-      return tabbableIds[nextIdx] ?? null;
+      return tabbableIds.at(nextIdx) ?? null;
     },
     destroy() {
       destroyed = true;
