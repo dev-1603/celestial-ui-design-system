@@ -7,12 +7,14 @@ Production publishing for `@celestial-ui/*` runs only from `release/**` branches
 1. Merge changesets into a `release/*` branch (each consumer-visible change needs a `.changeset/*.md` file).
 2. Push to that branch (or dispatch the Release workflow). `changesets/action/select-mode` chooses:
    - **version** — pending changeset files exist. Opens or updates `chore: version packages` against the same `release/*` branch. Does not publish.
-   - **publish** — no pending changeset files, and package versions are not yet on npm. Runs the artifact gate (pack/docs + pnpm tarball consumers), then publishes. CI on the same SHA already ran typecheck, tests, tree-shaking, and npm/Bun consumers.
+   - **publish** — no pending changeset files, and package versions are not yet on npm. Runs the validation gate, then publishes.
    - **none** — nothing to version or publish.
 3. Review and merge the Version Packages PR. That merge is the only path that reaches npm.
 4. The publish job uses GitHub Environment `npm` (required reviewers). It publishes to the npm registry with OIDC, then creates git tags and GitHub Releases.
 
 `changeset status` in CI compares against `origin/develop` (Changesets `baseBranch`). The workflow fetches that remote-tracking ref before the check because `actions/checkout` only has the PR/push ref. Version PRs target `github.ref_name` (the triggering `release/*` branch).
+
+The publish-mode `validate` job rechecks the exact publish SHA. It builds, typechecks, tests, validates packed artifacts and documentation, enforces tree-shaking budgets, runs pnpm and Bun packed-tarball consumers, and verifies independent-repository pnpm `link:` consumption. This protects manual dispatches and avoids relying on a separate CI run.
 
 ## Packages that publish
 
@@ -33,10 +35,11 @@ These cannot live in git. Complete them once, then keep them in sync if the repo
 ### GitHub repository
 
 1. **Actions → General:** enable **Allow GitHub Actions to create and approve pull requests** (needed for the Version Packages PR).
-2. **Settings → Environments → `npm`:**
+2. **Settings → Secrets and variables → Actions:** add `SONAR_TOKEN` (SonarQube Cloud account token). Then in SonarCloud, **Administration → Analysis Method**, turn **off Automatic Analysis** so CI analysis can run.
+3. **Settings → Environments → `npm`:**
    - Required reviewers
    - Deployment branches: `release/**` only
-3. Branch protection on `release/**` should still require CI to pass before merging the Version Packages PR.
+4. Branch protection on `release/**` should still require CI to pass before merging the Version Packages PR.
 
 ### npm Trusted Publisher
 

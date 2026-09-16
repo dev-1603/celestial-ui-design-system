@@ -169,6 +169,29 @@ export function packedFileIsDenied(file: string): boolean {
   return PACK_DENY_PATTERNS.some((pattern) => pattern.test(file));
 }
 
+function appendMissingExportTargetFindings(
+  packageName: string,
+  exportsMap: Record<string, unknown>,
+  packedRoot: string,
+  findings: ValidationFinding[],
+): void {
+  for (const [subpath, value] of Object.entries(exportsMap)) {
+    const targets = resolveExportPaths(value);
+    for (const target of targets) {
+      const packedTarget = path.join(packedRoot, target);
+      if (!fs.existsSync(packedTarget)) {
+        findings.push({
+          package: packageName,
+          category: 'exports',
+          severity: 'BLOCKER',
+          reason: `Export ${subpath} points to missing file ${target}`,
+          remediation: 'Build the package and ensure export targets exist in dist',
+        });
+      }
+    }
+  }
+}
+
 export function collectExportMapFindings(
   packageName: string,
   exportsMap: Record<string, unknown> | undefined,
@@ -216,21 +239,7 @@ export function collectExportMapFindings(
     }
   }
 
-  for (const [subpath, value] of Object.entries(exportsMap)) {
-    const targets = resolveExportPaths(value);
-    for (const target of targets) {
-      const packedTarget = path.join(packedRoot, target);
-      if (!fs.existsSync(packedTarget)) {
-        findings.push({
-          package: packageName,
-          category: 'exports',
-          severity: 'BLOCKER',
-          reason: `Export ${subpath} points to missing file ${target}`,
-          remediation: 'Build the package and ensure export targets exist in dist',
-        });
-      }
-    }
-  }
+  appendMissingExportTargetFindings(packageName, exportsMap, packedRoot, findings);
 
   return findings;
 }

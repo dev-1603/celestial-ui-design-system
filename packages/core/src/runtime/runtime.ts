@@ -41,7 +41,8 @@ export function createCelestialRuntime(options: CreateRuntimeOptions = {}): Cele
     },
     registerDefaultProps(_componentId, _props) {
       if (destroyed) return;
-      // Reserved: default-prop merge is an adapter concern in v0.1.
+      // Reserved no-op: config.defaultProps is immutable after create.
+      // Full default-props merge remains an adapter concern (v0.1).
     },
     registerDiagnosticSink(sink) {
       if (destroyed) return;

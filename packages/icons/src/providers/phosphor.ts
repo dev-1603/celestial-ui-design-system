@@ -12,7 +12,6 @@
  */
 import type {
   IconProviderAdapter,
-  CanonicalIconName,
   IconVariantRequest,
   NormalizedIconPayload,
   ProviderCapabilities,
@@ -53,7 +52,7 @@ export const PhosphorAdapter: IconProviderAdapter = {
   catalogueSchemaVersion: PROVIDER_CONTRACT_VERSION,
   capabilities: PHOSPHOR_CAPABILITIES,
 
-  resolveNativeName(canonicalName: CanonicalIconName): string | undefined {
+  resolveNativeName(canonicalName: string): string | undefined {
     return lookup(canonicalName);
   },
 

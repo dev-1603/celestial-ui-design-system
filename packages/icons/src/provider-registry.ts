@@ -9,7 +9,7 @@
  * - The registry is the single source of truth for available providers.
  * - The registry itself does not perform resolution — it only stores adapters.
  */
-import type { IconProviderAdapter, ProviderId } from './types';
+import type { IconProviderAdapter } from './types';
 import { IconProviderRegistrationError, iconError } from './errors';
 import { PROVIDER_CONTRACT_VERSION } from './version';
 import { isValidProviderId } from './ids';
@@ -92,7 +92,7 @@ function validateAdapter(adapter: IconProviderAdapter): void {
 }
 
 export class IconProviderRegistry {
-  private readonly adapters = new Map<ProviderId, IconProviderAdapter>();
+  private readonly adapters = new Map<string, IconProviderAdapter>();
 
   /**
    * Register an icon provider adapter.
@@ -116,7 +116,7 @@ export class IconProviderRegistry {
   }
 
   /** Returns true if a provider with the given id is registered. */
-  has(providerId: ProviderId): boolean {
+  has(providerId: string): boolean {
     return this.adapters.has(providerId);
   }
 
@@ -124,7 +124,7 @@ export class IconProviderRegistry {
    * Returns the adapter for the given provider id.
    * @throws {Error} if the provider is not registered.
    */
-  get(providerId: ProviderId): IconProviderAdapter {
+  get(providerId: string): IconProviderAdapter {
     const adapter = this.adapters.get(providerId);
     if (!adapter) {
       throw new Error(
@@ -141,7 +141,7 @@ export class IconProviderRegistry {
   }
 
   /** Returns all registered provider IDs. */
-  listIds(): readonly ProviderId[] {
+  listIds(): readonly string[] {
     return [...this.adapters.keys()];
   }
 
@@ -149,7 +149,7 @@ export class IconProviderRegistry {
    * Removes a provider from the registry.
    * Intended for testing and dynamic provider lifecycle management.
    */
-  unregister(providerId: ProviderId): void {
+  unregister(providerId: string): void {
     this.adapters.delete(providerId);
   }
 

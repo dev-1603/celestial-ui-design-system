@@ -2,19 +2,13 @@
  * Single-provider resolution attempt.
  * Shared by the primary resolver path and the fallback chain.
  */
-import type {
-  IconRequest,
-  IconConfig,
-  IconResolution,
-  CanonicalIconName,
-  ProviderId,
-} from './types';
+import type { IconRequest, IconConfig, IconResolution } from './types';
 import type { IconProviderRegistry } from './provider-registry';
 import { canProviderSatisfyVariant, describeCapabilityMismatch } from './capabilities';
 
 export interface ProviderHit {
   nativeName: string;
-  providerId: ProviderId;
+  providerId: string;
   payload: NonNullable<IconResolution['payload']>;
 }
 
@@ -24,11 +18,11 @@ export interface ProviderHit {
  */
 export function tryProvider(
   request: Readonly<IconRequest>,
-  canonicalName: CanonicalIconName,
-  providerId: ProviderId,
+  canonicalName: string,
+  providerId: string,
   registry: IconProviderRegistry,
   _config: Readonly<IconConfig>,
-  triedProviders: ProviderId[],
+  triedProviders: string[],
 ): ProviderHit | null {
   triedProviders.push(providerId);
 

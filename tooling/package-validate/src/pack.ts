@@ -84,7 +84,7 @@ export async function packAndValidatePackage(
   }
 
   const extractDir = fs.mkdtempSync(path.join(os.tmpdir(), 'celestial-pack-'));
-  await extract({ file: tarballPath, cwd: extractDir });
+  extract({ file: tarballPath, cwd: extractDir, sync: true });
 
   const packedRoot = path.join(extractDir, 'package');
   const packedPkgJson = JSON.parse(
@@ -149,17 +149,22 @@ export async function packAndValidatePackage(
     }
   }
 
+  const nativeEsmFindings = await collectNativeEsmImportFindings(
+    pkg.name,
+    packedPkgJson,
+    packedRoot,
+  );
   findings.push(
     ...collectExportMapFindings(
       pkg.name,
       packedPkgJson.exports as Record<string, unknown> | undefined,
       packedRoot,
     ),
+    ...collectSideEffectsFindings(pkg.name, packedPkgJson),
+    ...collectEsmExtensionFindings(pkg.name, packedRoot),
+    ...collectBarrelIsolationFindings(pkg.name, pkg.directory),
+    ...nativeEsmFindings,
   );
-  findings.push(...collectSideEffectsFindings(pkg.name, packedPkgJson));
-  findings.push(...collectEsmExtensionFindings(pkg.name, packedRoot));
-  findings.push(...collectBarrelIsolationFindings(pkg.name, pkg.directory));
-  findings.push(...(await collectNativeEsmImportFindings(pkg.name, packedPkgJson, packedRoot)));
 
   const publishConfig = packedPkgJson.publishConfig as { access?: string } | undefined;
   if (publishConfig?.access !== 'public') {

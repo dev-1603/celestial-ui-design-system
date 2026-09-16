@@ -17,7 +17,6 @@
  */
 import type {
   IconProviderAdapter,
-  CanonicalIconName,
   IconVariantRequest,
   NormalizedIconPayload,
   ProviderCapabilities,
@@ -99,7 +98,7 @@ export const FontAwesomeAdapter: IconProviderAdapter = {
   catalogueSchemaVersion: PROVIDER_CONTRACT_VERSION,
   capabilities: FA_CAPABILITIES,
 
-  resolveNativeName(canonicalName: CanonicalIconName): string | undefined {
+  resolveNativeName(canonicalName: string): string | undefined {
     return lookup(canonicalName);
   },
 

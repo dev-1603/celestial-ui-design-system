@@ -188,7 +188,7 @@ Yarn 1 accepts `file:` to the package directory (or `link:`). Packed tarballs re
 | Package validation | `pnpm pack` → `.tgz` → `file:`          | Publish-identical artifact (`workspace:*` rewritten) |
 | Public consumption | npm registry                            | Same exports map as packed tarballs                  |
 
-Packed tarballs are verified in CI by `pnpm consumer:test` / `consumer:test:npm` / `consumer:test:bun` (`consumer:test:yarn` locally). Independent-repo directory linking is verified by `pnpm consumer:test:portal` in CI and release (required baseline: pnpm `link:` to package directories, not `dist`). Yarn Berry `portal:` and other local-dir managers report **NOT TESTED** when unavailable — never treated as PASS.
+Packed tarballs are verified in CI by `pnpm consumer:test` / `consumer:test:npm` / `consumer:test:bun` (`consumer:test:yarn` locally). Independent-repository directory linking is verified by `pnpm consumer:test:portal` in CI and release (required baseline: pnpm `link:` to package directories, not `dist`). Yarn Berry `portal:` and other local-directory managers report **NOT TESTED** when unavailable — never treated as PASS.
 
 ### Bun
 
@@ -207,14 +207,14 @@ Bun **1.1.20** is verified via the same packed-tarball consumer fixtures as npm/
 import { createDisclosure } from 'npm:@celestial-ui/core@0.1.0';
 ```
 
-Deno support is **best-effort** for CJS packages. See [compatibility matrix](./compatibility-matrix.md).
+Deno support is **best-effort** for the dual-format packages; CSS import conventions and CJS interop remain limited. See [compatibility matrix](./compatibility-matrix.md).
 
 ## 9–12. Package manager usage
 
 All foundation packages publish **dual CJS and ESM**. Bundlers resolve the `import` condition (`dist/esm`). Node.js **>= 22** `require` and `main` keep CJS (`dist/cjs`). Bun 1.1.20 consumes the same artifacts.
 
 - **npm / pnpm / Yarn / Bun:** full support for all five packages (packed tarball fixtures)
-- **Deno:** partial; CSS imports and Node `fs`-based catalog APIs may not work
+- **Deno:** partial; CSS imports, CJS interop, and optional provider packages may need runtime-specific handling
 
 ## 13–15. Registries
 
@@ -224,7 +224,7 @@ GitHub Releases record tags and changelogs after publish. GitHub Packages is not
 
 ## 16. Basic application setup
 
-Host application (product shell) resolves theme and CSS once. `resolveTheme` from the package root remains the documented Quick Start (Node/build). `@celestial-ui/theme/themes/celestial` is browser-safe identity; `@celestial-ui/theme/resolve` is Node/build-time. Apps should consume CSS or an already-built `ResolvedTheme` in the browser — do not call `resolveTheme()` on the client.
+Host application (product shell) resolves theme and CSS once. `resolveTheme` from the package root remains the documented Quick Start. `@celestial-ui/theme/themes/celestial` is the smallest browser-safe identity import; `@celestial-ui/theme/resolve` embeds the token catalog. Prefer prebuilt CSS or an already-built `ResolvedTheme` when client bundle size matters.
 
 ```ts
 import { CELESTIAL_THEME, createThemeRegistry, resolveTheme } from '@celestial-ui/theme';

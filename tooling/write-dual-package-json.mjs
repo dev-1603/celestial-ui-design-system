@@ -49,9 +49,9 @@ function walkFiles(dir, predicate, files = []) {
 
 function hasImport(source, names, specPattern) {
   return names.every((name) =>
-    new RegExp(
-      String.raw`import\s*\{[^}]*\b${name}\b[^}]*\}\s*from\s*['"]${specPattern}['"]`,
-    ).test(source),
+    new RegExp(String.raw`import\s*\{[^}]*\b${name}\b[^}]*\}\s*from\s*['"]${specPattern}['"]`).test(
+      source,
+    ),
   );
 }
 

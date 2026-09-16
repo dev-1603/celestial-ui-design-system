@@ -1,10 +1,18 @@
 name: CI
 
+# Pull requests cover feat/* → develop and develop → master.
+# Push is only the merged branch tip (master / release/**) so the same
+# commit is not billed twice as pull_request + push.
 on:
-  push:
-    branches: ['develop', 'master', 'release/**']
   pull_request:
     branches: ['develop', 'master', 'release/**']
+  push:
+    branches: ['master', 'release/**']
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read

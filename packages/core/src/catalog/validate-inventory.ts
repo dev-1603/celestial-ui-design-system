@@ -79,7 +79,6 @@ function validateCatalogAlignment(
       ),
     );
   }
-
   for (const catalogEntry of CANONICAL_CATALOG) {
     if (!seen.has(catalogEntry.id)) {
       issues.push(
