@@ -1,13 +1,20 @@
 # SonarQube Cloud analysis. Requires GitHub secret SONAR_TOKEN and
 # Automatic Analysis turned off (SonarCloud → Administration → Analysis Method).
+#
+# Same event split as ci.yml: PRs analyze the branch; push only runs on the
+# merged master / release/** tip so one commit is not scanned twice.
 name: SonarQube
 
 on:
-  push:
-    branches: ['develop', 'master', 'release/**']
   pull_request:
     branches: ['develop', 'master', 'release/**']
+  push:
+    branches: ['master', 'release/**']
   workflow_dispatch:
+
+concurrency:
+  group: sonar-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
