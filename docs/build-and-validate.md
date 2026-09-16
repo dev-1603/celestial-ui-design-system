@@ -99,6 +99,8 @@ Runs `pnpm publish --dry-run` for each public package. **Does not publish.**
 
 GitHub Actions CI runs format, lint, typecheck, tests, build, `pnpm shake:test`, pack/docs validation, packed-tarball consumers (pnpm, npm, Bun), and the required independent-repository pnpm `link:` check. See `.github/workflows/ci.yml`.
 
+SonarQube Cloud analysis is a separate workflow (`.github/workflows/sonarqube.yml`) on the same branches. It needs `SONAR_TOKEN` and Automatic Analysis turned off.
+
 Production publish is a separate workflow (`.github/workflows/release.yml`) on `release/**`. Its `validate` job rechecks the exact publish SHA with build, typecheck, tests, pack/docs inspection, tree-shaking budgets, pnpm and Bun tarball consumers, and the independent-repository pnpm `link:` baseline before OIDC publish. See [release.md](./release.md).
 
 ## Validation report

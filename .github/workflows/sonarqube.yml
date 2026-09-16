@@ -1,0 +1,32 @@
+# SonarQube Cloud analysis. Requires GitHub secret SONAR_TOKEN and
+# Automatic Analysis turned off (SonarCloud → Administration → Analysis Method).
+name: SonarQube
+
+on:
+  push:
+    branches: ['develop', 'master', 'release/**']
+  pull_request:
+    branches: ['develop', 'master', 'release/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  sonarqube:
+    name: SonarQube Cloud
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # GitHub does not expose secrets to workflows from forks.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v8.2.1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

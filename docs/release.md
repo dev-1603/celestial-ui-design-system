@@ -35,10 +35,11 @@ These cannot live in git. Complete them once, then keep them in sync if the repo
 ### GitHub repository
 
 1. **Actions → General:** enable **Allow GitHub Actions to create and approve pull requests** (needed for the Version Packages PR).
-2. **Settings → Environments → `npm`:**
+2. **Settings → Secrets and variables → Actions:** add `SONAR_TOKEN` (SonarQube Cloud account token). Then in SonarCloud, **Administration → Analysis Method**, turn **off Automatic Analysis** so CI analysis can run.
+3. **Settings → Environments → `npm`:**
    - Required reviewers
    - Deployment branches: `release/**` only
-3. Branch protection on `release/**` should still require CI to pass before merging the Version Packages PR.
+4. Branch protection on `release/**` should still require CI to pass before merging the Version Packages PR.
 
 ### npm Trusted Publisher
 
