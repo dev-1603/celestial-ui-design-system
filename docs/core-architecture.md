@@ -97,9 +97,9 @@ import { getCatalogEntry } from '@celestial-ui/core/catalog';
 import { buttonSpec } from '@celestial-ui/core/specs/button';
 ```
 
-Six reference components prove model expressiveness: `button`, `input`, `checkbox`, `select`, `dialog`, `table`.
+Nine reference components prove model expressiveness: `button`, `input`, `checkbox`, `select`, `dialog`, `table`, `label`, `switch`, `radio-group`.
 
-The full **103-component generic inventory** is defined in `packages/core/src/catalog/data/generic-component-inventory.json`. All 103 components have catalog metadata entries; six ship hand-authored reference specs and ninety-seven use profile-based generated specs via `@celestial-ui/core/specs/<id>`.
+The full **103-component generic inventory** is defined in `packages/core/src/catalog/data/generic-component-inventory.json`. All 103 components have catalog metadata entries; nine ship hand-authored reference specs and ninety-four use profile-based generated specs via `@celestial-ui/core/specs/<id>`.
 
 ## Import model (tree-shaking)
 

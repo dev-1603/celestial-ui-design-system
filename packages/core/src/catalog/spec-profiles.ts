@@ -388,7 +388,7 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
       'overlay',
       'behavior',
     ],
-    buildContract: () => ({
+    buildContract: (id) => ({
       ...profileContractBase(),
       props: {
         props: {
@@ -401,7 +401,10 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
       parts: { parts: triggerContentParts },
       events: { events: { openChange: { name: 'openChange' } } },
       controlled: { fields: [{ prop: 'open', event: 'openChange' }] },
-      accessibility: { role: 'tooltip', name: { from: 'contents' } },
+      accessibility: {
+        role: id === 'tooltip' ? 'tooltip' : 'dialog',
+        name: { from: id === 'tooltip' ? 'contents' : 'prop:ariaLabel' },
+      },
       keyboard: { bindings: dismissKeyboard },
       pointer: pointerClick,
       focus: { visibleOnly: true },

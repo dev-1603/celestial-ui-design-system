@@ -74,16 +74,19 @@ This avoids eager loading of all specs when querying the catalog.
 
 ## Reference specifications
 
-Six reference specs ship with Core:
+Nine reference specs ship with Core:
 
-| ID         | Family       | Exercises                              |
-| ---------- | ------------ | -------------------------------------- |
-| `button`   | primitives   | variants, sizes, pointer, keyboard     |
-| `input`    | forms        | controlled state, form field           |
-| `checkbox` | forms        | checked/indeterminate states           |
-| `select`   | collections  | collection, selection, overlay anatomy |
-| `dialog`   | overlays     | focus trap, modal overlay              |
-| `table`    | data-display | grid role, multi-select collection     |
+| ID            | Family       | Exercises                              |
+| ------------- | ------------ | -------------------------------------- |
+| `button`      | primitives   | variants, sizes, pointer, keyboard     |
+| `input`       | forms        | controlled state, form field           |
+| `checkbox`    | forms        | checked/indeterminate states           |
+| `select`      | collections  | collection, selection, overlay anatomy |
+| `dialog`      | overlays     | focus trap, modal overlay              |
+| `table`       | data-display | grid role, multi-select collection     |
+| `label`       | forms        | native label association (`htmlFor`)   |
+| `switch`      | forms        | binary checked state, switch role      |
+| `radio-group` | forms        | single selection, roving collection    |
 
 ## Conformance
 
