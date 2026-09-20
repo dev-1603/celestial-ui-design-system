@@ -34,7 +34,16 @@ export const REFERENCE_COMPONENT_IDS: readonly ComponentId[] = GENERIC_COMPONENT
   .filter((entry) => entry.referenceSpec)
   .map((entry) => assertComponentId(entry.id));
 
-export type ReferenceComponentId = 'button' | 'input' | 'checkbox' | 'select' | 'dialog' | 'table';
+export type ReferenceComponentId =
+  | 'button'
+  | 'input'
+  | 'checkbox'
+  | 'select'
+  | 'dialog'
+  | 'table'
+  | 'label'
+  | 'switch'
+  | 'radio-group';
 
 export function getInventoryEntry(id: string): GenericInventoryEntry | undefined {
   return GENERIC_COMPONENT_INVENTORY.entries.find((entry) => entry.id === id);

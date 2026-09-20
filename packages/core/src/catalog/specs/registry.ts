@@ -7,6 +7,9 @@ import { checkboxSpec } from './checkbox';
 import { selectSpec } from './select';
 import { dialogSpec } from './dialog';
 import { tableSpec } from './table';
+import { labelSpec } from './label';
+import { switchSpec } from './switch';
+import { radioGroupSpec } from './radio-group';
 import { getGeneratedComponentSpec } from './spec-lookup';
 
 const REFERENCE_SPECS: Readonly<Record<string, ComponentSpec>> = {
@@ -16,6 +19,9 @@ const REFERENCE_SPECS: Readonly<Record<string, ComponentSpec>> = {
   select: selectSpec,
   dialog: dialogSpec,
   table: tableSpec,
+  label: labelSpec,
+  switch: switchSpec,
+  'radio-group': radioGroupSpec,
 };
 
 export function getComponentSpec(id: string): ComponentSpec {

@@ -14,7 +14,7 @@ Core describes **what** a component is. It does not render DOM, JSX, Vue templat
 | **Framework adapter**   | How framework mechanics map to Core (`FrameworkAdapterContract`)           |
 | **Component library**   | How the component is rendered in a framework                               |
 
-It ships **103** generic component specs (six hand-authored references + ninety-seven profile-generated), granular `./specs/<id>` entry points, and zero production runtime dependencies.
+It ships **103** generic component specs (nine hand-authored references + ninety-four profile-generated), granular `./specs/<id>` entry points, and zero production runtime dependencies.
 
 `sideEffects` is `false`. Output in v0.1.0 is **dual CJS and ESM**.
 
@@ -194,7 +194,7 @@ const meta = getCatalogEntry('button');
 console.log(buttonSpec.contract.accessibility?.role); // 'button'
 ```
 
-Reference specs (hand-authored): `button`, `input`, `checkbox`, `select`, `dialog`, `table`.
+Reference specs (hand-authored): `button`, `input`, `checkbox`, `select`, `dialog`, `table`, `label`, `switch`, `radio-group`.
 
 The other catalogue ids use profile-generated specs. Each published id is a subpath:
 

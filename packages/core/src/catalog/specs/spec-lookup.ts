@@ -10,7 +10,7 @@ const generatedSpecs = new Map<ComponentId, ComponentSpec>();
  *
  * This module must not import the catalog JSON or the tools hub. Generated
  * `./specs/<id>` entry points pass their own entry so a leaf (e.g. accordion)
- * does not pull every catalog component or the six reference specs.
+ * does not pull every catalog component or the nine reference specs.
  */
 export function getGeneratedComponentSpec(entry: GenericInventoryEntry): ComponentSpec {
   const cached = generatedSpecs.get(entry.id as ComponentId);

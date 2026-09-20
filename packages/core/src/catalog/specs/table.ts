@@ -1,8 +1,8 @@
 import { defineComponentSpec } from '../../spec/spec';
-import { referenceContractBase } from './_shared';
+import { finalizeReferenceContract, referenceContractBase } from './_shared';
 
 export const tableSpec = defineComponentSpec({
-  contract: {
+  contract: finalizeReferenceContract({
     ...referenceContractBase('table'),
     props: {
       props: {
@@ -37,10 +37,6 @@ export const tableSpec = defineComponentSpec({
     },
     accessibility: {
       role: 'grid',
-      keyboard: [
-        { keys: ['ArrowDown', 'ArrowUp'], intent: 'next' },
-        { keys: ['ArrowLeft', 'ArrowRight'], intent: 'prev' },
-      ],
     },
     keyboard: {
       bindings: [
@@ -78,7 +74,7 @@ export const tableSpec = defineComponentSpec({
       primary: 'root',
       targets: { root: { part: 'root' } },
     },
-  },
+  }),
   metadata: {
     displayName: 'Table',
     purpose: 'Tabular data display with optional selection and keyboard traversal.',
@@ -99,6 +95,7 @@ export const tableSpec = defineComponentSpec({
       'collection',
       'selection',
       'behavior',
+      'composition',
       'refs',
     ],
   },

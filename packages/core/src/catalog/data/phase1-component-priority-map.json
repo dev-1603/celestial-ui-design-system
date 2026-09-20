@@ -1,0 +1,940 @@
+{
+  "schemaVersion": "1.0.0",
+  "expectedCount": 103,
+  "counts": {
+    "P0": 36,
+    "P1": 46,
+    "P2": 16,
+    "P3": 5
+  },
+  "updatedAt": "2026-09-20",
+  "entries": [
+    {
+      "id": "accordion",
+      "displayName": "Accordion",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "collection chrome",
+      "status": "READY"
+    },
+    {
+      "id": "alert",
+      "displayName": "Alert",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "feedback",
+      "status": "READY"
+    },
+    {
+      "id": "alert-dialog",
+      "displayName": "Alert Dialog",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "overlay",
+      "status": "READY"
+    },
+    {
+      "id": "aspect-ratio",
+      "displayName": "Aspect Ratio",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "avatar",
+      "displayName": "Avatar",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "identity",
+      "status": "READY"
+    },
+    {
+      "id": "badge",
+      "displayName": "Badge",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "feedback",
+      "status": "READY"
+    },
+    {
+      "id": "breadcrumb",
+      "displayName": "Breadcrumb",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "button",
+      "displayName": "Button",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "foundational chrome",
+      "status": "READY"
+    },
+    {
+      "id": "calendar",
+      "displayName": "Calendar",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "card",
+      "displayName": "Card",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "layout",
+      "status": "READY"
+    },
+    {
+      "id": "carousel",
+      "displayName": "Carousel",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "chart",
+      "displayName": "Chart",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "checkbox",
+      "displayName": "Checkbox",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "form field",
+      "status": "READY"
+    },
+    {
+      "id": "collapsible",
+      "displayName": "Collapsible",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "combobox",
+      "displayName": "Combobox",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "command",
+      "displayName": "Command",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "context-menu",
+      "displayName": "Context Menu",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "data-table",
+      "displayName": "Data Table",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "date-picker",
+      "displayName": "Date Picker",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "dialog",
+      "displayName": "Dialog",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "overlay",
+      "status": "READY"
+    },
+    {
+      "id": "drawer",
+      "displayName": "Drawer",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "overlay",
+      "status": "READY"
+    },
+    {
+      "id": "dropdown-menu",
+      "displayName": "Dropdown Menu",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "overlay",
+      "status": "READY"
+    },
+    {
+      "id": "form",
+      "displayName": "Form",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "form field",
+      "status": "READY"
+    },
+    {
+      "id": "hover-card",
+      "displayName": "Hover Card",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "input",
+      "displayName": "Input",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "form field",
+      "status": "READY"
+    },
+    {
+      "id": "input-otp",
+      "displayName": "Input OTP",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "label",
+      "displayName": "Label",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "form field",
+      "status": "READY"
+    },
+    {
+      "id": "menubar",
+      "displayName": "Menubar",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "navigation-menu",
+      "displayName": "Navigation Menu",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "pagination",
+      "displayName": "Pagination",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "navigation",
+      "status": "READY"
+    },
+    {
+      "id": "popover",
+      "displayName": "Popover",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "overlay",
+      "status": "READY"
+    },
+    {
+      "id": "progress",
+      "displayName": "Progress",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "feedback",
+      "status": "READY"
+    },
+    {
+      "id": "radio-group",
+      "displayName": "Radio Group",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "form field",
+      "status": "READY"
+    },
+    {
+      "id": "resizable",
+      "displayName": "Resizable",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "scroll-area",
+      "displayName": "Scroll Area",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "select",
+      "displayName": "Select",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "form field",
+      "status": "READY"
+    },
+    {
+      "id": "separator",
+      "displayName": "Separator",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "layout",
+      "status": "READY"
+    },
+    {
+      "id": "sheet",
+      "displayName": "Sheet",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "sidebar",
+      "displayName": "Sidebar",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "skeleton",
+      "displayName": "Skeleton",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "feedback",
+      "status": "READY"
+    },
+    {
+      "id": "slider",
+      "displayName": "Slider",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "sonner",
+      "displayName": "Sonner",
+      "priority": "P3",
+      "phase": 3,
+      "contractReadinessRequired": false,
+      "rationale": "deferred duplicate of toast",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "switch",
+      "displayName": "Switch",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "form field",
+      "status": "READY"
+    },
+    {
+      "id": "table",
+      "displayName": "Table",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "data",
+      "status": "READY"
+    },
+    {
+      "id": "tabs",
+      "displayName": "Tabs",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "navigation",
+      "status": "READY"
+    },
+    {
+      "id": "textarea",
+      "displayName": "Textarea",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "form field",
+      "status": "READY"
+    },
+    {
+      "id": "toast",
+      "displayName": "Toast",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "feedback",
+      "status": "READY"
+    },
+    {
+      "id": "toggle",
+      "displayName": "Toggle",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "toggle-group",
+      "displayName": "Toggle Group",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "tooltip",
+      "displayName": "Tooltip",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "overlay",
+      "status": "READY"
+    },
+    {
+      "id": "link",
+      "displayName": "Link",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "foundational chrome",
+      "status": "READY"
+    },
+    {
+      "id": "text",
+      "displayName": "Text",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "foundational chrome",
+      "status": "READY"
+    },
+    {
+      "id": "heading",
+      "displayName": "Heading",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "foundational chrome",
+      "status": "READY"
+    },
+    {
+      "id": "code",
+      "displayName": "Code",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "kbd",
+      "displayName": "Kbd",
+      "priority": "P3",
+      "phase": 3,
+      "contractReadinessRequired": false,
+      "rationale": "deferred documentation primitive",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "icon",
+      "displayName": "Icon",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "foundational chrome",
+      "status": "READY"
+    },
+    {
+      "id": "image",
+      "displayName": "Image",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "video",
+      "displayName": "Video",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "figure",
+      "displayName": "Figure",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "blockquote",
+      "displayName": "Blockquote",
+      "priority": "P3",
+      "phase": 3,
+      "contractReadinessRequired": false,
+      "rationale": "deferred prose",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "list",
+      "displayName": "List",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "list-item",
+      "displayName": "List Item",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "divider",
+      "displayName": "Divider",
+      "priority": "P3",
+      "phase": 3,
+      "contractReadinessRequired": false,
+      "rationale": "deferred duplicate of separator",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "container",
+      "displayName": "Container",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "stack",
+      "displayName": "Stack",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "layout",
+      "status": "READY"
+    },
+    {
+      "id": "grid",
+      "displayName": "Grid",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "flex",
+      "displayName": "Flex",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "center",
+      "displayName": "Center",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "spacer",
+      "displayName": "Spacer",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "box",
+      "displayName": "Box",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "layout",
+      "status": "READY"
+    },
+    {
+      "id": "panel",
+      "displayName": "Panel",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "empty-state",
+      "displayName": "Empty State",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "feedback",
+      "status": "READY"
+    },
+    {
+      "id": "spinner",
+      "displayName": "Spinner",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "feedback",
+      "status": "READY"
+    },
+    {
+      "id": "notice",
+      "displayName": "Notice",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "banner",
+      "displayName": "Banner",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "callout",
+      "displayName": "Callout",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "stat",
+      "displayName": "Stat",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "meter",
+      "displayName": "Meter",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "rating",
+      "displayName": "Rating",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "tag",
+      "displayName": "Tag",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "chip",
+      "displayName": "Chip",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "file-upload",
+      "displayName": "File Upload",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "dropzone",
+      "displayName": "Dropzone",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "color-picker",
+      "displayName": "Color Picker",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "number-input",
+      "displayName": "Number Input",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "search-input",
+      "displayName": "Search Input",
+      "priority": "P0",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "form field",
+      "status": "READY"
+    },
+    {
+      "id": "password-input",
+      "displayName": "Password Input",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "phone-input",
+      "displayName": "Phone Input",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "pin-input",
+      "displayName": "Pin Input",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "time-picker",
+      "displayName": "Time Picker",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "date-range-picker",
+      "displayName": "Date Range Picker",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "stepper",
+      "displayName": "Stepper",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "timeline",
+      "displayName": "Timeline",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "tree",
+      "displayName": "Tree",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "tree-view",
+      "displayName": "Tree View",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "transfer-list",
+      "displayName": "Transfer List",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "segmented-control",
+      "displayName": "Segmented Control",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "action-bar",
+      "displayName": "Action Bar",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "toolbar",
+      "displayName": "Toolbar",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "page-header",
+      "displayName": "Page Header",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "page-layout",
+      "displayName": "Page Layout",
+      "priority": "P2",
+      "phase": 2,
+      "contractReadinessRequired": false,
+      "rationale": "deferred specialist",
+      "status": "DEFERRED"
+    },
+    {
+      "id": "app-shell",
+      "displayName": "App Shell",
+      "priority": "P1",
+      "phase": 1,
+      "contractReadinessRequired": true,
+      "rationale": "enterprise",
+      "status": "READY"
+    },
+    {
+      "id": "hero",
+      "displayName": "Hero",
+      "priority": "P3",
+      "phase": 3,
+      "contractReadinessRequired": false,
+      "rationale": "deferred marketing template",
+      "status": "DEFERRED"
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 import { defineComponentSpec } from '../../spec/spec';
-import { referenceContractBase } from './_shared';
+import { finalizeReferenceContract, referenceContractBase } from './_shared';
 
 export const buttonSpec = defineComponentSpec({
-  contract: {
+  contract: finalizeReferenceContract({
     ...referenceContractBase('button'),
     props: {
       props: {
@@ -42,13 +42,12 @@ export const buttonSpec = defineComponentSpec({
     },
     events: {
       events: {
-        change: { name: 'change' },
+        press: { name: 'press' },
       },
     },
     accessibility: {
       role: 'button',
       name: { from: 'prop:ariaLabel' },
-      keyboard: [{ keys: ['Enter', ' '], intent: 'activate' }],
     },
     keyboard: {
       bindings: [
@@ -82,7 +81,7 @@ export const buttonSpec = defineComponentSpec({
     localization: {
       keys: ['ariaLabel', 'loadingMessage'],
     },
-  },
+  }),
   metadata: {
     displayName: 'Button',
     purpose: 'Triggers an action or submits a form.',
