@@ -13,14 +13,17 @@ Reference:
 - `celestial-component-libraries/workflows/phase-1-contract-freeze.md`
 
 ## Frozen Core Version
-`0.1.0`
+`0.2.0`
 
 ## Frozen Schema Versions
 - SPEC_SCHEMA_VERSION: `1.1.0`
 - CONTRACT_SCHEMA_VERSION: `1.1.0`
 
 ## Frozen Commit
-`d7c900071b41814f0f949b872ec3d2a85b564400`
+`fd66aa2ae7ec745b65e5ee12a98c7e7f881febf3`
+
+## Reason for Re-freeze (Change Request)
+The original freeze baseline (`d7c900071b41814f0f949b872ec3d2a85b564400`) was superseded because its recorded commit did not reproduce the accepted contract (specifically the `overlay-floating` role mapping). A controlled post-freeze change was executed to correct the implementation of `popover` and `hover-card` to `role: dialog` without changing the intended accepted semantic contract. This was classified as a MAJOR bump (`0.2.0`) in accordance with change control policy since it is a semantic role modification at the code level, restoring the original frozen intent.
 
 ## Component Population
 | Priority | Count |
