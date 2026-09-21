@@ -6,6 +6,12 @@ import type { ComponentContract } from './types';
 import type { CoreError } from '../diagnostics/errors';
 import type { SizeContract } from '../sizes/types';
 import { validateAnatomy } from '../spec/anatomy';
+import {
+  validateKeyboardSourceOfTruth,
+  validateRequiresRole,
+  validatePhase1Composition,
+  validatePhase1FormField,
+} from '../catalog/phase1-rules';
 
 const ALLOWED_TOP_LEVEL_KEYS = new Set([
   'id',
@@ -269,6 +275,12 @@ export function validateComponentContract(contract: unknown): ContractValidation
   validateControlledFields(contract, componentId, errors);
   validateContractAnatomy(contract, errors);
   containsNonSerializable(contract, 'contract', errors);
+
+  const typed = contract as unknown as ComponentContract;
+  validateKeyboardSourceOfTruth(typed, errors);
+  validateRequiresRole(typed, errors);
+  validatePhase1FormField(typed, errors);
+  validatePhase1Composition(typed, errors);
 
   return { isValid: errors.length === 0, errors };
 }

@@ -1,8 +1,8 @@
 import { defineComponentSpec } from '../../spec/spec';
-import { referenceContractBase } from './_shared';
+import { finalizeReferenceContract, referenceContractBase } from './_shared';
 
 export const checkboxSpec = defineComponentSpec({
-  contract: {
+  contract: finalizeReferenceContract({
     ...referenceContractBase('checkbox'),
     props: {
       props: {
@@ -36,7 +36,6 @@ export const checkboxSpec = defineComponentSpec({
     accessibility: {
       role: 'checkbox',
       name: { from: 'slot:label' },
-      keyboard: [{ keys: [' '], intent: 'activate' }],
     },
     keyboard: {
       bindings: [{ keys: [' '], intent: 'activate' }],
@@ -56,12 +55,13 @@ export const checkboxSpec = defineComponentSpec({
     },
     behavior: {
       supportsDisabled: true,
+      requiresRole: true,
     },
     refs: {
       primary: 'root',
       targets: { root: { part: 'root' } },
     },
-  },
+  }),
   metadata: {
     displayName: 'Checkbox',
     purpose: 'Binary or indeterminate selection control.',

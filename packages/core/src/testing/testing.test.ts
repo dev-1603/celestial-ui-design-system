@@ -7,21 +7,22 @@ describe('contract testing utilities', () => {
   it('assertSpecValid passes for valid spec', () => {
     const spec = defineComponentSpec({
       contract: {
-        id: 'dialog',
+        id: 'aspect-ratio',
         version: '1.0.0',
         schemaVersion: CONTRACT_SCHEMA_VERSION,
         overlay: { modal: true, dismissOnEscape: true },
-        accessibility: { role: 'dialog' },
+        accessibility: { role: 'img' },
       },
-      metadata: { displayName: 'Dialog', status: 'stable' },
+      metadata: { displayName: 'Aspect Ratio', status: 'stable' },
     });
     const harness = createContractHarness(spec);
-    harness.assertValid();
-    assertSpecValid(spec);
+    expect(() => harness.assertValid()).not.toThrow();
+    expect(() => assertSpecValid(spec)).not.toThrow();
+    expect(spec.contract.id).toBe('aspect-ratio');
   });
 
   it('assertKeyboardIntent validates key mapping', () => {
-    assertKeyboardIntent('ArrowDown', 'next');
-    assertKeyboardIntent('Escape', 'dismiss');
+    expect(() => assertKeyboardIntent('ArrowDown', 'next')).not.toThrow();
+    expect(() => assertKeyboardIntent('Escape', 'dismiss')).not.toThrow();
   });
 });

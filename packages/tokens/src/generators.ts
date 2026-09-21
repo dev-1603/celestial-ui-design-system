@@ -39,7 +39,6 @@ export function generateCSS(resolvedTokens: FlatTokenMap): string {
 
 export function generateShadcnMapping(resolvedTokens: FlatTokenMap): string {
   const lines: string[] = ['/* Auto-generated shadcn compatibility mapping */', '', ':root {'];
-
   const shadcnMap: Record<string, string> = {
     '--background': 'surface.canvas',
     '--foreground': 'text.primary',
@@ -219,7 +218,6 @@ export function generateTS(resolvedTokens: FlatTokenMap): string {
     appendTsTokenEntry(tokenLines, key, token);
   }
   tokenLines.push('} as const;', '', 'export const cssVars = {');
-
   for (const [key, token] of Object.entries(resolvedTokens)) {
     appendTsCssVarEntries(tokenLines, key, token);
   }

@@ -115,7 +115,7 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
       states: { allowed: ['disabled', 'focus-visible', 'hover', 'pressed'] },
       parts: { parts: rootPart },
       events: { events: { change: { name: 'change' } } },
-      accessibility: { role: 'button', name: { from: 'contents' }, keyboard: activateKeyboard },
+      accessibility: { role: 'button', name: { from: 'contents' } },
       keyboard: { bindings: activateKeyboard },
       pointer: pointerClick,
       focus: { visibleOnly: true },
@@ -226,12 +226,12 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
       },
       events: { events: { change: { name: 'change' } } },
       controlled: { fields: [{ prop: 'checked', event: 'change' }] },
-      accessibility: { role: 'checkbox', name: { from: 'slot:label' }, keyboard: activateKeyboard },
+      accessibility: { role: 'checkbox', name: { from: 'slot:label' } },
       keyboard: { bindings: activateKeyboard },
       pointer: pointerClick,
       focus: { visibleOnly: true },
       formField: { fields: ['name', 'disabled', 'invalid'] },
-      behavior: { supportsDisabled: true },
+      behavior: { supportsDisabled: true, requiresRole: true },
       refs: { primary: 'control', targets: { control: { part: 'control' } } },
     }),
   },
@@ -252,6 +252,7 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
       'selection',
       'overlay',
       'behavior',
+      'form-field',
       'localization',
     ],
     buildContract: () => ({
@@ -290,7 +291,10 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
       collection: { ordered: true, typeahead: true, rovingFocus: true, keyboardNavigation: true },
       selection: { mode: 'single', deselectable: false, disabledItemsIgnored: true },
       overlay: { modal: false, dismissOnEscape: true },
-      behavior: { supportsDisabled: true, openClosed: true },
+      behavior: { supportsDisabled: true, openClosed: true, requiresRole: true },
+      formField: {
+        fields: ['name', 'value', 'defaultValue', 'required', 'disabled', 'invalid'],
+      },
       localization: { keys: ['placeholder', 'emptyMessage'] },
     }),
   },
@@ -302,7 +306,7 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
       'events',
       'accessibility',
       'behavior',
-      'form-field',
+      'composition',
     ],
     buildContract: () => ({
       ...profileContractBase(),
@@ -311,10 +315,9 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
         nativePassthrough: 'none',
       },
       parts: { parts: { root: { name: 'root', required: true } } },
-      events: { events: { change: { name: 'change' } } },
+      events: { events: { change: { name: 'change' }, submit: { name: 'submit' } } },
       accessibility: { role: 'form', name: { from: 'prop:ariaLabel' } },
-      formField: { fields: ['name', 'disabled', 'invalid'] },
-      behavior: { supportsDisabled: true },
+      behavior: { supportsDisabled: true, requiresRole: true },
     }),
   },
   'overlay-modal': {
@@ -352,8 +355,7 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
       accessibility: {
         role: 'dialog',
         name: { from: 'prop:ariaLabel' },
-        keyboard: dismissKeyboard,
-      },
+        },
       keyboard: { bindings: dismissKeyboard },
       pointer: { interactions: [{ action: 'click' }], suppressWhenDisabled: false },
       focus: { trap: true, restoreOnClose: true },
@@ -386,7 +388,7 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
       'overlay',
       'behavior',
     ],
-    buildContract: () => ({
+    buildContract: (id) => ({
       ...profileContractBase(),
       props: {
         props: {
@@ -399,7 +401,10 @@ export const SPEC_PROFILES: Readonly<Record<SpecProfileKey, ProfileDefinition>> 
       parts: { parts: triggerContentParts },
       events: { events: { openChange: { name: 'openChange' } } },
       controlled: { fields: [{ prop: 'open', event: 'openChange' }] },
-      accessibility: { role: 'tooltip', name: { from: 'contents' } },
+      accessibility: {
+        role: id === 'tooltip' ? 'tooltip' : 'dialog',
+        name: { from: id === 'tooltip' ? 'contents' : 'prop:ariaLabel' },
+      },
       keyboard: { bindings: dismissKeyboard },
       pointer: pointerClick,
       focus: { visibleOnly: true },

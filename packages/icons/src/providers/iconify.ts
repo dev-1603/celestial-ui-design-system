@@ -16,7 +16,6 @@
  */
 import type {
   IconProviderAdapter,
-  CanonicalIconName,
   IconVariantRequest,
   NormalizedIconPayload,
   ProviderCapabilities,
@@ -109,10 +108,7 @@ function loadIconifyCollection(prefix: string): unknown {
   return unwrapIconifyJson(pack);
 }
 
-function loadIconifySvg(
-  nativeName: string,
-  iconSetOverride: unknown | undefined,
-): string | undefined {
+function loadIconifySvg(nativeName: string, iconSetOverride: unknown): string | undefined {
   const colonIdx = nativeName.indexOf(':');
   if (colonIdx < 0) return undefined;
 
@@ -151,7 +147,7 @@ export function createIconifyAdapter(options: IconifyAdapterOptions = {}): IconP
     catalogueSchemaVersion: PROVIDER_CONTRACT_VERSION,
     capabilities: ICONIFY_CAPABILITIES,
 
-    resolveNativeName(canonicalName: CanonicalIconName): string | undefined {
+    resolveNativeName(canonicalName: string): string | undefined {
       const native = lookup(canonicalName);
       return native ? applyCollectionOverride(native, collection) : undefined;
     },

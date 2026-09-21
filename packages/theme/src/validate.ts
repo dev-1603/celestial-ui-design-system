@@ -121,60 +121,86 @@ function validateThemeOverrides(
     return;
   }
 
+  const validationContext: OverrideValidationContext = {
+    catalogFlat,
+    report,
+    layer,
+    context,
+    allowFn,
+    slotId,
+  };
   for (const [path, override] of Object.entries(overrides)) {
-    if (override === null || override === undefined) {
-      report.errors.push(
-        themeError(
-          'INVALID_OVERRIDE_VALUE',
-          `${context}: override for '${path}' cannot be null or undefined — omit the key instead.`,
-          { path, layer },
-        ),
-      );
-      report.isValid = false;
-      continue;
-    }
+    validateThemeOverride(path, override, validationContext);
+  }
+}
 
-    const catalogToken = catalogFlat[path];
-    if (!catalogToken) {
-      report.errors.push(
-        themeError(
-          'UNKNOWN_TOKEN_PATH',
-          `${context}: token path '${path}' does not exist in the canonical catalog.`,
-          { path, layer },
-        ),
-      );
-      report.isValid = false;
-      continue;
-    }
+interface OverrideValidationContext {
+  catalogFlat: Record<string, Token>;
+  report: ThemeValidationReport;
+  layer: 'theme' | 'tenant';
+  context: string;
+  allowFn: (path: string, token: Token, slotId?: ThemeSlotId) => boolean;
+  slotId?: ThemeSlotId;
+}
 
-    if (!allowFn(path, catalogToken, slotId)) {
-      report.errors.push(
-        themeError(
-          'OVERRIDE_FORBIDDEN',
-          `${context}: override of '${path}' is not permitted by policy.`,
-          { path, layer },
-        ),
-      );
-      report.isValid = false;
-      continue;
-    }
+function validateThemeOverride(
+  path: string,
+  override: TokenOverride | TokenOverrideValue,
+  validationContext: OverrideValidationContext,
+): void {
+  const { catalogFlat, report, layer, context, allowFn, slotId } = validationContext;
+  if (override === null || override === undefined) {
+    report.errors.push(
+      themeError(
+        'INVALID_OVERRIDE_VALUE',
+        `${context}: override for '${path}' cannot be null or undefined — omit the key instead.`,
+        { path, layer },
+      ),
+    );
+    report.isValid = false;
+    return;
+  }
 
-    const value = normalizeOverrideValue(override);
-    if (typeof value === 'string' && value.includes('{')) {
-      continue;
-    }
+  const catalogToken = catalogFlat[path];
+  if (!catalogToken) {
+    report.errors.push(
+      themeError(
+        'UNKNOWN_TOKEN_PATH',
+        `${context}: token path '${path}' does not exist in the canonical catalog.`,
+        { path, layer },
+      ),
+    );
+    report.isValid = false;
+    return;
+  }
 
-    const explicitType = isTokenOverride(override) ? override.$type : undefined;
-    if (explicitType && explicitType !== catalogToken.$type) {
-      report.errors.push(
-        themeError(
-          'INVALID_TOKEN_TYPE',
-          `${context}: token '${path}' type mismatch — expected '${catalogToken.$type}', got '${explicitType}'.`,
-          { path, layer },
-        ),
-      );
-      report.isValid = false;
-    }
+  if (!allowFn(path, catalogToken, slotId)) {
+    report.errors.push(
+      themeError(
+        'OVERRIDE_FORBIDDEN',
+        `${context}: override of '${path}' is not permitted by policy.`,
+        { path, layer },
+      ),
+    );
+    report.isValid = false;
+    return;
+  }
+
+  const value = normalizeOverrideValue(override);
+  if (typeof value === 'string' && value.includes('{')) {
+    return;
+  }
+
+  const explicitType = isTokenOverride(override) ? override.$type : undefined;
+  if (explicitType && explicitType !== catalogToken.$type) {
+    report.errors.push(
+      themeError(
+        'INVALID_TOKEN_TYPE',
+        `${context}: token '${path}' type mismatch — expected '${catalogToken.$type}', got '${explicitType}'.`,
+        { path, layer },
+      ),
+    );
+    report.isValid = false;
   }
 }
 

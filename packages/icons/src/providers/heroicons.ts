@@ -7,11 +7,13 @@
  *
  * Does not import `../peers` (no Node `fs` / `createRequire` / `node:url`).
  *
+ * Node-only: SVG files are read with `fs` via `../peers`. Not a verified
+ * browser contract; use Lucide (or Material font-class) in the client.
+ *
  * SVG Safety: `kind: 'svg-string'`. Framework adapter must sanitize.
  */
 import type {
   IconProviderAdapter,
-  CanonicalIconName,
   IconVariantRequest,
   NormalizedIconPayload,
   ProviderCapabilities,
@@ -46,7 +48,7 @@ export const HeroiconsAdapter: IconProviderAdapter = {
   catalogueSchemaVersion: PROVIDER_CONTRACT_VERSION,
   capabilities: HEROICONS_CAPABILITIES,
 
-  resolveNativeName(canonicalName: CanonicalIconName): string | undefined {
+  resolveNativeName(canonicalName: string): string | undefined {
     return lookup(canonicalName);
   },
 

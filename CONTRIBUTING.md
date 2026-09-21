@@ -35,13 +35,14 @@ We follow a structured branching model to maintain stability:
 
 Our CI enforces a rigorous validation matrix. Before merging, your branch must pass:
 
-- Installation, Formatting, Typecheck (`pnpm lint` is an alias of `pnpm typecheck`; CI runs typecheck)
+- Installation, formatting, linting, and typechecking
 - Unit Tests (`pnpm test` builds via Turbo)
 - Package and Graph Validation
 - Tree-shaking budgets
 - Packed-tarball consumer tests (pnpm, npm, Bun)
+- Independent-repository pnpm `link:` validation (`pnpm consumer:test:portal`)
 
-Local `link:` / `portal:` mapping (`pnpm consumer:test:portal`) is a maintainer command, not a CI or release gate.
+Yarn Berry `portal:` and other local-directory package-manager checks are optional parts of `consumer:test:portal`; pnpm `link:` is the required CI and release baseline.
 
 ## 4. Changeset Expectations
 

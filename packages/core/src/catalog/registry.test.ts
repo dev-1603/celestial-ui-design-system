@@ -9,24 +9,36 @@ import {
 } from './registry';
 import { GENERIC_COMPONENT_INVENTORY } from './spec-factory';
 import { validateAllComponentSpecs, validateGenericInventory } from './validate-inventory';
+import { listIdsByPriority } from './priority-map';
+import { listComponentSpecs } from './specs/registry';
 
 describe('canonical component catalog', () => {
   it('lists all 103 generic components', () => {
     expect(GENERIC_COMPONENT_INVENTORY.expectedCount).toBe(103);
-    expect(CANONICAL_CATALOG.length).toBe(103);
-    expect(GENERIC_COMPONENT_IDS.length).toBe(103);
+    expect(CANONICAL_CATALOG).toHaveLength(103);
+    expect(GENERIC_COMPONENT_IDS).toHaveLength(103);
   });
 
-  it('includes six reference components', () => {
-    expect(REFERENCE_COMPONENT_IDS.length).toBe(6);
+  it('includes nine reference components', () => {
+    expect(REFERENCE_COMPONENT_IDS).toHaveLength(9);
     expect(REFERENCE_COMPONENT_IDS).toEqual(
-      expect.arrayContaining(['button', 'input', 'checkbox', 'select', 'dialog', 'table']),
+      expect.arrayContaining([
+        'button',
+        'input',
+        'checkbox',
+        'select',
+        'dialog',
+        'table',
+        'label',
+        'switch',
+        'radio-group',
+      ]),
     );
   });
 
   it('has unique component IDs', () => {
     const ids = listCatalogEntries().map((e) => e.id);
-    expect(new Set(ids).size).toBe(ids.length);
+    expect([...new Set(ids)]).toHaveLength(ids.length);
   });
 
   it('resolves catalog entries by id', () => {
@@ -44,5 +56,15 @@ describe('canonical component catalog', () => {
   it('validates all 103 component specs', () => {
     const report = validateAllComponentSpecs();
     expect(report.passed, report.issues.map((i) => i.message).join('\n')).toBe(true);
+  });
+
+  it('marks all P0/P1 specs phase-1 ready', () => {
+    const phase1Ids = [...listIdsByPriority('P0'), ...listIdsByPriority('P1')];
+    expect(phase1Ids).toHaveLength(82);
+    const specs = listComponentSpecs();
+    for (const id of phase1Ids) {
+      const spec = specs.find((s) => s.contract.id === id);
+      expect(spec?.contract.extensions?.phase1Readiness).toBe('ready');
+    }
   });
 });

@@ -31,6 +31,44 @@ import { ThemeResolutionError, themeError } from './errors';
  *
  * After all patches: flatten → resolveAliases → validateTokens (tokens package).
  */
+function resolveOverrideToken(
+  path: string,
+  override: ThemeOverrides[string],
+  catalogFlat: ReturnType<typeof getCatalogFlatForMode>,
+  allow: (path: string) => boolean,
+  source: ProvenanceSource,
+) {
+  const layer = source === 'tenant' ? 'tenant' : 'theme';
+  if (override === null || override === undefined) {
+    throw new ThemeResolutionError('Theme resolution failed.', [
+      themeError('INVALID_OVERRIDE_VALUE', `Override for '${path}' cannot be null or undefined.`, {
+        path,
+        layer,
+      }),
+    ]);
+  }
+
+  const catalogToken = catalogFlat[path];
+  if (!catalogToken) {
+    throw new ThemeResolutionError('Theme resolution failed.', [
+      themeError('UNKNOWN_TOKEN_PATH', `Cannot override unknown token path '${path}'.`, {
+        path,
+        layer,
+      }),
+    ]);
+  }
+  if (!allow(path)) {
+    throw new ThemeResolutionError('Theme resolution failed.', [
+      themeError('OVERRIDE_FORBIDDEN', `Override of '${path}' is not permitted by policy.`, {
+        path,
+        layer,
+      }),
+    ]);
+  }
+
+  return overrideToToken(override, catalogToken);
+}
+
 function applyOverrides(
   config: ReturnType<typeof buildTokenConfigForMode>,
   catalogFlat: ReturnType<typeof getCatalogFlatForMode>,
@@ -48,35 +86,7 @@ function applyOverrides(
   const nextFlat = { ...catalogFlat };
 
   for (const [path, override] of Object.entries(overrides)) {
-    if (override === null || override === undefined) {
-      throw new ThemeResolutionError('Theme resolution failed.', [
-        themeError(
-          'INVALID_OVERRIDE_VALUE',
-          `Override for '${path}' cannot be null or undefined.`,
-          { path, layer: source === 'tenant' ? 'tenant' : 'theme' },
-        ),
-      ]);
-    }
-
-    const catalogToken = nextFlat[path];
-    if (!catalogToken) {
-      throw new ThemeResolutionError('Theme resolution failed.', [
-        themeError('UNKNOWN_TOKEN_PATH', `Cannot override unknown token path '${path}'.`, {
-          path,
-          layer: source === 'tenant' ? 'tenant' : 'theme',
-        }),
-      ]);
-    }
-    if (!allow(path)) {
-      throw new ThemeResolutionError('Theme resolution failed.', [
-        themeError('OVERRIDE_FORBIDDEN', `Override of '${path}' is not permitted by policy.`, {
-          path,
-          layer: source === 'tenant' ? 'tenant' : 'theme',
-        }),
-      ]);
-    }
-
-    const token = overrideToToken(override, catalogToken);
+    const token = resolveOverrideToken(path, override, nextFlat, allow, source);
     nextConfig = setTokenAtPath(nextConfig, path, token);
     nextFlat[path] = token;
 
@@ -224,7 +234,6 @@ export function resolveTheme(registry: ThemeRegistry, options: ResolveThemeOptio
       provenance,
     );
     config = tenanted.config;
-    catalogFlat = tenanted.catalogFlat;
   }
 
   const validation = validateTokens(config);

@@ -9,6 +9,9 @@ import { listComponentSpecs } from './specs/registry';
 import { COMPONENT_TAXONOMIES, ENGINEERING_FAMILIES } from './types';
 import { ALL_COMPONENT_CAPABILITIES } from '../capabilities/types';
 import { CANONICAL_CATALOG } from './registry';
+import { validatePhase1PriorityMap } from './validate-priority-map';
+import { validatePhase1ReadinessMarker } from './phase1-rules';
+import type { CoreError } from '../diagnostics/errors';
 
 export interface InventoryValidationIssue {
   readonly code: string;
@@ -79,7 +82,6 @@ function validateCatalogAlignment(
       ),
     );
   }
-
   for (const catalogEntry of CANONICAL_CATALOG) {
     if (!seen.has(catalogEntry.id)) {
       issues.push(
@@ -133,6 +135,12 @@ function validateSpecConformance(spec: ComponentSpec, issues: InventoryValidatio
     }
   }
 
+  const phase1Errors: CoreError[] = [];
+  validatePhase1ReadinessMarker(spec, phase1Errors);
+  for (const error of phase1Errors) {
+    issues.push(issue('INVALID_SPEC', error.reason, spec.contract.id));
+  }
+
   const harness = createConformanceHarness(spec);
   const specReport = harness.validateSpec();
   const capReport = harness.validateCapabilities();
@@ -177,6 +185,14 @@ function validateLoadedSpecs(issues: InventoryValidationIssue[]): void {
 export function validateAllComponentSpecs(): InventoryValidationReport {
   const inventoryReport = validateGenericInventory();
   const issues: InventoryValidationIssue[] = [...inventoryReport.issues];
+
+  const priorityReport = validatePhase1PriorityMap();
+  for (const priorityIssue of priorityReport.issues) {
+    issues.push(
+      issue(priorityIssue.code, priorityIssue.message, priorityIssue.componentId),
+    );
+  }
+
   validateLoadedSpecs(issues);
   return { passed: issues.length === 0, issues };
 }

@@ -9,13 +9,13 @@
  * - No mutation of the data after the registry is created.
  * - Alias resolution always returns a canonical name (never another alias).
  */
-import type { CanonicalIconName, CanonicalCatalogueFile, CanonicalCatalogueEntry } from './types';
+import type { CanonicalCatalogueFile, CanonicalCatalogueEntry } from './types';
 import { iconError, IconResolutionError } from './errors';
 import { validateCanonicalCatalogue } from './catalogue/validate';
 import canonicalData from './data/canonical.json';
 
-function buildAlias(entries: readonly CanonicalCatalogueEntry[]): Map<string, CanonicalIconName> {
-  const map = new Map<string, CanonicalIconName>();
+function buildAlias(entries: readonly CanonicalCatalogueEntry[]): Map<string, string> {
+  const map = new Map<string, string>();
   for (const entry of entries) {
     map.set(entry.name, entry.name);
     if (entry.aliases) {
@@ -30,8 +30,8 @@ function buildAlias(entries: readonly CanonicalCatalogueEntry[]): Map<string, Ca
 }
 
 class CanonicalRegistry {
-  private readonly _entries: ReadonlyMap<CanonicalIconName, Readonly<CanonicalCatalogueEntry>>;
-  private readonly _aliases: ReadonlyMap<string, CanonicalIconName>;
+  private readonly _entries: ReadonlyMap<string, Readonly<CanonicalCatalogueEntry>>;
+  private readonly _aliases: ReadonlyMap<string, string>;
 
   constructor(data: CanonicalCatalogueFile) {
     const result = validateCanonicalCatalogue(data);
@@ -42,7 +42,7 @@ class CanonicalRegistry {
       );
     }
 
-    const entries = new Map<CanonicalIconName, Readonly<CanonicalCatalogueEntry>>();
+    const entries = new Map<string, Readonly<CanonicalCatalogueEntry>>();
     for (const entry of data.entries) {
       entries.set(entry.name, Object.freeze({ ...entry }));
     }
@@ -51,7 +51,7 @@ class CanonicalRegistry {
   }
 
   /** Returns `true` if the given name is a known canonical name (not alias). */
-  has(name: CanonicalIconName): boolean {
+  has(name: string): boolean {
     return this._entries.has(name);
   }
 
@@ -59,17 +59,17 @@ class CanonicalRegistry {
    * Resolves a name or alias to its canonical name.
    * Returns the canonical name if found, or `undefined` if unknown.
    */
-  resolve(nameOrAlias: string): CanonicalIconName | undefined {
+  resolve(nameOrAlias: string): string | undefined {
     return this._aliases.get(nameOrAlias);
   }
 
   /** Returns the catalogue entry for a canonical name. */
-  get(name: CanonicalIconName): Readonly<CanonicalCatalogueEntry> | undefined {
+  get(name: string): Readonly<CanonicalCatalogueEntry> | undefined {
     return this._entries.get(name);
   }
 
   /** Returns all canonical icon names. */
-  list(): readonly CanonicalIconName[] {
+  list(): readonly string[] {
     return [...this._entries.keys()];
   }
 

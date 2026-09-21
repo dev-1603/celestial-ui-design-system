@@ -6,6 +6,17 @@ import { REFERENCE_SPEC_VERSION } from './specs/_shared';
 import { GENERIC_COMPONENT_INVENTORY } from './spec-factory';
 import type { ComponentCapability } from '../capabilities/types';
 import { SPEC_PROFILES } from './spec-profiles';
+import { REFERENCE_SPECS } from './specs/registry';
+
+function resolveCatalogCapabilities(entry: (typeof GENERIC_COMPONENT_INVENTORY.entries)[number]) {
+  if (entry.referenceSpec) {
+    const spec = REFERENCE_SPECS[entry.id];
+    if (spec?.metadata.capabilities?.length) {
+      return spec.metadata.capabilities as readonly ComponentCapability[];
+    }
+  }
+  return SPEC_PROFILES[entry.profile].capabilities as readonly ComponentCapability[];
+}
 
 /**
  * Lightweight canonical catalog metadata.
@@ -24,7 +35,7 @@ export const CANONICAL_CATALOG: readonly CatalogEntry[] = GENERIC_COMPONENT_INVE
     specSchemaVersion: SPEC_SCHEMA_VERSION,
     contractSchemaVersion: CONTRACT_SCHEMA_VERSION,
     contractVersion: REFERENCE_SPEC_VERSION,
-    capabilities: SPEC_PROFILES[entry.profile].capabilities as readonly ComponentCapability[],
+    capabilities: resolveCatalogCapabilities(entry),
   }),
 );
 

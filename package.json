@@ -21,6 +21,8 @@
     "validate:packages": "node tooling/package-validate/dist/cli.js --skip-docs",
     "docs:validate": "node tooling/package-validate/dist/cli.js --skip-pack",
     "shake:test": "node tooling/tree-shaking-test/measure.mjs",
+    "docs:contracts": "pnpm --filter @celestial-ui/core build && node tooling/generate-contract-docs.mjs",
+    "docs:matrix": "pnpm --filter @celestial-ui/core build && node tooling/generate-contract-matrix.mjs",
     "validate": "pnpm build && pnpm test && pnpm typecheck && node tooling/package-validate/dist/cli.js",
     "package:pack": "pnpm build && node tooling/package-validate/dist/cli.js --skip-docs",
     "consumer:test": "node tooling/consumer-fixtures/run.mjs pnpm",

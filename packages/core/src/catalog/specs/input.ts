@@ -1,8 +1,8 @@
 import { defineComponentSpec } from '../../spec/spec';
-import { referenceContractBase } from './_shared';
+import { finalizeReferenceContract, referenceContractBase } from './_shared';
 
 export const inputSpec = defineComponentSpec({
-  contract: {
+  contract: finalizeReferenceContract({
     ...referenceContractBase('input'),
     props: {
       props: {
@@ -60,12 +60,13 @@ export const inputSpec = defineComponentSpec({
     },
     behavior: {
       supportsDisabled: true,
+      requiresRole: true,
     },
     refs: {
       primary: 'control',
       targets: { control: { part: 'control' } },
     },
-  },
+  }),
   metadata: {
     displayName: 'Input',
     purpose: 'Captures single-line text input.',

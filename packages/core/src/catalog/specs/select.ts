@@ -1,8 +1,8 @@
 import { defineComponentSpec } from '../../spec/spec';
-import { referenceContractBase } from './_shared';
+import { finalizeReferenceContract, referenceContractBase } from './_shared';
 
 export const selectSpec = defineComponentSpec({
-  contract: {
+  contract: finalizeReferenceContract({
     ...referenceContractBase('select'),
     props: {
       props: {
@@ -53,11 +53,6 @@ export const selectSpec = defineComponentSpec({
     accessibility: {
       role: 'combobox',
       name: { from: 'slot:label' },
-      keyboard: [
-        { keys: ['ArrowDown', 'ArrowUp'], intent: 'next' },
-        { keys: ['Enter', ' '], intent: 'open' },
-        { keys: ['Escape'], intent: 'close' },
-      ],
     },
     keyboard: {
       bindings: [
@@ -99,6 +94,9 @@ export const selectSpec = defineComponentSpec({
       dismissOnOutside: true,
       restoreFocus: true,
     },
+    formField: {
+      fields: ['name', 'value', 'defaultValue', 'required', 'disabled', 'invalid'],
+    },
     behavior: {
       supportsDisabled: true,
       openClosed: true,
@@ -109,7 +107,7 @@ export const selectSpec = defineComponentSpec({
       keys: ['emptyMessage', 'noResultsMessage'],
       required: ['emptyMessage'],
     },
-  },
+  }),
   metadata: {
     displayName: 'Select',
     purpose: 'Choose one value from a collection of options.',
@@ -133,6 +131,8 @@ export const selectSpec = defineComponentSpec({
       'selection',
       'overlay',
       'behavior',
+      'form-field',
+      'composition',
       'localization',
     ],
   },

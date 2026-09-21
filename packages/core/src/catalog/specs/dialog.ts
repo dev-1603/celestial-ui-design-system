@@ -1,8 +1,8 @@
 import { defineComponentSpec } from '../../spec/spec';
-import { referenceContractBase } from './_shared';
+import { finalizeReferenceContract, referenceContractBase } from './_shared';
 
 export const dialogSpec = defineComponentSpec({
-  contract: {
+  contract: finalizeReferenceContract({
     ...referenceContractBase('dialog'),
     props: {
       props: {
@@ -40,7 +40,6 @@ export const dialogSpec = defineComponentSpec({
       role: 'dialog',
       name: { from: 'slot:label' },
       focus: { trap: true, restoreOnClose: true, initialFocus: 'content' },
-      keyboard: [{ keys: ['Escape'], intent: 'dismiss' }],
     },
     keyboard: {
       bindings: [{ keys: ['Escape'], intent: 'dismiss' }],
@@ -79,7 +78,7 @@ export const dialogSpec = defineComponentSpec({
         { area: 'keyboard', required: true },
       ],
     },
-  },
+  }),
   metadata: {
     displayName: 'Dialog',
     purpose: 'Modal surface for focused tasks and confirmations.',
@@ -100,6 +99,7 @@ export const dialogSpec = defineComponentSpec({
       'focus',
       'overlay',
       'behavior',
+      'composition',
       'refs',
       'localization',
       'conformance',

@@ -7,13 +7,26 @@ import { checkboxSpec } from './specs/checkbox';
 import { selectSpec } from './specs/select';
 import { dialogSpec } from './specs/dialog';
 import { tableSpec } from './specs/table';
+import { labelSpec } from './specs/label';
+import { switchSpec } from './specs/switch';
+import { radioGroupSpec } from './specs/radio-group';
 import { accordionSpec } from './specs/accordion';
 import { createConformanceHarness } from '../conformance/harness';
 import { REFERENCE_COMPONENT_IDS } from './registry';
 import { getComponentSpec, listComponentSpecs } from './specs/registry';
 import { GENERIC_COMPONENT_INVENTORY } from './spec-factory';
 
-const referenceSpecs = [buttonSpec, inputSpec, checkboxSpec, selectSpec, dialogSpec, tableSpec];
+const referenceSpecs = [
+  buttonSpec,
+  inputSpec,
+  checkboxSpec,
+  selectSpec,
+  dialogSpec,
+  tableSpec,
+  labelSpec,
+  switchSpec,
+  radioGroupSpec,
+];
 
 describe('reference component specs', () => {
   it('covers all reference component ids', () => {
@@ -46,12 +59,15 @@ describe('reference component specs', () => {
 
 describe('generated component specs', () => {
   it('loads 103 specs through registry', () => {
-    expect(listComponentSpecs().length).toBe(GENERIC_COMPONENT_INVENTORY.expectedCount);
+    expect(listComponentSpecs()).toHaveLength(GENERIC_COMPONENT_INVENTORY.expectedCount);
   });
 
   it('reference specs match hand-authored implementations', () => {
     expect(getComponentSpec('button')).toBe(buttonSpec);
     expect(getComponentSpec('table')).toBe(tableSpec);
+    expect(getComponentSpec('label')).toBe(labelSpec);
+    expect(getComponentSpec('switch')).toBe(switchSpec);
+    expect(getComponentSpec('radio-group')).toBe(radioGroupSpec);
   });
 
   it('generates valid accordion spec', () => {
@@ -64,12 +80,7 @@ describe('generated component specs', () => {
   it('generated spec files call the factory path, not the tools hub', () => {
     const specsDir = path.join(__dirname, 'specs');
     const skip = new Set([
-      'button.ts',
-      'input.ts',
-      'checkbox.ts',
-      'select.ts',
-      'dialog.ts',
-      'table.ts',
+      ...REFERENCE_COMPONENT_IDS.map((id) => `${id}.ts`),
       'registry.ts',
       '_shared.ts',
       'spec-lookup.ts',
@@ -77,7 +88,7 @@ describe('generated component specs', () => {
     const generated = fs
       .readdirSync(specsDir)
       .filter((name) => name.endsWith('.ts') && !skip.has(name));
-    expect(generated).toHaveLength(97);
+    expect(generated).toHaveLength(94);
 
     for (const name of generated) {
       const source = fs.readFileSync(path.join(specsDir, name), 'utf8');

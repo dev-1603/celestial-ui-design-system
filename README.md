@@ -41,6 +41,11 @@ Framework adapters (`@celestial-ui/react`, `@celestial-ui/vue`, `@celestial-ui/s
 
 - [Package ecosystem guide](./docs/package-usage.md)
 - [Build and validation](./docs/build-and-validate.md)
+- [Phase 1 conformance report](./docs/architecture/PHASE-1-CONFORMANCE-REPORT.md) (P1-VERIFY)
+- [Phase 1 CCA acceptance report](./docs/architecture/PHASE-1-CCA-ACCEPT-REPORT.md) (CCA-ACCEPT)
+- [Phase 1 contract freeze](./docs/architecture/PHASE-1-CONTRACT-FREEZE.md) (P1-FREEZE — next)
+- [Contract conformance strategy](./docs/conformance-strategy.md)
+- [Contract change control](./docs/contract-change-control.md)
 - [Registry setup (npm)](./docs/registries.md)
 - [Release process](./docs/release.md)
 - [Compatibility matrix](./docs/compatibility-matrix.md)

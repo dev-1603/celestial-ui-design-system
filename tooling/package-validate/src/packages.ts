@@ -14,6 +14,10 @@ export function getRepoRoot(): string {
   return path.resolve(import.meta.dirname, '../../..');
 }
 
+function readPackageVersion(value: unknown): string {
+  return typeof value === 'string' && value.length > 0 ? value : '0.0.0';
+}
+
 export function discoverPackages(repoRoot: string): PackageInfo[] {
   const roots = [
     path.join(repoRoot, 'packages'),
@@ -42,7 +46,7 @@ export function discoverPackages(repoRoot: string): PackageInfo[] {
       packages.push({
         name,
         directory: pkgDir,
-        version: String(packageJson.version ?? '0.0.0'),
+        version: readPackageVersion(packageJson.version),
         private: isPrivate,
         publishable,
         packageJson,

@@ -190,8 +190,8 @@ Built-in provider ids: `'lucide' | 'fa' | 'material' | 'heroicons' | 'phosphor' 
 
 ### Provider subpaths
 
-| Import path                                  | Export                                   | Peer / requirement                                                       |
-| -------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------ |
+| Import path                                  | Export                                   | Peer / requirement                                                       | Environment                                                         |
+| -------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------- |
 | `@celestial-ui/icons/providers/lucide`       | `LucideAdapter`, `lucide` (alias)        | Generated catalogue SVGs (optional `lucide-static` peer)                 | UNIVERSAL / BROWSER+SSR                                             |
 | `@celestial-ui/icons/providers/font-awesome` | `FontAwesomeAdapter`                     | `@fortawesome/fontawesome-svg-core` plus free solid and/or regular packs | UNIVERSAL / BROWSER+SSR                                             |
 | `@celestial-ui/icons/providers/material`     | `MaterialSymbolsAdapter`                 | Material Symbols **font CSS** in the app (no npm peer)                   | UNIVERSAL / BROWSER+SSR                                             |

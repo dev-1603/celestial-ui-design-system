@@ -297,8 +297,8 @@
       "engineeringFamily": "forms",
       "complexity": "simple",
       "status": "stable",
-      "profile": "primitive-display",
-      "referenceSpec": false
+      "profile": "reference",
+      "referenceSpec": true
     },
     {
       "id": "menubar",
@@ -363,8 +363,8 @@
       "engineeringFamily": "forms",
       "complexity": "moderate",
       "status": "stable",
-      "profile": "form-binary",
-      "referenceSpec": false
+      "profile": "reference",
+      "referenceSpec": true
     },
     {
       "id": "resizable",
@@ -473,8 +473,8 @@
       "engineeringFamily": "forms",
       "complexity": "simple",
       "status": "stable",
-      "profile": "form-binary",
-      "referenceSpec": false
+      "profile": "reference",
+      "referenceSpec": true
     },
     {
       "id": "table",

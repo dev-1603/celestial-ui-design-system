@@ -5,6 +5,21 @@ import { defineComponentSpec } from '../spec/spec';
 import { assertComponentId } from '../ids';
 import type { GenericInventoryEntry } from './spec-factory';
 import { SPEC_PROFILES } from './spec-profiles';
+import { applyPhase1Composition, markPhase1Ready } from './phase1-rules';
+
+function resolveCapabilities(
+  profileCapabilities: readonly ComponentCapability[],
+  contract: ComponentContract,
+): readonly ComponentCapability[] {
+  const hasCompositionChildren = Boolean(contract.composition?.allowedChildren?.length);
+  if (!hasCompositionChildren) {
+    return profileCapabilities;
+  }
+  if (profileCapabilities.includes('composition')) {
+    return profileCapabilities;
+  }
+  return [...profileCapabilities, 'composition'] as readonly ComponentCapability[];
+}
 
 /**
  * Build a generated ComponentSpec from a single inventory entry.
@@ -19,12 +34,13 @@ export function buildComponentSpecFromInventory(entry: GenericInventoryEntry): C
   }
 
   const partial = profile.buildContract(entry.id);
-  const contract = {
+  const withId = {
     ...partial,
     id: assertComponentId(entry.id),
   } as ComponentContract;
+  const contract = markPhase1Ready(applyPhase1Composition(entry.id, withId));
 
-  const capabilities: readonly ComponentCapability[] = profile.capabilities;
+  const capabilities = resolveCapabilities(profile.capabilities, contract);
 
   return defineComponentSpec({
     contract,
